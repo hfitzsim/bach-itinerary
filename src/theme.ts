@@ -1,0 +1,63 @@
+import { createTheme } from '@mantine/core';
+
+const theme = createTheme({
+	colors: {
+		isabelline: [
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+			'#F4F0EC',
+		],
+		jet: [
+			'#363635',
+			'#363635',
+			'#363635',
+			'#363635',
+			'#363635',
+			'#363635',
+			'#363635',
+			'#363635',
+			'#363635',
+			'#363635',
+		],
+		vermillion: [
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+			'#F5433D',
+		],
+		'air-superiority-blue': [
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+			'#72A1C0',
+		],
+	},
+	primaryColor: 'air-superiority-blue',
+	primaryShade: 5,
+	cursorType: 'pointer',
+	defaultRadius: 'sm',
+	fontFamily: 'Mulish, sans-serif',
+	headings: { fontFamily: 'Ms Madi, cursive' },
+	black: 'jet',
+});
+
+export { theme };
