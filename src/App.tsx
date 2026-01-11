@@ -1,5 +1,5 @@
 import '@mantine/core/styles.css';
-import { MantineProvider, AppShell, Title } from '@mantine/core';
+import { MantineProvider, AppShell, Title, Container, Flex } from '@mantine/core';
 import { useHeadroom } from '@mantine/hooks';
 import { theme } from './theme.ts';
 import { LivingTimelineByDay } from './Timeline.tsx';
@@ -9,8 +9,8 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'first_dinner',
 		title: 'Dinner',
-		start: new Date('2026-01-10T20:30:00'),
-		end: new Date('2026-01-10T22:00:00'),
+		start: new Date('2026-02-12T20:30:00'),
+		end: new Date('2026-02-12T22:00:00'),
 	},
 	{
 		id: 'welcome',
@@ -21,12 +21,15 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'brunch',
 		title: 'Brunch',
+		description: 'Location: Restaurant La Buche',
 		start: new Date('2026-02-13T11:00:00'),
 		end: new Date('2026-02-13T13:00:00'),
 	},
 	{
 		id: 'explore',
 		title: 'Explore Québec City & Shopping',
+		description:
+			'Stop at historical sites and shops. Anyone forget anything? Now is a good time to pick it up, or take this opportunity to get ready for the Spa experience',
 		start: new Date('2026-02-13T13:00:00'),
 		end: new Date('2026-02-13T14:30:00'),
 	},
@@ -43,17 +46,18 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'order_in',
 		title: 'Pizza & Olympic Skating',
-		description: 'Ordering pizza in, face masks, cozy socks, watching olympic skating',
+		description: 'Ordering in, getting cozy, and watching olympic skating',
 		start: new Date('2026-02-13T19:00:00'),
 	},
 	{
 		id: 'croissants',
 		title: 'Quick Breakfast',
+		description: 'Location: Patisserie Chouquette',
 		start: new Date('2026-02-14T10:00:00'),
 	},
 	{
 		id: 'bonhomme',
-		title: "Visit Bonhomme's Palace",
+		title: "Visit Bonhomme's Palace (Le Palais Bonhmome)",
 		start: new Date('2026-02-14T11:00:00'),
 	},
 	{
@@ -68,12 +72,14 @@ const timelineItems: TimelineItem[] = [
 	},
 	{
 		id: 'carnaval_parade',
-		title: 'Carnaval Night Parade',
-		start: new Date('2026-02-14T19:00:00'),
+		title: 'Grand Allée Night Parade',
+		description: 'Location: Grand Allée. Arrive by 6, parade starts at 7 near ',
+		start: new Date('2026-02-14T18:00:00'),
 	},
 	{
 		id: 'irish_bar',
-		title: 'Irish Pub & Bar Hopping',
+		title: 'Irish Pub Dinner & Bar Hopping',
+		description: 'Location: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre',
 		start: new Date('2026-02-14T20:30:00'),
 	},
 	{
@@ -89,16 +95,20 @@ function App() {
 	return (
 		<MantineProvider theme={theme}>
 			<AppShell
-				header={{ height: 60, collapsed: !pinned, offset: false }}
+				header={{ height: 100, collapsed: !pinned, offset: false }}
 				padding="md"
 				bg={'isabelline'}
 			>
 				<AppShell.Header p="md" bg="isabelline">
-					<Title order={1}>Lauren's Enchanted Bachelorette Weekend in Québec City</Title>
+					<Flex justify="center">
+						<Title order={1}>Lauren's Enchanted Bachelorette Weekend in Québec City</Title>
+					</Flex>
 				</AppShell.Header>
 
 				<AppShell.Main pt="var(--app-shell-header-height)">
-					<LivingTimelineByDay items={timelineItems} />
+					<Container size="lg" p={30}>
+						<LivingTimelineByDay items={timelineItems} />
+					</Container>
 				</AppShell.Main>
 			</AppShell>
 		</MantineProvider>
