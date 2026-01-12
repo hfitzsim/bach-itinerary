@@ -1,22 +1,33 @@
 import '@mantine/core/styles.css';
-import { MantineProvider, AppShell, Title, Container, Flex } from '@mantine/core';
+import {
+	MantineProvider,
+	AppShell,
+	Title,
+	Container,
+	Flex,
+	Anchor,
+	ThemeIcon,
+} from '@mantine/core';
 import { useHeadroom, useMediaQuery } from '@mantine/hooks';
 import { theme } from './theme.ts';
 import { LivingTimelineByDay } from './Timeline.tsx';
 import { type TimelineItem } from './types.ts';
+import { IconMapPinFilled } from '@tabler/icons-react';
 
 const timelineItems: TimelineItem[] = [
 	{
-		id: 'first_dinner',
-		title: 'Dinner',
-		description: 'After we check into the Airbnb we will be heading to a restaurant to refuel.',
+		id: 'check_in',
+		title: 'Check in & Dinner',
+		description: 'Check in after 4 pm. Dinner at Birra & Basta.',
+		link: 'https://maps.app.goo.gl/mHJ2S8JdZtpZcN8k8',
 		start: new Date('2026-02-12T20:30:00'),
 		end: new Date('2026-02-12T22:00:00'),
 	},
 	{
 		id: 'welcome',
 		title: 'Decorate & Welcome',
-		description: 'On theme decorations and fun surprises for all!',
+		description: 'Transform the space  and fun surprises for all!',
+		link: 'https://maps.app.goo.gl/TKJe7DBX2pWaj56S7',
 		start: new Date('2026-02-13T09:00:00'),
 		end: new Date('2026-02-13T10:00:00'),
 	},
@@ -24,68 +35,73 @@ const timelineItems: TimelineItem[] = [
 		id: 'brunch',
 		title: 'Brunch',
 		description: 'Location: Restaurant La Buche',
+		link: 'https://maps.app.goo.gl/5EPRnWc15SU3Pm2B6',
 		start: new Date('2026-02-13T11:00:00'),
 	},
 	{
 		id: 'explore',
-		title: 'Explore Québec City & Shopping',
-		description:
-			'Stop at historical sites and shops. Anyone forget anything? Now is a good time to pick it up, or take this opportunity to get ready for the Spa experience',
+		title: 'Rue de Petit Champlain',
+		description: `Meet artists and artisans and explore the local shops along Rue du Petit-Champlain, voted Canada's prettiest pedestrian street. It's also one of the oldest shopping streets in North America.`,
+		link: 'https://maps.app.goo.gl/1xVvyZh5KVr2EgmW8',
 		start: new Date('2026-02-13T13:00:00'),
 		end: new Date('2026-02-13T14:30:00'),
 	},
 	{
-		id: 'nordic_spa',
+		id: 'spa',
 		title: 'Nordic Spa Thermal Experience',
-		description: 'Bring a bathing suit!',
+		description:
+			'Enjoy a rejuvenating journey through varying temperatures. Bring a swimsuit, sandals, a reusable water bottle, and waterproof bag.',
+		link: 'https://maps.app.goo.gl/YhWHS587rtTciA9i6',
 		start: new Date('2026-02-13T15:00:00'),
 	},
 	{
-		id: 'game_night',
-		title: 'Game Night',
-		description: 'Get ready for some fun guessing and trivia!',
+		id: 'night_in',
+		title: 'Game Night, Pizza, and Olympic Skating',
+		description: `Get ready for some fun and a cozy night in! There'll be games, pizza, and olympic skating.`,
+		link: 'https://maps.app.goo.gl/TKJe7DBX2pWaj56S7',
 		start: new Date('2026-02-13T17:30:00'),
-	},
-	{
-		id: 'order_in',
-		title: 'Pizza & Olympic Skating',
-		description: 'Ordering in, getting cozy, and watching olympic skating',
-		start: new Date('2026-02-13T19:00:00'),
 	},
 	{
 		id: 'croissants',
 		title: 'Quick Breakfast',
 		description: 'Grab a coffee and a pastry at Patisserie Chouquette',
+		link: 'https://maps.app.goo.gl/vLAZY8paZDeWobte7',
 		start: new Date('2026-02-14T10:00:00'),
-	},
-	{
-		id: 'bonhomme',
-		title: "Visit Bonhomme's Palace (Le Palais Bonhmome)",
-		start: new Date('2026-02-14T15:00:00'),
-	},
-	{
-		id: 'lunch',
-		title: 'Lunch',
-		description: 'Location: Q de Sac',
-		start: new Date('2026-02-14T14:00:00'),
 	},
 	{
 		id: 'carnaval_games',
 		title: 'Carnaval Games & Activities',
 		description: 'Location: Espace 400e',
+		link: 'https://maps.app.goo.gl/61rxFLSfSBYgwPxZ6',
 		start: new Date('2026-02-14T11:00:00'),
 	},
 	{
-		id: 'carnaval_parade',
+		id: 'lunch',
+		title: 'Lunch',
+		description: 'Location: Q de Sac',
+		link: 'https://maps.app.goo.gl/kgv3DyCGkjX66TeX9',
+		start: new Date('2026-02-14T14:00:00'),
+	},
+	{
+		id: 'bonhomme',
+		title: `Visit Bonhomme's Palace (Le Palais Bonhmome)`,
+		link: 'https://maps.app.goo.gl/DPqJ9a4LeQGCv476A',
+		start: new Date('2026-02-14T15:00:00'),
+	},
+
+	{
+		id: 'parade',
 		title: 'Grand Allée Night Parade',
 		description:
 			'Location: Grand Allée. Arrive by 6, parade starts at 7 near Av. des Erables and ends at Parliament building.',
+		link: 'https://maps.app.goo.gl/w95CyaYeK9ozTR6R7',
 		start: new Date('2026-02-14T18:00:00'),
 	},
 	{
 		id: 'irish_bar',
 		title: 'Irish Pub Dinner & Bar Hopping',
-		description: 'Location: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre',
+		description: `Locations: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre.`,
+		link: 'https://maps.app.goo.gl/XkRibVJSh6VYS6XB6',
 		start: new Date('2026-02-14T20:30:00'),
 	},
 	{
@@ -107,10 +123,16 @@ function App() {
 				bg={'isabelline'}
 			>
 				<AppShell.Header p="md" bg="isabelline">
-					<Flex justify="center" align="center">
+					<Flex direction="column" justify="center" align="center">
 						<Title order={1} style={{ textAlign: 'center' }}>
 							Lauren's Enchanted Bachelorette Weekend in Québec City
 						</Title>
+						<Flex direction="row" justify="center" align="center" gap={2}>
+							<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
+								<IconMapPinFilled />
+							</ThemeIcon>
+							<Anchor href="https://maps.app.goo.gl/TKJe7DBX2pWaj56S7">Airbnb</Anchor>
+						</Flex>
 					</Flex>
 				</AppShell.Header>
 

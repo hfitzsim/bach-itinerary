@@ -1,4 +1,4 @@
-import { Timeline, Text, ThemeIcon, Box, Stack, Group, Divider } from '@mantine/core';
+import { Timeline, Text, ThemeIcon, Box, Stack, Group, Divider, Anchor } from '@mantine/core';
 import { IconCheck, IconClock, IconCircle } from '@tabler/icons-react';
 import { useNow } from './useNow.tsx';
 import { type TimelineItem, type DayGroup } from './types.ts';
@@ -89,6 +89,13 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 									<Text size="sm" c="grey">
 										{item.description}
 									</Text>
+
+									{item.link && (
+										<Anchor size="sm" href={item.link} target="_blank">
+											Directions
+										</Anchor>
+									)}
+
 									<Text size="xs" c={status === 'current' ? 'blue' : 'dimmed'}>
 										{item.start.toLocaleTimeString([], {
 											hour: 'numeric',
