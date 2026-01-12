@@ -9,12 +9,14 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'first_dinner',
 		title: 'Dinner',
+		description: 'After we check into the Airbnb we will be heading to a restaurant to refuel.',
 		start: new Date('2026-02-12T20:30:00'),
 		end: new Date('2026-02-12T22:00:00'),
 	},
 	{
 		id: 'welcome',
 		title: 'Decorate & Welcome',
+		description: 'On theme decorations and fun surprises for all!',
 		start: new Date('2026-02-13T09:00:00'),
 		end: new Date('2026-02-13T10:00:00'),
 	},
@@ -23,7 +25,6 @@ const timelineItems: TimelineItem[] = [
 		title: 'Brunch',
 		description: 'Location: Restaurant La Buche',
 		start: new Date('2026-02-13T11:00:00'),
-		end: new Date('2026-02-13T13:00:00'),
 	},
 	{
 		id: 'explore',
@@ -36,11 +37,13 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'nordic_spa',
 		title: 'Nordic Spa Thermal Experience',
+		description: 'Bring a bathing suit!',
 		start: new Date('2026-02-13T15:00:00'),
 	},
 	{
 		id: 'game_night',
-		title: 'Games!',
+		title: 'Game Night',
+		description: 'Get ready for some fun guessing and trivia!',
 		start: new Date('2026-02-13T17:30:00'),
 	},
 	{
@@ -52,28 +55,31 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'croissants',
 		title: 'Quick Breakfast',
-		description: 'Location: Patisserie Chouquette',
+		description: 'Grab a coffee and a pastry at Patisserie Chouquette',
 		start: new Date('2026-02-14T10:00:00'),
 	},
 	{
 		id: 'bonhomme',
 		title: "Visit Bonhomme's Palace (Le Palais Bonhmome)",
-		start: new Date('2026-02-14T11:00:00'),
+		start: new Date('2026-02-14T15:00:00'),
 	},
 	{
 		id: 'lunch',
 		title: 'Lunch',
+		description: 'Location: Q de Sac',
 		start: new Date('2026-02-14T14:00:00'),
 	},
 	{
 		id: 'carnaval_games',
 		title: 'Carnaval Games & Activities',
-		start: new Date('2026-02-14T15:00:00'),
+		description: 'Location: Espace 400e',
+		start: new Date('2026-02-14T11:00:00'),
 	},
 	{
 		id: 'carnaval_parade',
 		title: 'Grand Allée Night Parade',
-		description: 'Location: Grand Allée. Arrive by 6, parade starts at 7 near ',
+		description:
+			'Location: Grand Allée. Arrive by 6, parade starts at 7 near Av. des Erables and ends at Parliament building.',
 		start: new Date('2026-02-14T18:00:00'),
 	},
 	{
