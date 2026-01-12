@@ -118,12 +118,12 @@ function App() {
 	return (
 		<MantineProvider theme={theme}>
 			<AppShell
-				header={{ height: isXs ? 150 : 100, collapsed: !pinned, offset: false }}
+				header={{ height: isXs ? 200 : 100, collapsed: !pinned, offset: false }}
 				padding="md"
 				bg={'isabelline'}
 			>
 				<AppShell.Header p="md" bg="isabelline">
-					<Flex direction="column" justify="center" align="center">
+					<Flex direction="column" justify="center" align="center" gap={5}>
 						<Title order={1} style={{ textAlign: 'center' }}>
 							Lauren's Enchanted Bachelorette Weekend in Québec City
 						</Title>
