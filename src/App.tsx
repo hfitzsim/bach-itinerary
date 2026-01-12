@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 import { MantineProvider, AppShell, Title, Container, Flex } from '@mantine/core';
-import { useHeadroom } from '@mantine/hooks';
+import { useHeadroom, useMediaQuery } from '@mantine/hooks';
 import { theme } from './theme.ts';
 import { LivingTimelineByDay } from './Timeline.tsx';
 import { type TimelineItem } from './types.ts';
@@ -91,22 +91,25 @@ const timelineItems: TimelineItem[] = [
 
 function App() {
 	const pinned = useHeadroom({ fixedAt: 120 });
+	const isXs = useMediaQuery('(max-width: 600px)', true);
 
 	return (
 		<MantineProvider theme={theme}>
 			<AppShell
-				header={{ height: 100, collapsed: !pinned, offset: false }}
+				header={{ height: isXs ? 150 : 100, collapsed: !pinned, offset: false }}
 				padding="md"
 				bg={'isabelline'}
 			>
 				<AppShell.Header p="md" bg="isabelline">
-					<Flex justify="center">
-						<Title order={1}>Lauren's Enchanted Bachelorette Weekend in Québec City</Title>
+					<Flex justify="center" align="center">
+						<Title order={1} style={{ textAlign: 'center' }}>
+							Lauren's Enchanted Bachelorette Weekend in Québec City
+						</Title>
 					</Flex>
 				</AppShell.Header>
 
 				<AppShell.Main pt="var(--app-shell-header-height)">
-					<Container size="lg" p={30}>
+					<Container size="xs" p={30}>
 						<LivingTimelineByDay items={timelineItems} />
 					</Container>
 				</AppShell.Main>
