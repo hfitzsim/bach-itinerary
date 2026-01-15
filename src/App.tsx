@@ -25,18 +25,24 @@ const timelineItems: TimelineItem[] = [
 	},
 	{
 		id: 'welcome',
-		title: 'Decorate & Welcome',
-		description: 'Transform the space  and fun surprises for all!',
+		title: 'Morning Welcome',
+		description: 'Start the day with some coffee or tea and fun surprises for all!',
 		link: 'https://maps.app.goo.gl/TKJe7DBX2pWaj56S7',
 		start: new Date('2026-02-13T09:00:00'),
-		end: new Date('2026-02-13T10:00:00'),
+	},
+	{
+		id: 'exercise',
+		title: 'Pilates Class',
+		description: 'TBD',
+		start: new Date('2026-02-13T10:00:00'),
+		end: new Date('2026-02-13T11:00:00'),
 	},
 	{
 		id: 'brunch',
 		title: 'Brunch',
 		description: 'Location: Restaurant La Buche',
 		link: 'https://maps.app.goo.gl/5EPRnWc15SU3Pm2B6',
-		start: new Date('2026-02-13T11:00:00'),
+		start: new Date('2026-02-13T12:00:00'),
 	},
 	{
 		id: 'explore',
