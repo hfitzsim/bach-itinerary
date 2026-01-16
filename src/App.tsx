@@ -13,7 +13,7 @@ import { useHeadroom, useMediaQuery } from '@mantine/hooks';
 import { theme } from './theme.ts';
 import { LivingTimelineByDay } from './Timeline.tsx';
 import { type TimelineItem } from './types.ts';
-import { IconMapPinFilled, IconReportMoney } from '@tabler/icons-react';
+import { IconHome2, IconReportMoney } from '@tabler/icons-react';
 
 const timelineItems: TimelineItem[] = [
 	{
@@ -149,7 +149,7 @@ function App() {
 						<Group gap={20}>
 							<Flex direction="row" justify="center" align="center" gap={2}>
 								<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
-									<IconMapPinFilled />
+									<IconHome2 />
 								</ThemeIcon>
 								<Anchor href="https://maps.app.goo.gl/TKJe7DBX2pWaj56S7">Airbnb</Anchor>
 							</Flex>

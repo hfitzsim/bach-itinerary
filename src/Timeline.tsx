@@ -1,7 +1,8 @@
-import { Timeline, Text, ThemeIcon, Box, Stack, Group, Divider, Anchor } from '@mantine/core';
+import { Timeline, Text, ThemeIcon, Box, Stack, Group, Divider, Anchor, Flex } from '@mantine/core';
 import { IconCheck, IconClock, IconCircle } from '@tabler/icons-react';
 import { useNow } from './useNow.tsx';
 import { type TimelineItem, type DayGroup } from './types.ts';
+import { IconMapPinFilled } from '@tabler/icons-react';
 
 export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 	const now = useNow(60_000);
@@ -93,9 +94,14 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 									{item.links && (
 										<Group>
 											{item.links.map((link) => (
-												<Anchor size="sm" key={link} href={link}>
-													Directions
-												</Anchor>
+												<Flex direction="row" justify="center" align="center" gap={2}>
+													<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
+														<IconMapPinFilled />
+													</ThemeIcon>
+													<Anchor size="sm" key={link} href={link}>
+														Directions
+													</Anchor>
+												</Flex>
 											))}
 										</Group>
 									)}
