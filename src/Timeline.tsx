@@ -90,10 +90,14 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 										{item.description}
 									</Text>
 
-									{item.link && (
-										<Anchor size="sm" href={item.link} target="_blank">
-											Directions
-										</Anchor>
+									{item.links && (
+										<Group>
+											{item.links.map((link) => (
+												<Anchor size="sm" key={link} href={link}>
+													Directions
+												</Anchor>
+											))}
+										</Group>
 									)}
 
 									<Text size="xs" c={status === 'current' ? 'blue' : 'dimmed'}>

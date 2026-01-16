@@ -2,7 +2,7 @@ export type TimelineItem = {
 	id: string;
 	title: string;
 	description?: string;
-	link?: string;
+	links?: string[];
 	start: Date;
 	end?: Date; // optional for point-in-time events
 };
