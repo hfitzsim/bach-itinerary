@@ -7,12 +7,13 @@ import {
 	Flex,
 	Anchor,
 	ThemeIcon,
+	Group,
 } from '@mantine/core';
 import { useHeadroom, useMediaQuery } from '@mantine/hooks';
 import { theme } from './theme.ts';
 import { LivingTimelineByDay } from './Timeline.tsx';
 import { type TimelineItem } from './types.ts';
-import { IconMapPinFilled } from '@tabler/icons-react';
+import { IconMapPinFilled, IconReportMoney } from '@tabler/icons-react';
 
 const timelineItems: TimelineItem[] = [
 	{
@@ -145,12 +146,22 @@ function App() {
 						<Title order={1} style={{ textAlign: 'center' }}>
 							Lauren's Enchanted Bachelorette Weekend in Québec City
 						</Title>
-						<Flex direction="row" justify="center" align="center" gap={2}>
-							<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
-								<IconMapPinFilled />
-							</ThemeIcon>
-							<Anchor href="https://maps.app.goo.gl/TKJe7DBX2pWaj56S7">Airbnb</Anchor>
-						</Flex>
+						<Group gap={20}>
+							<Flex direction="row" justify="center" align="center" gap={2}>
+								<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
+									<IconMapPinFilled />
+								</ThemeIcon>
+								<Anchor href="https://maps.app.goo.gl/TKJe7DBX2pWaj56S7">Airbnb</Anchor>
+							</Flex>
+							<Flex direction="row" justify="center" align="center" gap={2}>
+								<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
+									<IconReportMoney />
+								</ThemeIcon>
+								<Anchor href="https://www.splitwise.com/join/JJac4HubVXA+1jidiw?v=e">
+									Splitwise
+								</Anchor>
+							</Flex>
+						</Group>
 					</Flex>
 				</AppShell.Header>
 
