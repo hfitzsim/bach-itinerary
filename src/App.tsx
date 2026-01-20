@@ -8,12 +8,16 @@ import {
 	Anchor,
 	ThemeIcon,
 	Group,
+	Modal,
+	Text,
+	Button,
 } from '@mantine/core';
-import { useHeadroom, useMediaQuery } from '@mantine/hooks';
+import { useHeadroom, useMediaQuery, useDisclosure } from '@mantine/hooks';
 import { theme } from './theme.ts';
 import { LivingTimelineByDay } from './Timeline.tsx';
+import PackingList from './PackingList.tsx';
 import { type TimelineItem } from './types.ts';
-import { IconHome2, IconReportMoney } from '@tabler/icons-react';
+import { IconHome2, IconReportMoney, IconListCheck } from '@tabler/icons-react';
 
 const timelineItems: TimelineItem[] = [
 	{
@@ -40,14 +44,14 @@ const timelineItems: TimelineItem[] = [
 		title: 'Morning Welcome',
 		description: 'Start the day with some coffee or tea and fun surprises for all!',
 		links: ['https://maps.app.goo.gl/TKJe7DBX2pWaj56S7'],
-		start: new Date('2026-02-13T09:00:00'),
+		start: new Date('2026-02-13T09:30:00'),
 	},
 	{
 		id: 'exercise',
 		title: 'Pilates Class',
 		description: 'TBD',
-		start: new Date('2026-02-13T09:30:00'),
-		end: new Date('2026-02-13T10:30:00'),
+		start: new Date('2026-02-13T10:30:00'),
+		end: new Date('2026-02-13T11:30:00'),
 	},
 	{
 		id: 'brunch',
@@ -87,9 +91,10 @@ const timelineItems: TimelineItem[] = [
 		start: new Date('2026-02-14T10:00:00'),
 	},
 	{
-		id: 'carnaval_games',
-		title: 'Carnaval Games & Activities',
-		description: 'Location: Espace 400e.',
+		id: 'ice_sculptures',
+		title: 'Explore the Carnaval Activities',
+		description:
+			'From Francophonie Park to the Ice Sculptures, take in the sights and sounds of the Carnival.',
 		links: ['https://maps.app.goo.gl/61rxFLSfSBYgwPxZ6'],
 		start: new Date('2026-02-14T11:00:00'),
 		end: new Date('2026-02-14T13:30:00'),
@@ -97,13 +102,14 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'lunch',
 		title: 'Lunch',
-		description: 'Casual lunch and drinks at Q de Sac.',
+		description: 'Casual lunch at Q de Sac.',
 		links: ['https://maps.app.goo.gl/kgv3DyCGkjX66TeX9'],
 		start: new Date('2026-02-14T14:00:00'),
 	},
 	{
 		id: 'bonhomme',
-		title: `Visit Bonhomme's iconic ice palace and explore the winter exhibits.`,
+		title: 'Bonhomme Ice Palace',
+		description: `Visit Bonhomme's iconic ice palace and explore the winter exhibits.`,
 		links: ['https://maps.app.goo.gl/DPqJ9a4LeQGCv476A'],
 		start: new Date('2026-02-14T15:00:00'),
 	},
@@ -118,8 +124,8 @@ const timelineItems: TimelineItem[] = [
 	},
 	{
 		id: 'irish_bar',
-		title: 'Irish Pub Dinner & Bar Hopping',
-		description: `Dinner, drinks, and pub hopping at some of Québec City's best Irish pubs. Locations: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre.`,
+		title: 'Galentines Irish Pub Dinner & Bar Hopping',
+		description: `Dinner and (optional) drinks, and pub hopping at some of Québec City's best Irish pubs. Locations: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre.`,
 		links: ['https://maps.app.goo.gl/XkRibVJSh6VYS6XB6'],
 		start: new Date('2026-02-14T20:30:00'),
 	},
@@ -134,6 +140,8 @@ function App() {
 	const pinned = useHeadroom({ fixedAt: 120 });
 	const isXs = useMediaQuery('(max-width: 600px)', true);
 
+	const [opened, { open, close }] = useDisclosure(false);
+
 	return (
 		<MantineProvider theme={theme}>
 			<AppShell
@@ -147,6 +155,20 @@ function App() {
 							Lauren's Enchanted Bachelorette Weekend in Québec City
 						</Title>
 						<Group gap={20}>
+							<Flex direction="row" justify="center" align="center" gap={2}>
+								<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
+									<IconListCheck />
+								</ThemeIcon>
+								<Button
+									variant="transparent"
+									onClick={open}
+									color="air-superiority-blue"
+									m={0}
+									p={0}
+								>
+									<Text fw="light">Packing List</Text>
+								</Button>
+							</Flex>
 							<Flex direction="row" justify="center" align="center" gap={2}>
 								<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
 									<IconHome2 />
@@ -170,6 +192,10 @@ function App() {
 						<LivingTimelineByDay items={timelineItems} />
 					</Container>
 				</AppShell.Main>
+
+				<Modal opened={opened} onClose={close} title="Packing List (draft)" size="xl" centered>
+					<PackingList />
+				</Modal>
 			</AppShell>
 		</MantineProvider>
 	);
