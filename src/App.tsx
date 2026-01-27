@@ -49,7 +49,8 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'exercise',
 		title: 'Pilates Class',
-		description: 'TBD',
+		description: `Private pilates class combining traditional and modern Pilates movements for a fully-body, low-impact workout.`,
+		links: ['https://maps.app.goo.gl/iFygjU11LSGDaoty6'],
 		start: new Date('2026-02-13T10:30:00'),
 		end: new Date('2026-02-13T11:30:00'),
 	},
