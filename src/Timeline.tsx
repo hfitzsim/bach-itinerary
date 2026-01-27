@@ -49,13 +49,29 @@ export const LivingTimelineByDay = ({ currentRef, activeIndex, items }: Timeline
 	}
 
 	function getTimelineStatus(item: TimelineItem, now: Date): 'past' | 'current' | 'future' {
-		if (item.end && now > item.end) return 'past';
-		if (now >= item.start && (!item.end || now <= item.end)) return 'current';
-		if (now < item.start) return 'future';
-		return 'future';
+		const startTime = item.start.getTime();
+		const endTime = item.end ? item.end.getTime() : null;
+		const currentTime = now.getTime();
+
+		// 1. Future: It hasn't started yet
+		if (currentTime < startTime) {
+			return 'future';
+		}
+
+		// 2. Past: It has a set end time and we are past it
+		if (endTime && currentTime > endTime) {
+			return 'past';
+		}
+
+		// 3. Current: We are after the start, and either there's no end OR we haven't reached it yet
+		return 'current';
 	}
 
-	const isPast = (date: Date) => date.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0);
+	const isPast = (date: Date) => {
+		const d = new Date(date).setHours(0, 0, 0, 0);
+		const n = new Date(now).setHours(0, 0, 0, 0);
+		return d < n;
+	};
 
 	return (
 		<Stack gap="xl">
@@ -85,17 +101,10 @@ export const LivingTimelineByDay = ({ currentRef, activeIndex, items }: Timeline
 									ref={item.id === items[activeIndex]?.id ? currentRef : null}
 									title={item.title}
 									bullet={
-										<ThemeIcon
-											color={status === 'past' ? '#c9c9c9' : status === 'current' ? 'red' : 'pink'}
-											variant={
-												status === 'past' ? 'filled' : status === 'current' ? 'white' : 'light'
-											}
-											radius="xl"
-											style={{ backgroundColor: 'white' }}
-										>
+										<ThemeIcon variant="white" radius="xl">
 											{status === 'past' && <IconHeartFilled size={14} color="#c9c9c9" />}
-											{status === 'current' && <IconHeartFilled size={14} />}
-											{status === 'future' && <IconHeart size={14} />}
+											{status === 'current' && <IconHeartFilled size={14} color="red" />}
+											{status === 'future' && <IconHeart size={14} color="pink" stroke={3} />}
 										</ThemeIcon>
 									}
 									styles={{ itemTitle: { color: status === 'past' ? '#c9c9c9' : 'black' } }}

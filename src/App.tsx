@@ -28,8 +28,7 @@ const timelineItems: TimelineItem[] = [
 		description:
 			'Check in anytime after 4 pm. We will be decorating and getting settled in to the Airbnb.',
 		links: ['https://maps.app.goo.gl/TKJe7DBX2pWaj56S7'],
-		start: new Date('2026-01-26T00:00:00'),
-		end: new Date('2026-01-26T01:00:00'),
+		start: new Date('2026-02-12T16:00:00'),
 	},
 	{
 		id: 'dinner1',
@@ -39,7 +38,8 @@ const timelineItems: TimelineItem[] = [
 			'https://maps.app.goo.gl/mHJ2S8JdZtpZcN8k8',
 			'https://maps.app.goo.gl/uMog82nuZCyvF8kC7',
 		],
-		start: new Date(),
+		start: new Date('2026-02-12T21:00:00'),
+		end: new Date('2026-02-12T22:30:00'),
 	},
 	{
 		id: 'welcome',
@@ -88,8 +88,8 @@ const timelineItems: TimelineItem[] = [
 	},
 	{
 		id: 'croissants',
-		title: 'Quick Breakfast',
-		description: 'Coffee, croissants, and a quick bite to start the day at Pâtisserie Chouquette.',
+		title: 'Breakfast',
+		description: 'Coffee, pastries, and a quick bite to start the day at Pâtisserie Chouquette.',
 		links: ['https://maps.app.goo.gl/vLAZY8paZDeWobte7'],
 		start: new Date('2026-02-14T10:00:00'),
 	},
@@ -105,7 +105,7 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'lunch',
 		title: 'Lunch',
-		description: 'Casual lunch at Q de Sac.',
+		description: 'Casual lunch with charming Canadian fare at Q de Sac.',
 		links: ['https://maps.app.goo.gl/kgv3DyCGkjX66TeX9'],
 		start: new Date('2026-02-14T14:00:00'),
 	},
@@ -116,7 +116,6 @@ const timelineItems: TimelineItem[] = [
 		links: ['https://maps.app.goo.gl/DPqJ9a4LeQGCv476A'],
 		start: new Date('2026-02-14T15:00:00'),
 	},
-
 	{
 		id: 'parade',
 		title: 'Grand Allée Night Parade',
@@ -146,21 +145,6 @@ function App() {
 	const [opened, { open, close }] = useDisclosure(false);
 
 	const currentRef = useRef<HTMLDivElement>(null);
-
-	const currentIndex = timelineItems.findIndex((event: TimelineItem) => {
-		const TimelineItemDate = new Date(event.start);
-
-		// 1. Check if it is exactly today (ignores time)
-		const isToday =
-			TimelineItemDate.getDate() === now.getDate() &&
-			TimelineItemDate.getMonth() === now.getMonth() &&
-			TimelineItemDate.getFullYear() === now.getFullYear();
-
-		// 2. Or check if it's the first TimelineItem in the future
-		const isFuture = TimelineItemDate > now;
-
-		return isToday || isFuture;
-	});
 
 	const activeIndex = useMemo(() => {
 		const index = timelineItems.findIndex((event) => {
