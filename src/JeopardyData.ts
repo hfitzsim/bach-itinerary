@@ -22,7 +22,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		value: 400,
 		question: 'Who made the first move?',
 		answer:
-			'Megan — Lauren was driving back from NH, swiping for her, matched with Neal, and Megan sent the first message',
+			'Megan! Lauren was driving back from NH, swiping for her, matched with Neal, and Megan sent the first message',
 	},
 	{
 		id: 'love-600',
@@ -37,7 +37,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		value: 800,
 		question: 'What trip solidified the “oh wow, this is serious” moment?',
 		answer:
-			'Acadia — the Salmon Festival, Northeast point of the continental US, locals-only vibes, hours of driving, tiniest Main Street',
+			'Acadia, specifically the Salmon Festival, Northeast point of the continental US, locals-only vibes, hours of driving, tiniest Main Street',
 	},
 	{
 		id: 'love-1000',
@@ -104,7 +104,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: '🧠 Groomology 101',
 		value: 600,
 		question: 'What’s the first thing he does when he wakes up on a weekend?',
-		answer: 'Hungover',
+		answer: 'Chug water',
 	},
 	{
 		id: 'groom-800',
@@ -134,7 +134,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: '👀 Unpopular Opinions',
 		value: 400,
 		question: 'Who takes longer to get ready?',
-		answer: 'Neal',
+		answer: 'Lauren',
 	},
 	{
 		id: 'opinion-600',
@@ -148,7 +148,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: '👀 Unpopular Opinions',
 		value: 800,
 		question: 'Who is more competitive?',
-		answer: 'TBD',
+		answer: 'Both',
 	},
 	{
 		id: 'opinion-1000',

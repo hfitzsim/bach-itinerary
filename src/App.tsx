@@ -1,12 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
 import { Itinerary } from './Itinerary';
-import { JeopardyBoard } from './JeopardyBoard';
+import { Jeopardy } from './Jeopardy';
 
 function App() {
 	return (
 		<Routes>
 			<Route path="/" element={<Itinerary />} />
-			<Route path="/jeopardy" element={<JeopardyBoard />} />
+			<Route path="/jeopardy" element={<Jeopardy />} />
 		</Routes>
 	);
 }
