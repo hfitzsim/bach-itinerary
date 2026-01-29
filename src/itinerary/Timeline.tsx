@@ -1,10 +1,16 @@
 import { Timeline, Text, ThemeIcon, Box, Stack, Group, Divider, Anchor, Flex } from '@mantine/core';
-import { IconCheck, IconClock, IconCircle } from '@tabler/icons-react';
-import { useNow } from './useNow.tsx';
-import { type TimelineItem, type DayGroup } from './types.ts';
+import { IconHeartFilled, IconHeart } from '@tabler/icons-react';
+import { useNow } from '../hooks/useNow.tsx';
+import { type TimelineItem, type DayGroup } from '../types/types.ts';
 import { IconMapPinFilled } from '@tabler/icons-react';
 
-export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
+interface TimelineProps {
+	currentRef: React.RefObject<HTMLDivElement | null>;
+	activeIndex: number;
+	items: TimelineItem[];
+}
+
+export const LivingTimelineByDay = ({ currentRef, activeIndex, items }: TimelineProps) => {
 	const now = useNow(60_000);
 	const days = groupByDay(items);
 
@@ -43,11 +49,29 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 	}
 
 	function getTimelineStatus(item: TimelineItem, now: Date): 'past' | 'current' | 'future' {
-		if (item.end && now > item.end) return 'past';
-		if (now >= item.start && (!item.end || now <= item.end)) return 'current';
-		if (now < item.start) return 'future';
-		return 'future';
+		const startTime = item.start.getTime();
+		const endTime = item.end ? item.end.getTime() : null;
+		const currentTime = now.getTime();
+
+		// 1. Future: It hasn't started yet
+		if (currentTime < startTime) {
+			return 'future';
+		}
+
+		// 2. Past: It has a set end time and we are past it
+		if (endTime && currentTime > endTime) {
+			return 'past';
+		}
+
+		// 3. Current: We are after the start, and either there's no end OR we haven't reached it yet
+		return 'current';
 	}
+
+	const isPast = (date: Date) => {
+		const d = new Date(date).setHours(0, 0, 0, 0);
+		const n = new Date(now).setHours(0, 0, 0, 0);
+		return d < n;
+	};
 
 	return (
 		<Stack gap="xl">
@@ -55,7 +79,7 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 				<Box key={day.dateKey}>
 					{/* Day header */}
 					<Group mb="sm">
-						<Text fw={600}>
+						<Text fw={600} c={isPast(day.date) ? '#c9c9c9' : 'black'}>
 							{day.date.toLocaleDateString(undefined, {
 								weekday: 'long',
 								month: 'long',
@@ -68,26 +92,24 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 
 					{/* Timeline for the day */}
 					<Timeline bulletSize={24} lineWidth={2}>
-						{day.items.map((item) => {
+						{day.items.map((item, index) => {
 							const status = getTimelineStatus(item, now);
 
 							return (
 								<Timeline.Item
 									key={item.id}
+									ref={item.id === items[activeIndex]?.id ? currentRef : null}
 									title={item.title}
 									bullet={
-										<ThemeIcon
-											color={status === 'past' ? 'green' : status === 'current' ? 'blue' : 'gray'}
-											variant={status === 'future' ? 'light' : 'filled'}
-											radius="xl"
-										>
-											{status === 'past' && <IconCheck size={14} />}
-											{status === 'current' && <IconClock size={14} />}
-											{status === 'future' && <IconCircle size={10} />}
+										<ThemeIcon variant="white" radius="xl">
+											{status === 'past' && <IconHeartFilled size={14} color="#c9c9c9" />}
+											{status === 'current' && <IconHeartFilled size={14} color="red" />}
+											{status === 'future' && <IconHeart size={14} color="pink" stroke={3} />}
 										</ThemeIcon>
 									}
+									styles={{ itemTitle: { color: status === 'past' ? '#c9c9c9' : 'black' } }}
 								>
-									<Text size="sm" c="grey">
+									<Text size="sm" c={status === 'past' ? '#c9c9c9' : 'grey'}>
 										{item.description}
 									</Text>
 
@@ -95,10 +117,19 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 										<Group>
 											{item.links.map((link) => (
 												<Flex direction="row" justify="center" align="center" gap={2}>
-													<ThemeIcon color="air-superiority-blue" size={30} variant="transparent">
+													<ThemeIcon
+														color={status === 'past' ? '#c9c9c9' : 'icy-blue'}
+														size={30}
+														variant="transparent"
+													>
 														<IconMapPinFilled />
 													</ThemeIcon>
-													<Anchor size="sm" key={link} href={link}>
+													<Anchor
+														size="sm"
+														key={link}
+														href={link}
+														c={status === 'past' ? '#c9c9c9' : 'icy-blue'}
+													>
 														Directions
 													</Anchor>
 												</Flex>
@@ -106,7 +137,7 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 										</Group>
 									)}
 
-									<Text size="xs" c={status === 'current' ? 'blue' : 'dimmed'}>
+									<Text size="xs" c={status === 'current' ? 'icy-blue' : '#c9c9c9'}>
 										{item.start.toLocaleTimeString([], {
 											hour: 'numeric',
 											minute: '2-digit',
@@ -125,4 +156,4 @@ export function LivingTimelineByDay({ items }: { items: TimelineItem[] }) {
 			))}
 		</Stack>
 	);
-}
+};
