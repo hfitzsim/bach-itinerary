@@ -16,7 +16,7 @@ import { LivingTimelineByDay } from './Timeline.tsx';
 import PackingList from './PackingList.tsx';
 import { IconHome2, IconReportMoney, IconListCheck } from '@tabler/icons-react';
 import { useRef, useEffect, useMemo } from 'react';
-import { useNow } from './useNow.tsx';
+import { useNow } from '../hooks/useNow.tsx';
 import timelineItems from './Events.ts';
 
 export const Itinerary = () => {

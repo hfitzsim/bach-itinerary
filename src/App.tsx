@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
-import { Itinerary } from './Itinerary';
-import { Jeopardy } from './Jeopardy';
-import { ThisOrThatPage } from './ThisOrThat';
+import { Itinerary } from './itinerary/Itinerary';
+import { Jeopardy } from './jeopardy/Jeopardy';
+import { ThisOrThatPage } from './thisOrThat/ThisOrThat';
 
 function App() {
 	return (

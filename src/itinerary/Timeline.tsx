@@ -1,7 +1,7 @@
 import { Timeline, Text, ThemeIcon, Box, Stack, Group, Divider, Anchor, Flex } from '@mantine/core';
 import { IconHeartFilled, IconHeart } from '@tabler/icons-react';
-import { useNow } from './useNow.tsx';
-import { type TimelineItem, type DayGroup } from './types.ts';
+import { useNow } from '../hooks/useNow.tsx';
+import { type TimelineItem, type DayGroup } from '../types/types.ts';
 import { IconMapPinFilled } from '@tabler/icons-react';
 
 interface TimelineProps {
