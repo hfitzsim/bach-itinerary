@@ -92,7 +92,7 @@ export const LivingTimelineByDay = ({ currentRef, activeIndex, items }: Timeline
 
 					{/* Timeline for the day */}
 					<Timeline bulletSize={24} lineWidth={2}>
-						{day.items.map((item, index) => {
+						{day.items.map((item) => {
 							const status = getTimelineStatus(item, now);
 
 							return (
