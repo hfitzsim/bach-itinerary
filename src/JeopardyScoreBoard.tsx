@@ -23,7 +23,7 @@ export function ScoreBoard() {
 	}
 
 	return (
-		<Card shadow="sm" padding="md" withBorder mt={33}>
+		<Card shadow="sm" padding="md" withBorder mb={40}>
 			<Stack>
 				<Text size="xl" ta="center">
 					Scoreboard

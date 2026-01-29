@@ -49,8 +49,12 @@ export function ThisOrThatPage() {
 					{thisOrThatQuestions.map((q: ThisOrThatQuestion) => (
 						<Card key={q.id} padding="md" bg={babypink}>
 							<Stack gap="lg">
-								<Text fw={600} c={cherry} style={{ textAlign: 'center' }}>
-									{q.question}
+								<Text fw={700} lineClamp={1} c={cherry} style={{ textAlign: 'center' }}>
+									{q.optionA}{' '}
+									<Text span fw={600} style={{ fontFamily: 'Ms Madi, cursive' }}>
+										or{' '}
+									</Text>
+									{q.optionB}?
 								</Text>
 
 								<Group grow>
@@ -100,7 +104,9 @@ export function ThisOrThatPage() {
 					<Stack>
 						{thisOrThatQuestions.map((q) => (
 							<div key={q.id}>
-								<Text fw={500}>{q.question}</Text>
+								<Text fw={500} lineClamp={1}>
+									{q.optionA} or {q.optionB}?
+								</Text>
 								<Text size="sm">
 									Your answer:{' '}
 									<strong>
@@ -128,7 +134,13 @@ export function ThisOrThatPage() {
 						<Title order={2}>
 							{totalCorrect} / {thisOrThatQuestions.length}
 						</Title>
-						<Text>{totalCorrect < 4 ? 'Get to know the bride ❤️‍🩹' : 'You know the bride 💖'}</Text>
+						<Text>
+							{totalCorrect < 5
+								? 'Get to know the bride ❤️‍🩹'
+								: totalCorrect < 10
+									? 'You know the bride 💖'
+									: 'Neal has competition ❤️‍🔥'}
+						</Text>
 
 						<Button variant="transparent" onClick={() => setOpened(false)} color={babypink}>
 							<Text size="sm" fw="bold" c={cherry}>

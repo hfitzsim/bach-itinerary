@@ -1,6 +1,5 @@
 export type ThisOrThatQuestion = {
 	id: string;
-	question: string;
 	optionA: string;
 	optionB: string;
 	correct: string;
@@ -9,65 +8,80 @@ export type ThisOrThatQuestion = {
 export const thisOrThatQuestions: ThisOrThatQuestion[] = [
 	{
 		id: '1',
-		question: 'Sleep in late or Wake up early?',
 		optionA: 'Sleep in late',
 		optionB: 'Wake up early',
-		correct: '',
+		correct: 'A',
 	},
 	{
 		id: '2',
-		question: 'Cook dinner or Do the laundry?',
 		optionA: 'Cook dinner',
 		optionB: 'Do the laundry',
-		correct: '',
+		correct: 'A',
 	},
 	{
 		id: '3',
-		question: 'Tropical vacation or European adventure?',
 		optionA: 'Tropical vacation',
 		optionB: 'European adventure',
-		correct: '',
+		correct: 'B',
 	},
 	{
 		id: '4',
-		question: 'Sushi takeout or Chinese takeout?',
 		optionA: 'Sushi takeout',
 		optionB: 'Chinese takeout',
-		correct: '',
+		correct: 'A',
 	},
 	{
 		id: '5',
-		question: 'Own a dog or Own a cat?',
 		optionA: 'Own a dog',
 		optionB: 'Own a cat',
-		correct: '',
+		correct: 'B',
 	},
 	{
 		id: '6',
-		question: 'Chocolate or Vanilla?',
 		optionA: 'Chocolate',
 		optionB: 'Vanilla',
-		correct: '',
+		correct: 'B',
 	},
 	{
 		id: '7',
-		question: 'Sip tea or Drink coffee?',
 		optionA: 'Sip tea',
 		optionB: 'Drink coffee',
-		correct: '',
+		correct: 'A',
 	},
 	{
 		id: '8',
-		question: 'Brunch or Happy hour?',
 		optionA: 'Brunch',
 		optionB: 'Happy hour',
-		correct: '',
+		correct: 'A',
 	},
 	{
 		id: '9',
-		question: 'Peloton ride or Run outside?',
 		optionA: 'Peloton ride',
 		optionB: 'Run outside',
-		correct: '',
+		correct: 'B',
+	},
+	{
+		id: '10',
+		optionA: 'Passenger Princess',
+		optionB: 'Drive the car',
+		correct: 'B',
+	},
+	{
+		id: '11',
+		optionA: 'PDA couple',
+		optionB: 'Holding pinkies',
+		correct: 'A',
+	},
+	{
+		id: '12',
+		optionA: 'Sunrise croissant',
+		optionB: 'Midnight Poutine',
+		correct: 'B',
+	},
+	{
+		id: '13',
+		optionA: 'Fancy hotel lobby bar',
+		optionB: 'Dive bar with amazing juke box',
+		correct: 'B',
 	},
 ];

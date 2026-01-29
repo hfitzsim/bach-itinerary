@@ -31,15 +31,15 @@ export function Jeopardy() {
 	}
 
 	return (
-		<>
+		<Container fluid mih="100vh" bg="icy-blue" pt={30}>
 			<Stack>
-				<Title order={1} ta="center">
+				<Title order={1} ta="center" c="white">
 					Jeopardy 💍
 				</Title>
 
 				{/* Game board */}
 				<Container bg="icy-blue" fluid h="100%" w="100%" p={10}>
-					<Grid>
+					<Grid align="flex-end">
 						<Grid.Col span={{ base: 12, md: 9 }}>
 							{/* Category headers */}
 							<SimpleGrid cols={categories.length}>
@@ -105,6 +105,6 @@ export function Jeopardy() {
 					</Stack>
 				)}
 			</Modal>
-		</>
+		</Container>
 	);
 }
