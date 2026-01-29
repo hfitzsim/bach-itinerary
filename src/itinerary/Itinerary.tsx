@@ -7,17 +7,17 @@ import {
 	Anchor,
 	ThemeIcon,
 	Group,
-	Modal,
 	Text,
 	Button,
 } from '@mantine/core';
 import { useHeadroom, useDisclosure } from '@mantine/hooks';
 import { LivingTimelineByDay } from './Timeline.tsx';
-import PackingList from './PackingList.tsx';
+import { PackingList } from './PackingList.tsx';
 import { IconHome2, IconReportMoney, IconListCheck } from '@tabler/icons-react';
 import { useRef, useEffect, useMemo } from 'react';
 import { useNow } from '../hooks/useNow.tsx';
 import timelineItems from './Events.ts';
+import { PasswordGate } from '../PasswordGate.tsx';
 
 export const Itinerary = () => {
 	const pinned = useHeadroom({ fixedAt: 120 });
@@ -96,18 +96,18 @@ export const Itinerary = () => {
 			</AppShell.Header>
 
 			<AppShell.Main pt="var(--app-shell-header-height)">
-				<Container size="xs" p={30}>
-					<LivingTimelineByDay
-						currentRef={currentRef}
-						activeIndex={activeIndex}
-						items={timelineItems}
-					/>
-				</Container>
+				<PasswordGate>
+					<Container size="xs" p={30}>
+						<LivingTimelineByDay
+							currentRef={currentRef}
+							activeIndex={activeIndex}
+							items={timelineItems}
+						/>
+					</Container>
+				</PasswordGate>
 			</AppShell.Main>
 
-			<Modal opened={opened} onClose={close} title="Packing List (draft)" size="xl" centered>
-				<PackingList />
-			</Modal>
+			{opened && <PackingList opened={opened} onClose={close} />}
 		</AppShell>
 	);
 };
