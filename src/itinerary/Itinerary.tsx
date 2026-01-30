@@ -94,7 +94,7 @@ export const Itinerary = () => {
 				</Flex>
 			</AppShell.Header>
 
-			<AppShell.Main pt="var(--app-shell-header-height)">
+			<AppShell.Main pt="var(--app-shell-header-height)" pb={{ base: 72, sm: 0 }}>
 				<PasswordGate>
 					<Container size="xs" p={30}>
 						<LivingTimelineByDay
