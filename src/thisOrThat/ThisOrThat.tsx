@@ -35,7 +35,7 @@ export function ThisOrThatPage() {
 	const totalCorrect = thisOrThatQuestions.filter((q) => votes[q.id] === q.correct).length;
 
 	return (
-		<Box h="100%" w="100%" bg={babypink}>
+		<Box h="100%" w="100%" bg={babypink} py={30}>
 			<Container>
 				<Stack gap="lg" p="md" align="stretch">
 					<Title order={1} ta="center" c={cherry}>
@@ -121,7 +121,7 @@ export function ThisOrThatPage() {
 							</div>
 						))}
 
-						<Button onClick={() => setView('score')} color={babypink}>
+						<Button onClick={() => setView('score')} color={babypink} mb={30}>
 							<Text size="sm" fw="bold" c={cherry}>
 								Reveal Final Score 🎉
 							</Text>
