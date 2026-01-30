@@ -1,4 +1,4 @@
-import { Modal, Text, Stack, List } from '@mantine/core';
+import { Modal, Stack, List } from '@mantine/core';
 
 const linedPaperStyle = {
 	backgroundImage: `
