@@ -1,3 +1,19 @@
+import { type ReactNode } from 'react';
+
+export type NavItem =
+	| {
+			id: string;
+			label: string;
+			icon: ReactNode;
+			href: string;
+	  }
+	| {
+			id: string;
+			label: string;
+			icon: ReactNode;
+			onClick: () => void;
+	  };
+
 export type TimelineItem = {
 	id: string;
 	title: string;

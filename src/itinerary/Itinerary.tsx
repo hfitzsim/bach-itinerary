@@ -1,23 +1,16 @@
 import '@mantine/core/styles.css';
-import {
-	AppShell,
-	Title,
-	Container,
-	Flex,
-	Anchor,
-	ThemeIcon,
-	Group,
-	Text,
-	Button,
-} from '@mantine/core';
+import { AppShell, Title, Container, Flex, Group, Text, Affix } from '@mantine/core';
 import { useHeadroom, useDisclosure } from '@mantine/hooks';
 import { LivingTimelineByDay } from './Timeline.tsx';
 import { PackingList } from './PackingList.tsx';
-import { IconHome2, IconReportMoney, IconListCheck } from '@tabler/icons-react';
+import { IconHome2, IconReportMoney, IconListCheck, IconBrandSpotify } from '@tabler/icons-react';
 import { useRef, useEffect, useMemo } from 'react';
 import { useNow } from '../hooks/useNow.tsx';
 import timelineItems from './Events.ts';
 import { PasswordGate } from '../PasswordGate.tsx';
+import { type NavItem } from '../types/types.ts';
+import { StickyBottomNav } from '../nav/StickyBottomNav.tsx';
+import { DesktopHeaderLinks } from '../nav/DesktopheaderLinks.tsx';
 
 export const Itinerary = () => {
 	const pinned = useHeadroom({ fixedAt: 120 });
@@ -47,6 +40,33 @@ export const Itinerary = () => {
 		return index === -1 ? timelineItems.length - 1 : index;
 	}, [now, timelineItems]);
 
+	const navItems: NavItem[] = [
+		{
+			id: 'packing',
+			label: 'Pack',
+			icon: <IconListCheck />,
+			onClick: open,
+		},
+		{
+			id: 'airbnb',
+			label: 'Stay',
+			icon: <IconHome2 />,
+			href: 'https://maps.app.goo.gl/TKJe7DBX2pWaj56S7',
+		},
+		{
+			id: 'splitwise',
+			label: 'Splitwise',
+			icon: <IconReportMoney />,
+			href: 'https://www.splitwise.com/join/JJac4HubVXA+1jidiw?v=e',
+		},
+		{
+			id: 'playlist',
+			label: 'Playlist',
+			icon: <IconBrandSpotify />,
+			href: 'https://open.spotify.com/playlist/4GhjdzrfuT4PIWKr2ltJJ9?si=782d32f6d36b4724&pt=1ef01e9773a9749236388505f8f62865',
+		},
+	];
+
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			if (currentRef.current) {
@@ -68,29 +88,8 @@ export const Itinerary = () => {
 						Lauren's Enchanted Bachelorette <br />
 						<Text style={{ fontWeight: '600', fontSize: '0.7em' }}>in Québec City</Text>
 					</Title>
-					<Group gap={20}>
-						<Flex direction="row" justify="center" align="center" gap={2}>
-							<ThemeIcon color="icy-blue" size={30} variant="transparent">
-								<IconListCheck />
-							</ThemeIcon>
-							<Button variant="transparent" onClick={open} color="icy-blue" m={0} p={0}>
-								<Text fw="light">Packing List</Text>
-							</Button>
-						</Flex>
-						<Flex direction="row" justify="center" align="center" gap={2}>
-							<ThemeIcon color="icy-blue" size={30} variant="transparent">
-								<IconHome2 />
-							</ThemeIcon>
-							<Anchor href="https://maps.app.goo.gl/TKJe7DBX2pWaj56S7">Airbnb</Anchor>
-						</Flex>
-						<Flex direction="row" justify="center" align="center" gap={2}>
-							<ThemeIcon color="icy-blue" size={30} variant="transparent">
-								<IconReportMoney />
-							</ThemeIcon>
-							<Anchor href="https://www.splitwise.com/join/JJac4HubVXA+1jidiw?v=e">
-								Splitwise
-							</Anchor>
-						</Flex>
+					<Group visibleFrom="sm">
+						<DesktopHeaderLinks navItems={navItems} />
 					</Group>
 				</Flex>
 			</AppShell.Header>
@@ -105,6 +104,9 @@ export const Itinerary = () => {
 						/>
 					</Container>
 				</PasswordGate>
+				<Affix hiddenFrom="sm" position={{ bottom: 0, left: 0, right: 0 }}>
+					<StickyBottomNav navItems={navItems} />
+				</Affix>
 			</AppShell.Main>
 
 			{opened && <PackingList opened={opened} onClose={close} />}
