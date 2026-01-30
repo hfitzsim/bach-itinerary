@@ -50,9 +50,9 @@ export const PackingList = ({ opened, onClose }: { opened: boolean; onClose: () 
 					<List.Item>💅🏻 One going-out outfit (pink and/or red — cherry, burgundy)</List.Item>
 				</List>
 
-				<Text ta="right" c="dimmed" fs="italic">
+				{/* <Text ta="right" c="dimmed" fs="italic">
 					✨ Subject to last-minute bride decisions ✨
-				</Text>
+				</Text> */}
 			</Stack>
 		</Modal>
 	);
