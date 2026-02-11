@@ -49,7 +49,7 @@ export function ThisOrThatPage() {
 					{thisOrThatQuestions.map((q: ThisOrThatQuestion) => (
 						<Card key={q.id} padding="md" bg={babypink}>
 							<Stack gap="lg">
-								<Text fw={700} lineClamp={1} c={cherry} style={{ textAlign: 'center' }}>
+								<Text fw={700} c={cherry} style={{ textAlign: 'center', textWrap: 'balance' }}>
 									{q.optionA}{' '}
 									<Text span fw={600} style={{ fontFamily: 'Ms Madi, cursive' }}>
 										or{' '}
@@ -61,6 +61,12 @@ export function ThisOrThatPage() {
 									<Button
 										variant={votes[q.id] === 'A' ? 'filled' : 'outline'}
 										color={cherry}
+										size="xl"
+										fz="xs"
+										styles={{
+											root: { padding: '4px' }, // Reduces padding
+											label: { whiteSpace: 'normal', textAlign: 'center' }, // Wraps text
+										}}
 										onClick={() => handleVote(q.id, 'A')}
 									>
 										{q.optionA}
@@ -68,9 +74,16 @@ export function ThisOrThatPage() {
 									<Button
 										variant={votes[q.id] === 'B' ? 'filled' : 'outline'}
 										color={cherry}
+										size="xl"
+										styles={{
+											root: { padding: '4px' }, // Reduces padding
+											label: { whiteSpace: 'normal', textAlign: 'center' }, // Wraps text
+										}}
 										onClick={() => handleVote(q.id, 'B')}
 									>
-										{q.optionB}
+										<Text size="xs" fw="bold">
+											{q.optionB}
+										</Text>
 									</Button>
 								</Group>
 							</Stack>

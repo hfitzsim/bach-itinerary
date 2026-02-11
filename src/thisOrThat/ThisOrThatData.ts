@@ -62,7 +62,7 @@ export const thisOrThatQuestions: ThisOrThatQuestion[] = [
 	},
 	{
 		id: '10',
-		optionA: 'Passenger Princess',
+		optionA: 'Passenger Princess (if Neal is not driving)',
 		optionB: 'Drive the car',
 		correct: 'B',
 	},
