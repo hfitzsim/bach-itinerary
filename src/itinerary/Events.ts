@@ -10,13 +10,10 @@ const timelineItems: TimelineItem[] = [
 		start: new Date('2026-02-12T16:00:00'),
 	},
 	{
-		id: 'dinner1',
+		id: 'first_dinner',
 		title: 'Dinner',
-		description: 'Options: Birra & Basta (8:30 PM) OR Honō Ramen (9PM)',
-		links: [
-			'https://maps.app.goo.gl/mHJ2S8JdZtpZcN8k8',
-			'https://maps.app.goo.gl/uMog82nuZCyvF8kC7',
-		],
+		description: 'Cozy first night dinner at Honō Ramen (9PM)',
+		links: ['https://maps.app.goo.gl/uMog82nuZCyvF8kC7'],
 		start: new Date('2026-02-12T21:00:00'),
 		end: new Date('2026-02-12T22:30:00'),
 	},
@@ -28,7 +25,7 @@ const timelineItems: TimelineItem[] = [
 		start: new Date('2026-02-13T09:30:00'),
 	},
 	{
-		id: 'exercise',
+		id: 'poze_pilates',
 		title: `Galentine's Pilates`,
 		description: `Private pilates class combining traditional and modern Pilates movements for a fully-body, low-impact workout.`,
 		links: ['https://maps.app.goo.gl/iFygjU11LSGDaoty6'],
@@ -43,7 +40,7 @@ const timelineItems: TimelineItem[] = [
 		start: new Date('2026-02-13T12:00:00'),
 	},
 	{
-		id: 'explore',
+		id: 'shopping',
 		title: 'Rue de Petit Champlain',
 		description: `Meet artists and artisans and explore the local shops along Rue du Petit-Champlain, voted Canada's prettiest pedestrian street. It's also one of the oldest shopping streets in North America.`,
 		links: ['https://maps.app.goo.gl/1xVvyZh5KVr2EgmW8'],
@@ -59,7 +56,7 @@ const timelineItems: TimelineItem[] = [
 		start: new Date('2026-02-13T15:00:00'),
 	},
 	{
-		id: 'night_in',
+		id: 'second_dinner',
 		title: 'Game Night, Pizza, and Olympic Skating',
 		description: `Get ready for some fun and a cozy night in! There'll be games, pizza, and olympic skating.`,
 		links: ['https://maps.app.goo.gl/TKJe7DBX2pWaj56S7'],
@@ -106,7 +103,7 @@ const timelineItems: TimelineItem[] = [
 	{
 		id: 'irish_bar',
 		title: `Valentine's Irish Pub Dinner & Bar Hopping`,
-		description: `Dinner and (optional) drinks, and pub hopping at some of Québec City's best Irish pubs. Locations: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre.`,
+		description: `Dinner, drinks, and pub hopping at some of Québec City's best Irish pubs. Locations: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre.`,
 		links: ['https://maps.app.goo.gl/XkRibVJSh6VYS6XB6'],
 		start: new Date('2026-02-14T20:30:00'),
 	},
