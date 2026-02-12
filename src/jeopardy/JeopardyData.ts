@@ -154,8 +154,8 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'neal-1000',
 		category: '🍕 Neal IRL',
 		value: 1000,
-		question: 'Which college did Neal go to and what was the name of his fraternity?',
-		answer: 'Carnegie Mellon University, Alpha Sigma Phi',
+		question: 'What position did Neal play for his football team?',
+		answer: 'Defensive end',
 	},
 
 	// 👀 Unpopular Opinions
