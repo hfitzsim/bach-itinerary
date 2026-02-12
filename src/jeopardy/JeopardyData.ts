@@ -121,6 +121,43 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		answer: 'Lauren’s dad',
 	},
 
+	// 🍕 Neal IRL
+	{
+		id: 'neal-200',
+		category: '🍕 Neal IRL',
+		value: 200,
+		question: 'How tall is neal?',
+		answer: `6'1"`,
+	},
+	{
+		id: 'neal-400',
+		category: '🍕 Neal IRL',
+		value: 400,
+		question: 'What size shoe does neal wear?',
+		answer: '11',
+	},
+	{
+		id: 'neal-600',
+		category: '🍕 Neal IRL',
+		value: 600,
+		question: "What is Neal's go to pizza order?",
+		answer: 'Cheese or Margarita',
+	},
+	{
+		id: 'neal-800',
+		category: '🍕 Neal IRL',
+		value: 800,
+		question: 'Where did Neal propose?',
+		answer: 'On the boat in Elisabeth Islands',
+	},
+	{
+		id: 'neal-1000',
+		category: '🍕 Neal IRL',
+		value: 1000,
+		question: 'Which college did Neal go to and what was the name of his fraternity?',
+		answer: 'Carnegie Mellon University, Alpha Sigma Phi',
+	},
+
 	// 👀 Unpopular Opinions
 	{
 		id: 'opinion-200',
