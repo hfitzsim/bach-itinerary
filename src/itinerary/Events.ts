@@ -8,6 +8,7 @@ const timelineItems: TimelineItem[] = [
 			'Check in anytime after 4 pm. We will be decorating and getting settled in to the Airbnb.',
 		links: ['https://maps.app.goo.gl/TKJe7DBX2pWaj56S7'],
 		start: new Date('2026-02-12T16:00:00'),
+		end: new Date('2026-02-12T18:00:00'),
 	},
 	{
 		id: 'first_dinner',
@@ -22,7 +23,8 @@ const timelineItems: TimelineItem[] = [
 		title: 'Morning Welcome',
 		description: 'Start the day with some coffee or tea and fun surprises for all!',
 		links: ['https://maps.app.goo.gl/TKJe7DBX2pWaj56S7'],
-		start: new Date('2026-02-13T09:30:00'),
+		start: new Date('2026-02-13T09:00:00'),
+		end: new Date('2026-02-13T10:00:00'),
 	},
 	{
 		id: 'poze_pilates',
@@ -38,6 +40,7 @@ const timelineItems: TimelineItem[] = [
 		description: 'Classic Québécois brunch at Restaurant La Bûche.',
 		links: ['https://maps.app.goo.gl/5EPRnWc15SU3Pm2B6'],
 		start: new Date('2026-02-13T12:00:00'),
+		end: new Date('2026-02-13T13:30:00'),
 	},
 	{
 		id: 'shopping',
@@ -54,13 +57,15 @@ const timelineItems: TimelineItem[] = [
 			'Enjoy a rejuvenating journey through varying temperatures at Strøm Spa. Bring a swimsuit, sandals, a reusable water bottle, and waterproof bag.',
 		links: ['https://maps.app.goo.gl/YhWHS587rtTciA9i6'],
 		start: new Date('2026-02-13T15:00:00'),
+		end: new Date('2026-02-13T18:00:00'),
 	},
 	{
 		id: 'second_dinner',
 		title: 'Game Night, Pizza, and Olympic Skating',
 		description: `Get ready for some fun and a cozy night in! There'll be games, pizza, and olympic skating.`,
 		links: ['https://maps.app.goo.gl/TKJe7DBX2pWaj56S7'],
-		start: new Date('2026-02-13T18:00:00'),
+		start: new Date('2026-02-13T20:00:00'),
+		end: new Date('2026-02-13T23:59:00'),
 	},
 	{
 		id: 'croissants',
@@ -68,6 +73,7 @@ const timelineItems: TimelineItem[] = [
 		description: 'Coffee, pastries, and a quick bite to start the day at Pâtisserie Chouquette.',
 		links: ['https://maps.app.goo.gl/vLAZY8paZDeWobte7'],
 		start: new Date('2026-02-14T10:00:00'),
+		end: new Date('2026-02-14T11:00:00'),
 	},
 	{
 		id: 'ice_sculptures',
@@ -84,13 +90,15 @@ const timelineItems: TimelineItem[] = [
 		description: 'Casual lunch with charming Canadian fare at Q de Sac.',
 		links: ['https://maps.app.goo.gl/kgv3DyCGkjX66TeX9'],
 		start: new Date('2026-02-14T14:00:00'),
+		end: new Date('2026-02-14T15:30:00'),
 	},
 	{
 		id: 'bonhomme',
 		title: 'Bonhomme Ice Palace',
 		description: `Visit Bonhomme's iconic ice palace and explore the winter exhibits.`,
 		links: ['https://maps.app.goo.gl/DPqJ9a4LeQGCv476A'],
-		start: new Date('2026-02-14T15:00:00'),
+		start: new Date('2026-02-14T15:30:00'),
+		end: new Date('2026-02-14T4:30:00'),
 	},
 	{
 		id: 'parade',
@@ -99,6 +107,7 @@ const timelineItems: TimelineItem[] = [
 			'The iconic Carnaval night parade along Grand Allée—lights, music, and costumes. Arrive by 6 PM for a 7 PM start.',
 		links: ['https://maps.app.goo.gl/w95CyaYeK9ozTR6R7'],
 		start: new Date('2026-02-14T18:00:00'),
+		end: new Date('2026-02-14T19:00:00'),
 	},
 	{
 		id: 'irish_bar',
@@ -106,11 +115,13 @@ const timelineItems: TimelineItem[] = [
 		description: `Dinner, drinks, and pub hopping at some of Québec City's best Irish pubs. Locations: DORSAY Pub Britannique, Pub St-Patrick, Pub St-Alexandre.`,
 		links: ['https://maps.app.goo.gl/XkRibVJSh6VYS6XB6'],
 		start: new Date('2026-02-14T20:30:00'),
+		end: new Date('2026-02-14T23:59:00'),
 	},
 	{
 		id: 'goodbye',
 		title: 'Goodbye & Checkout',
 		start: new Date('2026-02-15T11:00:00'),
+		end: new Date('2026-02-15T12:00:00'),
 	},
 ];
 
