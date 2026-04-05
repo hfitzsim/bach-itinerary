@@ -5,7 +5,7 @@ import { ScoreBoard } from './JeopardyScoreBoard.tsx';
 import { JeopardyPlayRound } from './JeopardyPlayRound.tsx';
 
 export function Jeopardy() {
-	const [questions, setQuestions] = useState<JeopardyQuestion[]>(jeopardyQuestions);
+	const [questions, _setQuestions] = useState<JeopardyQuestion[]>(jeopardyQuestions);
 	const [active, setActive] = useState<JeopardyQuestion | null>(null);
 
 	const categories = Array.from(new Set(questions.map((q) => q.category)));
@@ -15,10 +15,10 @@ export function Jeopardy() {
 		setActive(question);
 	}
 
-	function markUsed(id: string) {
-		setQuestions((qs) => qs.map((q) => (q.id === id ? { ...q, used: true } : q)));
-		setActive(null);
-	}
+	// function markUsed(id: string) {
+	// 	setQuestions((qs) => qs.map((q) => (q.id === id ? { ...q, used: true } : q)));
+	// 	setActive(null);
+	// }
 
 	return (
 		<Container fluid mih="100vh" bg="sage" pt={30}>

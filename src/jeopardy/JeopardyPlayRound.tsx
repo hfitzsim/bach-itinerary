@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback } from 'react';
-import { Card, ActionIcon, Text, Stack, Badge, Group, Box } from '@mantine/core';
+import { Card, ActionIcon, Group, Box } from '@mantine/core';
 import { IconPlayerPlay, IconPlayerStop } from '@tabler/icons-react';
 
 // Jeopardy theme — note frequencies (Hz) and durations (seconds)
