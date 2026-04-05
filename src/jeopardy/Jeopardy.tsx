@@ -1,18 +1,8 @@
 import { useState } from 'react';
-import {
-	Button,
-	Modal,
-	SimpleGrid,
-	Stack,
-	Grid,
-	Text,
-	Title,
-	Divider,
-	Spoiler,
-	Container,
-} from '@mantine/core';
-import { type JeopardyQuestion, jeopardyQuestions } from './JeopardyData.ts';
+import { Button, Modal, SimpleGrid, Stack, Text, Group, Spoiler, Container } from '@mantine/core';
+import { type JeopardyQuestion, jeopardyQuestions } from './JeopardyData-shower.ts';
 import { ScoreBoard } from './JeopardyScoreBoard.tsx';
+import { JeopardyPlayRound } from './JeopardyPlayRound.tsx';
 
 export function Jeopardy() {
 	const [questions, setQuestions] = useState<JeopardyQuestion[]>(jeopardyQuestions);
@@ -31,77 +21,72 @@ export function Jeopardy() {
 	}
 
 	return (
-		<Container fluid mih="100vh" bg="icy-blue" pt={30}>
-			<Stack>
-				<Title order={1} ta="center" c="white">
-					Jeopardy 💍
-				</Title>
+		<Container fluid mih="100vh" bg="sage" pt={30}>
+			{/* Game board */}
+			<Container bg="sage" fluid h="100%" w="100%" p={10}>
+				{/* Category headers */}
+				<SimpleGrid cols={categories.length} spacing={0}>
+					{categories.map((cat) => (
+						<Text key={cat} ta="center" c="white" fw="bold">
+							{cat}
+						</Text>
+					))}
+				</SimpleGrid>
+				{values.map((value) => (
+					<SimpleGrid key={value} cols={categories.length} p={10}>
+						{categories.map((category) => {
+							const question = questions.find((q) => q.category === category && q.value === value);
 
-				{/* Game board */}
-				<Container bg="icy-blue" fluid h="100%" w="100%" p={10}>
-					<Grid align="flex-end">
-						<Grid.Col span={{ base: 12, md: 9 }}>
-							{/* Category headers */}
-							<SimpleGrid cols={categories.length}>
-								{categories.map((cat) => (
-									<Text key={cat} ta="center" c="white" fw="bold">
-										{cat}
-									</Text>
-								))}
-							</SimpleGrid>
-							{values.map((value) => (
-								<SimpleGrid key={value} cols={categories.length} p={10}>
-									{categories.map((category) => {
-										const question = questions.find(
-											(q) => q.category === category && q.value === value
-										);
+							if (!question) return <div key={`${category}-${value}`} />;
 
-										if (!question) return <div key={`${category}-${value}`} />;
-
-										return (
-											<Button
-												key={question.id}
-												variant={question.used ? 'filled' : 'outline'}
-												color="white"
-												h={80}
-												disabled={question.used}
-												onClick={() => openQuestion(question)}
-											>
-												${value}
-											</Button>
-										);
-									})}
-								</SimpleGrid>
-							))}{' '}
-						</Grid.Col>
-						<Grid.Col span={{ base: 12, md: 3 }}>
-							<ScoreBoard />
-						</Grid.Col>{' '}
-					</Grid>
-				</Container>
-			</Stack>
+							return (
+								<Button
+									key={question.id}
+									bg={question.used ? '#ececec' : 'white'}
+									variant={question.used ? 'solid' : 'light'}
+									color="sage"
+									h={80}
+									radius={0}
+									disabled={question.used}
+									onClick={() => openQuestion(question)}
+								>
+									${value}
+								</Button>
+							);
+						})}
+					</SimpleGrid>
+				))}
+				<Group align="flex-start" justify="space-between">
+					<JeopardyPlayRound />
+					<ScoreBoard />
+				</Group>
+			</Container>
 
 			{/* Question modal */}
 			<Modal
 				opened={!!active}
+				withCloseButton={false}
 				onClose={() => setActive(null)}
 				centered
 				size="lg"
-				title={active?.category}
+				bg="sage"
 			>
 				{active && (
 					<Stack style={{ textAlign: 'center' }}>
 						<Text size="xl">{active.question}</Text>
 
-						<Divider />
-
-						<Spoiler maxHeight={0} showLabel="Show answer" hideLabel="Hide answer">
+						<Spoiler
+							maxHeight={0}
+							showLabel="Reveal answer"
+							hideLabel="Hide answer"
+							style={{ color: 'sage' }}
+						>
 							<Text fw={600}>{active.answer}</Text>
 						</Spoiler>
 
-						<Button mt="md" onClick={() => markUsed(active.id)}>
-							Mark as used
-						</Button>
+						{/* <Button mt="md" onClick={() => markUsed(active.id)} bg="sage">
+							Reveal Answer
+						</Button> */}
 					</Stack>
 				)}
 			</Modal>

@@ -23,36 +23,32 @@ export function ScoreBoard() {
 	}
 
 	return (
-		<Card shadow="sm" padding="md" withBorder mb={40}>
-			<Stack>
-				<Text size="xl" ta="center">
-					Scoreboard
-				</Text>
+		<Group mr={10}>
+			{teams.map((team, index) => (
+				<Card key={index} withBorder>
+					<Stack gap="xs">
+						<TextInput
+							value={team.name}
+							onChange={(e) => updateName(index, e.currentTarget.value)}
+							placeholder="Team name"
+							styles={{ input: { textAlign: 'center', fontWeight: 600 } }}
+						/>
 
-				{teams.map((team, index) => (
-					<Card key={index} withBorder>
-						<Stack gap="xs">
-							<TextInput
-								value={team.name}
-								onChange={(e) => updateName(index, e.currentTarget.value)}
-								placeholder="Team name"
-								styles={{ input: { textAlign: 'center', fontWeight: 600 } }}
-							/>
+						<Text size="xl" ta="center">
+							{team.score}
+						</Text>
 
-							<Text size="xl" ta="center">
-								{team.score}
-							</Text>
-
-							<Group grow>
-								<Button onClick={() => updateScore(index, 200)}>+200</Button>
-								<Button variant="outline" color="red" onClick={() => updateScore(index, -200)}>
-									-200
-								</Button>
-							</Group>
-						</Stack>
-					</Card>
-				))}
-			</Stack>
-		</Card>
+						<Group grow>
+							<Button color="sage" onClick={() => updateScore(index, 200)}>
+								+200
+							</Button>
+							<Button variant="outline" color="red" onClick={() => updateScore(index, -200)}>
+								-200
+							</Button>
+						</Group>
+					</Stack>
+				</Card>
+			))}
+		</Group>
 	);
 }
