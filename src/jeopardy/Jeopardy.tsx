@@ -42,8 +42,8 @@ export function Jeopardy() {
 							return (
 								<Button
 									key={question.id}
-									bg={question.used ? '#ececec' : 'white'}
-									variant={question.used ? 'solid' : 'light'}
+									bg={question.used ? 'sage' : 'white'}
+									variant={question.used ? 'filled' : 'light'}
 									color="sage"
 									h={80}
 									radius={0}
@@ -73,7 +73,9 @@ export function Jeopardy() {
 			>
 				{active && (
 					<Stack style={{ textAlign: 'center' }}>
-						<Text size="xl">{active.question}</Text>
+						<Text size="xl" fw={900} ta="center">
+							{active.question}
+						</Text>
 
 						<Spoiler
 							maxHeight={0}

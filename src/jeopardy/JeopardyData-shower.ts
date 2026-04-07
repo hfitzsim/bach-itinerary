@@ -3,8 +3,11 @@ export type JeopardyQuestion = {
 	category: string;
 	value: number;
 	question: string;
+	image?: string;
 	answer: string;
 	used?: boolean;
+	double?: boolean;
+	final?: boolean;
 };
 
 export const jeopardyQuestions: JeopardyQuestion[] = [
@@ -13,8 +16,8 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'lady-200',
 		category: 'The Leading Lady',
 		value: 200,
-		question: `This is Lauren's formal job title.`,
-		answer: 'What is Manager, Events & Sponsorships?',
+		question: `The name of Lauren's Skating group`,
+		answer: 'What is Forté?',
 	},
 	{
 		id: 'lady-400',
@@ -27,8 +30,8 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'lady-600',
 		category: 'The Leading Lady',
 		value: 600,
-		question: `Lauren's job means she's no stranger to this — she loves watching heated rivalries play out live.`,
-		answer: 'What is sports/live events? [CONFIRM: get more specific if possible]',
+		question: `The movie Lauren was in.`,
+		answer: 'What is Spirited?',
 	},
 	{
 		id: 'lady-800',
@@ -41,8 +44,9 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'lady-1000',
 		category: 'The Leading Lady',
 		value: 1000,
-		question: `[CONFIRM: Add the most niche or insider fact about Lauren — something only her closest people would know]`,
-		answer: '[CONFIRM]',
+		question: `Lauren stayed with this family while working at F1 in Florida one summer.`,
+		answer: `What is her coworker's (Stephanie) fiancé's (Shane) family?`,
+		double: true,
 	},
 
 	// The Secret Ingredient
@@ -51,35 +55,35 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: 'The Secret Ingredient',
 		value: 200,
 		question: `Lauren's go-to wine — named after an animal and a fan favorite at any gathering she's at.`,
-		answer: "What is Sheep Wine (aka The Wolftrap or [CONFIRM: full name of 'sheep wine'])?",
+		answer: 'What is Sheep Wine (aka The Little Sheep)?',
 	},
 	{
 		id: 'ingredient-400',
 		category: 'The Secret Ingredient',
 		value: 400,
-		question: `This is the one food Lauren could eat every single day for a week without getting sick of it.`,
-		answer: 'What is sushi? [CONFIRM: verify with Lauren — could also be cheese or Italian]',
+		question: `Lauren would never turn down this Japanese staple, as long as it doesn't look like worms.`,
+		answer: 'What is Sushi?',
 	},
 	{
 		id: 'ingredient-600',
 		category: 'The Secret Ingredient',
 		value: 600,
 		question: `Lauren's favorite Japanese candy.`,
-		answer: 'Pure Lemon flavor',
+		answer: 'What is Pure Lemon Gummy Candy?',
 	},
 	{
 		id: 'ingredient-800',
 		category: 'The Secret Ingredient',
 		value: 800,
-		question: `Lauren is a firm believer that this food group makes everything better.`,
+		question: `Lauren is a firm believer that this food makes everything better.`,
 		answer: 'What is cheese?',
 	},
 	{
 		id: 'ingredient-1000',
 		category: 'The Secret Ingredient',
 		value: 1000,
-		question: `When Lauren is celebrating, she's reaching for one of these three things. Name any one of them for full points — all three for bonus bragging rights.`,
-		answer: 'What is beer, wine, or a cocktail?',
+		question: `Lauren refuses to eat this Japanese noodle dish, not because of the taste, but because of what it reminds her of.`,
+		answer: 'What is Udon?',
 	},
 
 	// Where Were They?
@@ -87,36 +91,41 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'where-200',
 		category: 'Where Were They?',
 		value: 200,
-		question: '[CONFIRM: Photo 1 — add question once photos are selected]',
-		answer: '[CONFIRM]',
+		question: 'The city that this photo was taken in.',
+		image: 'src/assets/Philly.jpg',
+		answer: 'Where is Philly?',
 	},
 	{
 		id: 'where-400',
 		category: 'Where Were They?',
 		value: 400,
-		question: '[CONFIRM: Photo 2 — add question once photos are selected]',
-		answer: '[CONFIRM]',
+		question: 'The landmark that this photo was taken at.',
+		image: 'src/assets/AntelopeCanyon.jpg',
+		answer: 'Where is Antelope Canyon?',
 	},
 	{
 		id: 'where-600',
 		category: 'Where Were They?',
 		value: 600,
-		question: '[CONFIRM: Photo 3 — add question once photos are selected]',
-		answer: '[CONFIRM]',
+		question: 'The landmark that this photo was taken at and the activity they were doing.',
+		image: 'src/assets/FenwayPark.jpg',
+		answer: 'Where is Fenway Park?',
 	},
 	{
 		id: 'where-800',
 		category: 'Where Were They?',
 		value: 800,
-		question: '[CONFIRM: Photo 4 — add question once photos are selected]',
-		answer: '[CONFIRM]',
+		question: 'The name of the beach where this was taken.',
+		image: 'src/assets/CarsonBeach.jpg',
+		answer: 'Where is Carson Beach?',
 	},
 	{
 		id: 'where-1000',
 		category: 'Where Were They?',
 		value: 1000,
-		question: '[CONFIRM: Photo 5 — add question once photos are selected]',
-		answer: '[CONFIRM]',
+		question: 'The country that this photo was taken in.',
+		image: 'src/assets/Bosnia.JPG',
+		answer: 'Where is Bosnia?',
 	},
 
 	// The Wedding Countdown
@@ -156,27 +165,64 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		answer: '[CONFIRM]',
 	},
 
+	// Medical Mysteries
+	{
+		id: 'medical-200',
+		category: 'Medical Mysteries',
+		value: 200,
+		question: `What trip did Lauren have to postpone last year because of an injury that required immediate surgery.`,
+		answer: `What is Italy?`,
+	},
+	{
+		id: 'medical-400',
+		category: 'Medical Mysteries',
+		value: 400,
+		question: `In what country did Lauren get blood poisoning?`,
+		answer: `What is Mexico?`,
+	},
+	{
+		id: 'medical-600',
+		category: 'Medical Mysteries',
+		value: 600,
+		question: `Lauren broke this part of her body when she was on Disney on Ice but the show must go on.`,
+		answer: 'What is her shoulder?',
+	},
+	{
+		id: 'medical-800',
+		category: 'Medical Mysteries',
+		value: 800,
+		question: `The activity Lauren was doing when she broke her back was this.`,
+		answer: 'What is horseback riding?',
+	},
+	{
+		id: 'medical-1000',
+		category: 'Medical Mysteries',
+		value: 1000,
+		question: `Lauren's favorite part of her body.`,
+		answer: '[CONFIRM]',
+	},
+
 	// Back In The Day
 	{
 		id: 'childhood-200',
 		category: 'Back In The Day',
 		value: 200,
 		question: `What was Lauren's favorite subject in school?`,
-		answer: '[CONFIRM]',
+		answer: 'What is History or English?',
 	},
 	{
 		id: 'childhood-400',
 		category: 'Back In The Day',
 		value: 400,
-		question: `Her family nickname growing up.`,
-		answer: '[CONFIRM]',
+		question: `This is Lauren's childhood nickname.`,
+		answer: 'Smedley',
 	},
 	{
 		id: 'childhood-600',
 		category: 'Back In The Day',
 		value: 600,
-		question: `She was obsessed with collecting these as a kid — her room was full of them.`,
-		answer: '[CONFIRM]',
+		question: `She was obsessed with collecting these as a kid.`,
+		answer: 'What are seashells?',
 	},
 	{
 		id: 'childhood-800',
@@ -189,7 +235,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'childhood-1000',
 		category: 'Back In The Day',
 		value: 1000,
-		question: `Lauren and her mom had a signature snack they made together that most people had never heard of — until a certain boat weekend revealed the truth. This is what they were called.`,
+		question: `Growing up, Lauren and her mom had a special, invisible snack they would make together. This is what it was called.`,
 		answer: 'What are arm sandwiches?',
 	},
 
@@ -199,7 +245,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: 'Love Birds',
 		value: 200,
 		question: `This is where Lauren and Neal went on their first date.`,
-		answer: '[CONFIRM]',
+		answer: `What is King's bowling Alley in Back Bay?`,
 	},
 	{
 		id: 'birds-400',
@@ -212,8 +258,8 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'birds-600',
 		category: 'Love Birds',
 		value: 600,
-		question: `They had been together this long when Neal proposed.`,
-		answer: '[CONFIRM: ~4-5 years — verify with them]',
+		question: `The name of the app that they met on and the name of the person who made the first move.`,
+		answer: 'Hinge, Megan',
 	},
 	{
 		id: 'birds-800',
@@ -227,6 +273,16 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: 'Love Birds',
 		value: 1000,
 		question: `This is the word Lauren used to describe Neal when we asked her without warning — she had no time to think!`,
-		answer: '[CONFIRM: Ask Lauren casually]',
+		answer: 'What is "my bebe"?',
+	},
+
+	// Final Jeopardy: Meant to Be
+	{
+		id: 'final-500',
+		category: 'Meant to Be',
+		value: 500,
+		question: `In his own words, this is what Neal said when asked what he is most looking forward to about spending the rest of his life with Lauren."`,
+		answer: '[CONFIRM: Ask Neal]',
+		final: true,
 	},
 ];
