@@ -30,7 +30,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'lady-600',
 		category: 'The Leading Lady',
 		value: 600,
-		question: `The movie Lauren was in.`,
+		question: `The name of the movie Lauren appeared in.`,
 		answer: 'What is Spirited?',
 	},
 	{
@@ -184,7 +184,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'medical-600',
 		category: 'Medical Mysteries',
 		value: 600,
-		question: `Lauren broke this part of her body when she was on Disney on Ice but the show must go on.`,
+		question: `Lauren injured this part of her body when she was on Disney on Ice but the show must go on.`,
 		answer: 'What is her shoulder?',
 	},
 	{
@@ -278,9 +278,9 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 
 	// Final Jeopardy: Meant to Be
 	{
-		id: 'final-500',
+		id: 'final-000',
 		category: 'Meant to Be',
-		value: 500,
+		value: 0,
 		question: `In his own words, this is what Neal said when asked what he is most looking forward to about spending the rest of his life with Lauren."`,
 		answer: '[CONFIRM: Ask Neal]',
 		final: true,

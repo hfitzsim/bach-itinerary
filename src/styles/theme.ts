@@ -68,8 +68,8 @@ const theme = createTheme({
 	cursorType: 'pointer',
 	defaultRadius: 'sm',
 	fontFamily: 'Mulish, sans-serif',
-	headings: { fontFamily: 'Ms Madi, cursive' },
-	black: 'jet',
+	headings: { fontFamily: 'Ledger, serif' },
+	black: 'sage.9',
 });
 
 export { theme };
