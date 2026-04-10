@@ -1,5 +1,5 @@
 import { Card, Group, Stack, Text } from '@mantine/core';
-import { type Team } from '../../server';
+import { type Team } from '../types/types';
 
 export function ScoreBoard({ teams }: { teams: Team[] }) {
 	return (

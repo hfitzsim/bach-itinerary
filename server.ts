@@ -1,24 +1,6 @@
 import type { Connection, ConnectionContext, WSMessage } from 'partyserver';
 import { Server } from 'partyserver';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-export type Team = {
-	name: string;
-	score: number;
-};
-
-export type BuzzEntry = {
-	teamName: string;
-	timestamp: number;
-};
-
-export type GameState = {
-	teams: Team[];
-	buzzQueue: BuzzEntry[]; // ordered by time — first buzzer is first
-	activeQuestionValue: number | null;
-	buzzerLocked: boolean; // true while host is judging an answer
-};
+import { type Team, type BuzzEntry, type GameState, type ServerMessage } from './src/types/types';
 
 // ─── Message shapes (client → server) ────────────────────────────────────────
 
@@ -58,12 +40,6 @@ type ClientMessage =
 	| CloseQuestionMessage
 	| ResetMessage
 	| RegisterTeamMessage;
-
-// ─── Message shapes (server → client) ────────────────────────────────────────
-
-export type ServerMessage =
-	| { type: 'state'; state: GameState } // full state sync on connect + after every change
-	| { type: 'buzz-received'; teamName: string; position: number }; // position in queue (1 = first)
 
 // ─── Server ───────────────────────────────────────────────────────────────────
 

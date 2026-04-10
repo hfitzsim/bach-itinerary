@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { MantineProvider, TextInput, Stack, Text, Box, Center, createTheme } from '@mantine/core';
 import PartySocket from 'partysocket';
-import type { GameState, ServerMessage } from '../../server';
+import type { GameState, ServerMessage } from '../types/types';
 
 // ─── CONFIG — swap this after deploying ──────────────────────────────────────
 // After running `npx wrangler deploy`, replace this with your worker's URL

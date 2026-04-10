@@ -3,7 +3,7 @@ import { Modal, SimpleGrid, Title, Stack, Text, Group, Container, Image, Box } f
 import PartySocket from 'partysocket';
 import { type JeopardyQuestion, jeopardyQuestions } from './JeopardyData-shower.ts';
 import { ScoreBoard } from './JeopardyScoreBoard.tsx';
-import type { GameState, ServerMessage } from '../../server';
+import type { GameState, ServerMessage } from '../types/types';
 
 // ─── CONFIG — must match Buzzer.tsx ──────────────────────────────────────────
 const PARTYKIT_HOST = import.meta.env.VITE_PARTYKIT_HOST ?? 'localhost:1999';

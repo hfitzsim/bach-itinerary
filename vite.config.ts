@@ -4,8 +4,6 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
 	plugins: [react()],
 	build: {
-		rollupOptions: {
-			external: ['cloudflare:workers', 'partyserver'],
-		},
+		outDir: 'dist/client',
 	},
 });
