@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
+		"host": "vite --host",
 		"build": "npm run build:client && npm run build:server",
 		"build:client": "vite build",
 		"build:server": "vite build -c vite.config.server.ts",

@@ -1,12 +1,8 @@
-name = "bridal-jeopardy"
-main = "server.ts"
-compatibility_date = "2025-01-01"
+name = "bach-itinerary"
+main = "dist/server/bach-itinerary.js"
+compatibility_date = "2024-01-01"
+type = "esm"
 
-[durable_objects]
-bindings = [
-  { name = "BridalJeopardyServer", class_name = "BridalJeopardyServer" }
-]
-
-[[migrations]]
-tag = "v1"
-new_sqlite_classes = ["BridalJeopardyServer"]
+[build]
+command = "npm run build:server"
+upload = { format = "modules" }

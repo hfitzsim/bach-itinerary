@@ -291,8 +291,14 @@ export function Buzzer({ cooldownMs = 3000 }: { cooldownMs?: number }) {
 	const questionOpen = !!gameState?.activeQuestionValue;
 	const buzzerOpen = registered && questionOpen && !gameState!.buzzerLocked && !isQueued;
 
+	const serverUrl = import.meta.env.VITE_PARTYSERVER_URL;
+	const namespace = import.meta.env.VITE_PARTY_NAMESPACE;
+	const room = import.meta.env.VITE_PARTY_ROOM;
+
+	const partyHost = `${serverUrl}/parties/${namespace}/${room}`;
+
 	const connect = useCallback((name: string) => {
-		const socket = new PartySocket({ host: PARTYKIT_HOST, room: ROOM_ID });
+		const socket = new PartySocket({ host: partyHost });
 		socketRef.current = socket;
 
 		socket.addEventListener('open', () => {

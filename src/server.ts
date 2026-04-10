@@ -181,3 +181,5 @@ export class BridalJeopardyServer extends Server {
 		}
 	}
 }
+
+export default {};

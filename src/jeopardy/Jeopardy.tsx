@@ -7,7 +7,7 @@ import type { GameState, ServerMessage } from '../types/types';
 
 // ─── CONFIG — must match Buzzer.tsx ──────────────────────────────────────────
 const PARTYKIT_HOST = import.meta.env.VITE_PARTYKIT_HOST ?? 'localhost:1999';
-const ROOM_ID = 'shower-2025';
+const ROOM_ID = 'bridal-shower-jeopardy';
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const SAGE = {
@@ -244,13 +244,19 @@ export function Jeopardy() {
 	const [gameState, setGameState] = useState<GameState | null>(null);
 	const socketRef = useRef<PartySocket | null>(null);
 
+	const serverUrl = import.meta.env.VITE_PARTYSERVER_URL;
+	const namespace = import.meta.env.VITE_PARTY_NAMESPACE;
+	const room = import.meta.env.VITE_PARTY_ROOM;
+
+	const partyHost = `${serverUrl}/parties/${namespace}/${room}`;
+
 	// Derived
 	const buzzingTeam = gameState?.buzzQueue[0]?.teamName ?? null;
 	const showToast = !!buzzingTeam && !!active;
 
 	// ── PartyKit connection ──────────────────────────────────────────────────
 	useEffect(() => {
-		const socket = new PartySocket({ host: PARTYKIT_HOST, room: ROOM_ID });
+		const socket = new PartySocket({ host: partyHost });
 		socketRef.current = socket;
 
 		socket.addEventListener('message', (evt) => {
