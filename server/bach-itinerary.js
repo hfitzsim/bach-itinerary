@@ -1752,6 +1752,8 @@ class st extends et {
     }
   }
 }
+const at = {};
 export {
-  st as BridalJeopardyServer
+  st as BridalJeopardyServer,
+  at as default
 };
