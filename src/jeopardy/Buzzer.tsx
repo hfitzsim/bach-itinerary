@@ -3,12 +3,6 @@ import { MantineProvider, TextInput, Stack, Text, Box, Center, createTheme } fro
 import PartySocket from 'partysocket';
 import type { GameState, ServerMessage } from '../types/types';
 
-// ─── CONFIG — swap this after deploying ──────────────────────────────────────
-// After running `npx wrangler deploy`, replace this with your worker's URL
-// e.g. "bridal-jeopardy.youraccount.partykit.dev"
-const PARTYKIT_HOST = import.meta.env.VITE_PARTYKIT_HOST ?? 'localhost:1999';
-const ROOM_ID = 'shower-2025'; // must match ROOM_ID in Jeopardy.tsx
-
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const SAGE = {
 	50: '#f4f7f4',

@@ -5,10 +5,6 @@ import { type JeopardyQuestion, jeopardyQuestions } from './JeopardyData-shower.
 import { ScoreBoard } from './JeopardyScoreBoard.tsx';
 import type { GameState, ServerMessage } from '../types/types';
 
-// ─── CONFIG — must match Buzzer.tsx ──────────────────────────────────────────
-const PARTYKIT_HOST = import.meta.env.VITE_PARTYKIT_HOST ?? 'localhost:1999';
-const ROOM_ID = 'bridal-shower-jeopardy';
-
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const SAGE = {
 	50: '#f4f7f4',
