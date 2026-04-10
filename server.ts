@@ -1,0 +1,203 @@
+import type { Connection, ConnectionContext, WSMessage } from 'partyserver';
+import { Server } from 'partyserver';
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+export type Team = {
+	name: string;
+	score: number;
+};
+
+export type BuzzEntry = {
+	teamName: string;
+	timestamp: number;
+};
+
+export type GameState = {
+	teams: Team[];
+	buzzQueue: BuzzEntry[]; // ordered by time — first buzzer is first
+	activeQuestionValue: number | null;
+	buzzerLocked: boolean; // true while host is judging an answer
+};
+
+// ─── Message shapes (client → server) ────────────────────────────────────────
+
+type BuzzMessage = {
+	type: 'buzz';
+	teamName: string;
+};
+
+type HostJudgeMessage = {
+	type: 'accept' | 'reject';
+	teamName: string; // the team being judged
+	questionValue: number;
+};
+
+type SetQuestionMessage = {
+	type: 'set-question';
+	value: number; // dollar value of the open question
+};
+
+type CloseQuestionMessage = {
+	type: 'close-question'; // host closes without awarding (no one got it)
+};
+
+type ResetMessage = {
+	type: 'reset'; // full game reset (new game)
+};
+
+type RegisterTeamMessage = {
+	type: 'register-team';
+	teamName: string;
+};
+
+type ClientMessage =
+	| BuzzMessage
+	| HostJudgeMessage
+	| SetQuestionMessage
+	| CloseQuestionMessage
+	| ResetMessage
+	| RegisterTeamMessage;
+
+// ─── Message shapes (server → client) ────────────────────────────────────────
+
+export type ServerMessage =
+	| { type: 'state'; state: GameState } // full state sync on connect + after every change
+	| { type: 'buzz-received'; teamName: string; position: number }; // position in queue (1 = first)
+
+// ─── Server ───────────────────────────────────────────────────────────────────
+
+export class BridalJeopardyServer extends Server {
+	state: GameState = {
+		teams: [],
+		buzzQueue: [],
+		activeQuestionValue: null,
+		buzzerLocked: false,
+	};
+
+	// ── Helpers ──────────────────────────────────────────────────────────────
+
+	broadcast(msg: ServerMessage) {
+		this.party.broadcast(JSON.stringify(msg));
+	}
+
+	sendState() {
+		this.broadcast({ type: 'state', state: this.state });
+	}
+
+	getTeam(name: string): Team | undefined {
+		return this.state.teams.find((t) => t.name === name);
+	}
+
+	ensureTeam(name: string) {
+		if (!this.getTeam(name)) {
+			this.state.teams.push({ name, score: 0 });
+		}
+	}
+
+	// ── Lifecycle ────────────────────────────────────────────────────────────
+
+	onConnect(connection: Connection, ctx: ConnectionContext) {
+		// Send full state to any newly connected client
+		connection.send(JSON.stringify({ type: 'state', state: this.state }));
+	}
+
+	onMessage(message: WSMessage, sender: Connection) {
+		let msg: ClientMessage;
+		try {
+			msg = JSON.parse(message as string) as ClientMessage;
+		} catch {
+			return;
+		}
+
+		switch (msg.type) {
+			// A team captain registers their team name when they load the buzzer
+			case 'register-team': {
+				this.ensureTeam(msg.teamName);
+				this.sendState();
+				break;
+			}
+
+			// A team captain hits the buzzer
+			case 'buzz': {
+				const alreadyQueued = this.state.buzzQueue.some((b) => b.teamName === msg.teamName);
+				if (alreadyQueued) break; // ignore double-buzz from same team
+
+				const entry: BuzzEntry = {
+					teamName: msg.teamName,
+					timestamp: Date.now(),
+				};
+				this.state.buzzQueue.push(entry);
+				this.state.buzzerLocked = true;
+
+				// Tell everyone the queue updated
+				this.sendState();
+
+				// Also send a targeted buzz-received so the buzzing device gets
+				// its position in the queue immediately
+				const position = this.state.buzzQueue.length;
+				this.broadcast({ type: 'buzz-received', teamName: msg.teamName, position });
+				break;
+			}
+
+			// Host opens a question — unlocks buzzers for this value
+			case 'set-question': {
+				this.state.activeQuestionValue = msg.value;
+				this.state.buzzQueue = [];
+				this.state.buzzerLocked = false;
+				this.sendState();
+				break;
+			}
+
+			// Host accepts the current answering team's answer → award points
+			case 'accept': {
+				const value = this.state.activeQuestionValue ?? msg.questionValue;
+				this.ensureTeam(msg.teamName);
+				const team = this.getTeam(msg.teamName)!;
+				team.score += value;
+
+				// Close the question
+				this.state.activeQuestionValue = null;
+				this.state.buzzQueue = [];
+				this.state.buzzerLocked = false;
+				this.sendState();
+				break;
+			}
+
+			// Host rejects the current answering team → deduct, open for steal
+			case 'reject': {
+				const value = this.state.activeQuestionValue ?? msg.questionValue;
+				this.ensureTeam(msg.teamName);
+				const team = this.getTeam(msg.teamName)!;
+				team.score = Math.max(0, team.score - value); // floor at 0
+
+				// Remove this team from the front of the queue and unlock for steal
+				this.state.buzzQueue = this.state.buzzQueue.filter((b) => b.teamName !== msg.teamName);
+				this.state.buzzerLocked = this.state.buzzQueue.length > 0;
+				this.sendState();
+				break;
+			}
+
+			// Host closes the question without awarding anyone
+			case 'close-question': {
+				this.state.activeQuestionValue = null;
+				this.state.buzzQueue = [];
+				this.state.buzzerLocked = false;
+				this.sendState();
+				break;
+			}
+
+			// Full reset for a new game
+			case 'reset': {
+				this.state = {
+					teams: this.state.teams.map((t) => ({ ...t, score: 0 })), // keep teams, zero scores
+					buzzQueue: [],
+					activeQuestionValue: null,
+					buzzerLocked: false,
+				};
+				this.sendState();
+				break;
+			}
+		}
+	}
+}

@@ -66,33 +66,6 @@ export function ScoreBoard() {
 						<Text size="xl" ta="center">
 							{team.score}
 						</Text>
-
-						<Group justify="center" p={10}>
-							<Button
-								radius="xl"
-								p={0}
-								h={60}
-								w={60}
-								size="xl"
-								c="sage.7"
-								variant="outline"
-								styles={{ root: { border: '1px solid #d0e2bd' } }}
-							>
-								-
-							</Button>
-							<Button
-								radius="xl"
-								p={0}
-								h={60}
-								w={60}
-								size="xl"
-								c="sage.7"
-								variant="outline"
-								styles={{ root: { border: '1px solid #d0e2bd' } }}
-							>
-								+
-							</Button>
-						</Group>
 					</Stack>
 				</Card>
 			))}

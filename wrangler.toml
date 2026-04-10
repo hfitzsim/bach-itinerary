@@ -1,0 +1,12 @@
+name = "bridal-jeopardy"
+main = "server.ts"
+compatibility_date = "2025-01-01"
+
+[durable_objects]
+bindings = [
+  { name = "BridalJeopardyServer", class_name = "BridalJeopardyServer" }
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["BridalJeopardyServer"]
