@@ -1,6 +1,6 @@
 import type { Connection, ConnectionContext, WSMessage } from 'partyserver';
 import { Server } from 'partyserver';
-import { type Team, type BuzzEntry, type GameState, type ServerMessage } from './src/types/types';
+import { type Team, type BuzzEntry, type GameState, type ServerMessage } from './types/types';
 
 // ─── Message shapes (client → server) ────────────────────────────────────────
 

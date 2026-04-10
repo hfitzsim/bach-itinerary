@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	build: {
 		lib: {
-			entry: 'server.ts',
+			entry: 'src/server.ts',
 			formats: ['es'],
 		},
 		outDir: 'dist/server',
