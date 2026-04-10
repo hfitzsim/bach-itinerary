@@ -107,7 +107,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'where-600',
 		category: 'Where Were They?',
 		value: 600,
-		question: 'The landmark that this photo was taken at and the activity they were doing.',
+		question: 'The landmark where this photo was taken.',
 		image: 'src/assets/FenwayPark.jpg',
 		answer: 'Where is Fenway Park?',
 	},

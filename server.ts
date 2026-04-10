@@ -77,12 +77,16 @@ export class BridalJeopardyServer extends Server {
 
 	// ── Helpers ──────────────────────────────────────────────────────────────
 
-	broadcast(msg: ServerMessage) {
-		this.party.broadcast(JSON.stringify(msg));
+	broadcast(msg: String | ArrayBuffer | ArrayBufferView<ArrayBufferLike>) {
+		super.broadcast(JSON.stringify(msg));
+	}
+
+	broadcastMessage(msg: ServerMessage) {
+		this.broadcast(JSON.stringify(msg));
 	}
 
 	sendState() {
-		this.broadcast({ type: 'state', state: this.state });
+		this.broadcastMessage({ type: 'state', state: this.state });
 	}
 
 	getTeam(name: string): Team | undefined {
@@ -97,12 +101,12 @@ export class BridalJeopardyServer extends Server {
 
 	// ── Lifecycle ────────────────────────────────────────────────────────────
 
-	onConnect(connection: Connection, ctx: ConnectionContext) {
+	onConnect(connection: Connection, _ctx: ConnectionContext) {
 		// Send full state to any newly connected client
 		connection.send(JSON.stringify({ type: 'state', state: this.state }));
 	}
 
-	onMessage(message: WSMessage, sender: Connection) {
+	onMessage(_sender: Connection, message: WSMessage) {
 		let msg: ClientMessage;
 		try {
 			msg = JSON.parse(message as string) as ClientMessage;
@@ -136,7 +140,7 @@ export class BridalJeopardyServer extends Server {
 				// Also send a targeted buzz-received so the buzzing device gets
 				// its position in the queue immediately
 				const position = this.state.buzzQueue.length;
-				this.broadcast({ type: 'buzz-received', teamName: msg.teamName, position });
+				this.broadcastMessage({ type: 'buzz-received', teamName: msg.teamName, position });
 				break;
 			}
 

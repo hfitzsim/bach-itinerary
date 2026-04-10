@@ -1,17 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import {
-	Button,
-	Modal,
-	SimpleGrid,
-	Title,
-	Stack,
-	Text,
-	Group,
-	Container,
-	Image,
-	Box,
-	Notification,
-} from '@mantine/core';
+import { Modal, SimpleGrid, Title, Stack, Text, Group, Container, Image, Box } from '@mantine/core';
 import PartySocket from 'partysocket';
 import { type JeopardyQuestion, jeopardyQuestions } from './JeopardyData-shower.ts';
 import { ScoreBoard } from './JeopardyScoreBoard.tsx';
