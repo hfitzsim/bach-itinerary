@@ -292,7 +292,7 @@ export function Buzzer({ cooldownMs = 3000 }: { cooldownMs?: number }) {
 	const partyHost = `${serverUrl}/parties/${namespace}/${room}`;
 
 	const connect = useCallback((name: string) => {
-		const socket = new PartySocket({ host: partyHost });
+		const socket = new PartySocket({ host: partyHost, room: room });
 		socketRef.current = socket;
 
 		socket.addEventListener('open', () => {

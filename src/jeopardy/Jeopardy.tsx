@@ -252,7 +252,7 @@ export function Jeopardy() {
 
 	// ── PartyKit connection ──────────────────────────────────────────────────
 	useEffect(() => {
-		const socket = new PartySocket({ host: partyHost });
+		const socket = new PartySocket({ host: partyHost, room: room });
 		socketRef.current = socket;
 
 		socket.addEventListener('message', (evt) => {
