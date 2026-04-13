@@ -244,7 +244,7 @@ export function Jeopardy() {
 	const namespace = import.meta.env.VITE_PARTY_NAMESPACE;
 	const room = import.meta.env.VITE_PARTY_ROOM;
 
-	const partyHost = `${serverUrl}/parties/${namespace}/${room}`;
+	const partyHost = serverUrl;
 
 	// Derived
 	const buzzingTeam = gameState?.buzzQueue[0]?.teamName ?? null;
@@ -252,19 +252,39 @@ export function Jeopardy() {
 
 	// ── PartyKit connection ──────────────────────────────────────────────────
 	useEffect(() => {
-		const socket = new PartySocket({ host: partyHost, room: room });
+		const socket = new PartySocket({ host: partyHost, party: namespace, room });
 		socketRef.current = socket;
 
+		socket.addEventListener('open', () => {
+			console.debug('[Jeopardy] socket open', { partyHost, namespace, room });
+		});
+		socket.addEventListener('close', (evt) => {
+			console.debug('[Jeopardy] socket close', evt);
+		});
+		socket.addEventListener('error', (evt) => {
+			console.debug('[Jeopardy] socket error', evt);
+		});
 		socket.addEventListener('message', (evt) => {
-			const msg: ServerMessage = JSON.parse(evt.data);
-			if (msg.type === 'state') setGameState(msg.state);
+			console.debug('[Jeopardy] socket message', evt.data);
+			try {
+				const msg: ServerMessage = JSON.parse(evt.data);
+				if (msg.type === 'state') {
+					console.debug('[Jeopardy] state update', msg.state);
+					setGameState(msg.state);
+				}
+			} catch (error) {
+				console.error('[Jeopardy] failed to parse message', evt.data, error);
+			}
 		});
 
-		return () => socket.close();
+		return () => {
+			socket.close();
+		};
 	}, []);
 
 	// ── Helpers ──────────────────────────────────────────────────────────────
 	function send(msg: object) {
+		console.debug('[Jeopardy] send', msg);
 		socketRef.current?.send(JSON.stringify(msg));
 	}
 
@@ -300,8 +320,7 @@ export function Jeopardy() {
 	function handleReveal() {
 		if (!active) return;
 		setRevealed(true);
-		// Also close the question so no more buzzing after reveal
-		send({ type: 'close-question' });
+		// Keep the question active so the host can still award points after revealing.
 		markUsed(active.id);
 	}
 
@@ -495,7 +514,7 @@ export function Jeopardy() {
 					))}
 
 					{/* Scoreboard */}
-					<Group align="flex-start" justify="center" mt={24}>
+					<Group align="flex-start" justify="center" mt={24} w="100%">
 						<ScoreBoard teams={gameState?.teams ?? []} />
 					</Group>
 				</Container>

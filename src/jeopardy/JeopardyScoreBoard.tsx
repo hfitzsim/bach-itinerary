@@ -11,6 +11,8 @@ export function ScoreBoard({ teams }: { teams: Team[] }) {
 					p="xs"
 					styles={{
 						root: {
+							minWidth: 220,
+							width: 220,
 							border: '1px solid #d0e2bd',
 							borderTopRightRadius: 32,
 							borderTopLeftRadius: 32,
@@ -27,7 +29,7 @@ export function ScoreBoard({ teams }: { teams: Team[] }) {
 							},
 						}}
 					>
-						<Text>{team.name}</Text>
+						<Text ta="center">{team.name}</Text>
 
 						<Text size="xl" ta="center">
 							{team.score}

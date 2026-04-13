@@ -289,30 +289,47 @@ export function Buzzer({ cooldownMs = 3000 }: { cooldownMs?: number }) {
 	const namespace = import.meta.env.VITE_PARTY_NAMESPACE;
 	const room = import.meta.env.VITE_PARTY_ROOM;
 
-	const partyHost = `${serverUrl}/parties/${namespace}/${room}`;
+	const partyHost = serverUrl;
 
-	const connect = useCallback((name: string) => {
-		const socket = new PartySocket({ host: partyHost, room: room });
-		socketRef.current = socket;
+	const connect = useCallback(
+		(name: string) => {
+			console.debug('[Buzzer] connect start', { partyHost, namespace, room, name });
+			const socket = new PartySocket({ host: partyHost, party: namespace, room });
+			socketRef.current = socket;
 
-		socket.addEventListener('open', () => {
-			setConnected(true);
-			socket.send(JSON.stringify({ type: 'register-team', teamName: name }));
-		});
-		socket.addEventListener('close', () => setConnected(false));
-		socket.addEventListener('message', (evt) => {
-			const msg: ServerMessage = JSON.parse(evt.data);
-			if (msg.type === 'state') {
-				const wasQueued = gameState?.buzzQueue.some((b) => b.teamName === name);
-				const nowFirstInQueue = msg.state.buzzQueue[0]?.teamName === name;
-				if (!wasQueued && nowFirstInQueue) {
-					setFlash(true);
-					setTimeout(() => setFlash(false), 700);
+			socket.addEventListener('open', () => {
+				console.debug('[Buzzer] socket open');
+				setConnected(true);
+				socket.send(JSON.stringify({ type: 'register-team', teamName: name }));
+			});
+			socket.addEventListener('close', (evt) => {
+				console.debug('[Buzzer] socket close', evt);
+				setConnected(false);
+			});
+			socket.addEventListener('error', (evt) => {
+				console.debug('[Buzzer] socket error', evt);
+			});
+			socket.addEventListener('message', (evt) => {
+				console.debug('[Buzzer] socket message', evt.data);
+				try {
+					const msg: ServerMessage = JSON.parse(evt.data);
+					if (msg.type === 'state') {
+						console.debug('[Buzzer] state update', msg.state);
+						const wasQueued = gameState?.buzzQueue.some((b) => b.teamName === name);
+						const nowFirstInQueue = msg.state.buzzQueue[0]?.teamName === name;
+						if (!wasQueued && nowFirstInQueue) {
+							setFlash(true);
+							setTimeout(() => setFlash(false), 700);
+						}
+						setGameState(msg.state);
+					}
+				} catch (error) {
+					console.error('[Buzzer] failed to parse message', evt.data, error);
 				}
-				setGameState(msg.state);
-			}
-		});
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+			});
+		},
+		[partyHost, namespace, room]
+	);
 
 	useEffect(
 		() => () => {
@@ -329,6 +346,7 @@ export function Buzzer({ cooldownMs = 3000 }: { cooldownMs?: number }) {
 	};
 
 	const handleBuzz = () => {
+		console.debug('[Buzzer] send buzz', { teamName });
 		socketRef.current?.send(JSON.stringify({ type: 'buzz', teamName }));
 	};
 

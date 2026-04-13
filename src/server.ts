@@ -1,6 +1,11 @@
+import { routePartykitRequest, Server } from 'partyserver';
 import type { Connection, ConnectionContext, WSMessage } from 'partyserver';
-import { Server } from 'partyserver';
 import { type Team, type BuzzEntry, type GameState, type ServerMessage } from './types/types';
+import type { DurableObjectNamespace } from '@cloudflare/workers-types';
+
+type Env = {
+	main: DurableObjectNamespace;
+};
 
 // ─── Message shapes (client → server) ────────────────────────────────────────
 
@@ -43,7 +48,7 @@ type ClientMessage =
 
 // ─── Server ───────────────────────────────────────────────────────────────────
 
-export class BridalJeopardyServer extends Server {
+export class BridalJeopardyServer extends Server<Env> {
 	state: GameState = {
 		teams: [],
 		buzzQueue: [],
@@ -51,17 +56,27 @@ export class BridalJeopardyServer extends Server {
 		buzzerLocked: false,
 	};
 
-	// ── Helpers ──────────────────────────────────────────────────────────────
-
-	broadcast(msg: String | ArrayBuffer | ArrayBufferView<ArrayBufferLike>) {
-		super.broadcast(JSON.stringify(msg));
+	async onStart() {
+		this.sql`CREATE TABLE IF NOT EXISTS state (key TEXT PRIMARY KEY, value TEXT)`;
+		const rows = this.sql<{ value: string }>`SELECT value FROM state WHERE key = 'game'`;
+		if (rows.length > 0) {
+			this.state = JSON.parse(rows[0].value);
+		}
 	}
+
+	saveState() {
+		this
+			.sql`INSERT OR REPLACE INTO state (key, value) VALUES ('game', ${JSON.stringify(this.state)})`;
+	}
+
+	// ── Helpers ──────────────────────────────────────────────────────────────
 
 	broadcastMessage(msg: ServerMessage) {
 		this.broadcast(JSON.stringify(msg));
 	}
 
 	sendState() {
+		this.saveState();
 		this.broadcastMessage({ type: 'state', state: this.state });
 	}
 
@@ -78,11 +93,13 @@ export class BridalJeopardyServer extends Server {
 	// ── Lifecycle ────────────────────────────────────────────────────────────
 
 	onConnect(connection: Connection, _ctx: ConnectionContext) {
+		console.debug('[Server] onConnect', { connectionId: connection.id, server: this.name });
 		// Send full state to any newly connected client
 		connection.send(JSON.stringify({ type: 'state', state: this.state }));
 	}
 
 	onMessage(_sender: Connection, message: WSMessage) {
+		console.debug('[Server] onMessage', message);
 		let msg: ClientMessage;
 		try {
 			msg = JSON.parse(message as string) as ClientMessage;
@@ -122,6 +139,7 @@ export class BridalJeopardyServer extends Server {
 
 			// Host opens a question — unlocks buzzers for this value
 			case 'set-question': {
+				console.debug('[Server] set-question', { value: msg.value });
 				this.state.activeQuestionValue = msg.value;
 				this.state.buzzQueue = [];
 				this.state.buzzerLocked = false;
@@ -182,4 +200,8 @@ export class BridalJeopardyServer extends Server {
 	}
 }
 
-export default {};
+export default {
+	async fetch(request: Request, env: any) {
+		return (await routePartykitRequest(request, env)) || new Response('Not Found', { status: 404 });
+	},
+};
