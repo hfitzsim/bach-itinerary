@@ -1,131 +1,131 @@
-import { DurableObject as Ge } from "cloudflare:workers";
-let Be = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict", Ke = (n = 21) => {
-  let o = "", i = crypto.getRandomValues(new Uint8Array(n |= 0));
-  for (; n--; )
-    o += Be[i[n] & 63];
+import { env as Fe, DurableObject as Ve } from "cloudflare:workers";
+let Xe = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict", Ze = (r = 21) => {
+  let o = "", i = crypto.getRandomValues(new Uint8Array(r |= 0));
+  for (; r--; )
+    o += Xe[i[r] & 63];
   return o;
 };
 if (!("OPEN" in WebSocket)) {
-  const n = {
+  const r = {
     CONNECTING: WebSocket.READY_STATE_CONNECTING,
     OPEN: WebSocket.READY_STATE_OPEN,
     CLOSING: WebSocket.READY_STATE_CLOSING,
     CLOSED: WebSocket.READY_STATE_CLOSED
   };
-  Object.assign(WebSocket, n), Object.assign(WebSocket.prototype, n);
+  Object.assign(WebSocket, r), Object.assign(WebSocket.prototype, r);
 }
-function We(n) {
+function Ue(r) {
   try {
-    const o = WebSocket.prototype.deserializeAttachment.call(n);
+    const o = WebSocket.prototype.deserializeAttachment.call(r);
     if (!o || typeof o != "object" || !("__pk" in o)) return null;
     const i = o.__pk;
     if (!i || typeof i != "object") return null;
-    const { id: c, tags: m } = i;
+    const { id: c, tags: d } = i;
     if (typeof c != "string") return null;
-    const { uri: E } = i;
+    const { uri: g } = i;
     return {
       id: c,
-      tags: Array.isArray(m) ? m : [],
-      uri: typeof E == "string" ? E : void 0
+      tags: Array.isArray(d) ? d : [],
+      uri: typeof g == "string" ? g : void 0
     };
   } catch {
     return null;
   }
 }
-function ue(n) {
-  return We(n) !== null;
+function ce(r) {
+  return Ue(r) !== null;
 }
-var Ve = class {
+var Je = class {
   #t = /* @__PURE__ */ new WeakMap();
-  get(n) {
-    let o = this.#t.get(n);
+  get(r) {
+    let o = this.#t.get(r);
     if (!o)
-      if (o = WebSocket.prototype.deserializeAttachment.call(n), o !== void 0) this.#t.set(n, o);
+      if (o = WebSocket.prototype.deserializeAttachment.call(r), o !== void 0) this.#t.set(r, o);
       else throw new Error("Missing websocket attachment. This is most likely an issue in PartyServer, please open an issue at https://github.com/cloudflare/partykit/issues");
     return o;
   }
-  set(n, o) {
-    this.#t.set(n, o), WebSocket.prototype.serializeAttachment.call(n, o);
+  set(r, o) {
+    this.#t.set(r, o), WebSocket.prototype.serializeAttachment.call(r, o);
   }
 };
-const V = new Ve(), Ie = /* @__PURE__ */ new WeakSet(), Fe = (n) => Ie.has(n), F = (n) => {
-  if (Fe(n)) return n;
+const ee = new Je(), $e = /* @__PURE__ */ new WeakSet(), et = (r) => $e.has(r), te = (r) => {
+  if (et(r)) return r;
   let o;
-  "state" in n && (o = n.state, delete n.state);
-  const i = Object.defineProperties(n, {
+  "state" in r && (o = r.state, delete r.state);
+  const i = Object.defineProperties(r, {
     id: {
       configurable: !0,
       get() {
-        return V.get(n).__pk.id;
+        return ee.get(r).__pk.id;
       }
     },
     uri: {
       configurable: !0,
       get() {
-        return V.get(n).__pk.uri ?? null;
+        return ee.get(r).__pk.uri ?? null;
       }
     },
     tags: {
       configurable: !0,
       get() {
-        return V.get(n).__pk.tags ?? [];
+        return ee.get(r).__pk.tags ?? [];
       }
     },
     socket: {
       configurable: !0,
       get() {
-        return n;
+        return r;
       }
     },
     state: {
       configurable: !0,
       get() {
-        return n.deserializeAttachment();
+        return r.deserializeAttachment();
       }
     },
     setState: {
       configurable: !0,
       value: function(c) {
-        let m;
-        return c instanceof Function ? m = c(this.state) : m = c, n.serializeAttachment(m), m;
+        let d;
+        return c instanceof Function ? d = c(this.state) : d = c, r.serializeAttachment(d), d;
       }
     },
     deserializeAttachment: {
       configurable: !0,
       value: function() {
-        return V.get(n).__user ?? null;
+        return ee.get(r).__user ?? null;
       }
     },
     serializeAttachment: {
       configurable: !0,
-      value: function(m) {
-        const E = {
-          ...V.get(n),
-          __user: m ?? null
+      value: function(d) {
+        const g = {
+          ...ee.get(r),
+          __user: d ?? null
         };
-        V.set(n, E);
+        ee.set(r, g);
       }
     }
   });
-  return o && i.setState(o), Ie.add(i), i;
+  return o && i.setState(o), $e.add(i), i;
 };
-var Xe = class {
+var tt = class {
   index = 0;
   sockets;
-  constructor(n, o) {
-    this.state = n, this.tag = o;
+  constructor(r, o) {
+    this.state = r, this.tag = o;
   }
   [Symbol.iterator]() {
     return this;
   }
   next() {
-    const n = this.sockets ?? (this.sockets = this.state.getWebSockets(this.tag));
+    const r = this.sockets ?? (this.sockets = this.state.getWebSockets(this.tag));
     let o;
-    for (; o = n[this.index++]; ) if (o.readyState === WebSocket.READY_STATE_OPEN) {
-      if (!ue(o)) continue;
+    for (; o = r[this.index++]; ) if (o.readyState === WebSocket.READY_STATE_OPEN) {
+      if (!ce(o)) continue;
       return {
         done: !1,
-        value: F(o)
+        value: te(o)
       };
     }
     return {
@@ -134,8 +134,8 @@ var Xe = class {
     };
   }
 };
-function He(n, o) {
-  const i = [n, ...o.filter((c) => c !== n)];
+function qe(r, o) {
+  const i = [r, ...o.filter((c) => c !== r)];
   if (i.length > 10) throw new Error("A connection can only have 10 tags, including the default id tag.");
   for (const c of i) {
     if (typeof c != "string") throw new Error(`A connection tag must be a string. Received: ${c}`);
@@ -144,71 +144,110 @@ function He(n, o) {
   }
   return i;
 }
-var Ze = class {
+var rt = class {
   #t = /* @__PURE__ */ new Map();
   tags = /* @__PURE__ */ new WeakMap();
   getCount() {
     return this.#t.size;
   }
-  getConnection(n) {
-    return this.#t.get(n);
+  getConnection(r) {
+    return this.#t.get(r);
   }
-  *getConnections(n) {
-    if (!n) {
+  *getConnections(r) {
+    if (!r) {
       yield* this.#t.values().filter((o) => o.readyState === WebSocket.READY_STATE_OPEN);
       return;
     }
-    for (const o of this.#t.values()) (this.tags.get(o) ?? []).includes(n) && (yield o);
+    for (const o of this.#t.values()) (this.tags.get(o) ?? []).includes(r) && (yield o);
   }
-  accept(n, o) {
-    n.accept();
-    const i = He(n.id, o.tags);
-    this.#t.set(n.id, n), this.tags.set(n, i), Object.defineProperty(n, "tags", {
+  accept(r, o) {
+    r.accept();
+    const i = qe(r.id, o.tags);
+    this.#t.set(r.id, r), this.tags.set(r, i), Object.defineProperty(r, "tags", {
       get: () => i,
       configurable: !0
     });
     const c = () => {
-      this.#t.delete(n.id), n.removeEventListener("close", c), n.removeEventListener("error", c);
+      this.#t.delete(r.id), r.removeEventListener("close", c), r.removeEventListener("error", c);
     };
-    return n.addEventListener("close", c), n.addEventListener("error", c), n;
+    return r.addEventListener("close", c), r.addEventListener("error", c), r;
   }
-}, Je = class {
-  constructor(n) {
-    this.controller = n;
+}, nt = class {
+  constructor(r) {
+    this.controller = r;
   }
   getCount() {
-    let n = 0;
-    for (const o of this.controller.getWebSockets()) ue(o) && n++;
-    return n;
+    let r = 0;
+    for (const o of this.controller.getWebSockets()) ce(o) && r++;
+    return r;
   }
-  getConnection(n) {
-    const o = this.controller.getWebSockets(n).filter((i) => We(i)?.id === n);
+  getConnection(r) {
+    const o = this.controller.getWebSockets(r).filter((i) => Ue(i)?.id === r);
     if (o.length !== 0) {
-      if (o.length === 1) return F(o[0]);
-      throw new Error(`More than one connection found for id ${n}. Did you mean to use getConnections(tag) instead?`);
+      if (o.length === 1) return te(o[0]);
+      throw new Error(`More than one connection found for id ${r}. Did you mean to use getConnections(tag) instead?`);
     }
   }
-  getConnections(n) {
-    return new Xe(this.controller, n);
+  getConnections(r) {
+    return new tt(this.controller, r);
   }
-  accept(n, o) {
-    const i = He(n.id, o.tags);
-    return this.controller.acceptWebSocket(n, i), n.serializeAttachment({
+  accept(r, o) {
+    const i = qe(r.id, o.tags);
+    return this.controller.acceptWebSocket(r, i), r.serializeAttachment({
       __pk: {
-        id: n.id,
+        id: r.id,
         tags: i,
-        uri: n.uri ?? void 0
+        uri: r.uri ?? void 0
       },
       __user: null
-    }), F(n);
+    }), te(r);
   }
 };
-const ve = "__ps_name";
-var et = class extends Ge {
+const _e = "__ps_name", Ee = /* @__PURE__ */ new WeakMap(), De = /* @__PURE__ */ new WeakMap();
+function Ie(r) {
+  if (r === r.toUpperCase() && r !== r.toLowerCase()) return r.toLowerCase().replace(/_/g, "-");
+  let o = r.replace(/[A-Z]/g, (i) => `-${i.toLowerCase()}`);
+  return o = o.startsWith("-") ? o.slice(1) : o, o.replace(/_/g, "-").replace(/-$/, "");
+}
+function ot(r) {
+  return null;
+}
+async function st(r, o = Fe, i) {
+  if (!Ee.has(o)) {
+    const A = {}, O = {};
+    for (const [z, P] of Object.entries(o)) if (P && typeof P == "object" && "idFromName" in P && typeof P.idFromName == "function") {
+      const Y = Ie(z);
+      A[Y] = P, O[Y] = z;
+    }
+    Ee.set(o, A), De.set(o, O);
+  }
+  const c = Ee.get(o), d = De.get(o), g = "parties".split("/"), C = new URL(r.url).pathname.split("/").filter(Boolean);
+  if (!g.every((A, O) => C[O] === A) || C.length < g.length + 2) return null;
+  const R = C[g.length], j = C[g.length + 1];
+  if (j && R) {
+    let z = function(U) {
+      if (!A || O) return U;
+      const B = new Response(U.body, U);
+      for (const [I, q] of Object.entries(A)) B.headers.set(I, q);
+      return B;
+    };
+    if (!c[R])
+      return R === "main" ? (console.warn("You appear to be migrating a PartyKit project to PartyServer."), console.warn(`PartyServer doesn't have a "main" party by default. Try adding this to your PartySocket client:
+ 
+party: "${Ie(Object.keys(c)[0])}"`)) : console.error(`The url ${r.url}  with namespace "${R}" and name "${j}" does not match any server namespace. 
+Did you forget to add a durable object binding to the class ${R[0].toUpperCase() + R.slice(1)} in your wrangler.jsonc?`), new Response("Invalid request", { status: 400 });
+    const A = ot(), O = r.headers.get("Upgrade")?.toLowerCase() === "websocket";
+    if (r.method === "OPTIONS" && A) return new Response(null, { headers: A });
+    let P = c[R];
+    const Y = P.idFromName(j), H = P.get(Y, i);
+    return r = new Request(r), r.headers.set("x-partykit-namespace", R), d[R], O ? (await H.setName(j, i?.props), await H.fetch(r)) : z(await H._initAndFetch(j, i?.props, r));
+  } else return null;
+}
+var at = class extends Ve {
   static options = { hibernate: !1 };
   #t = "zero";
   #r = Object.getPrototypeOf(this).constructor;
-  #o = this.#r.options.hibernate ? new Je(this.ctx) : new Ze();
+  #o = this.#r.options.hibernate ? new nt(this.ctx) : new rt();
   /**
   * Execute SQL queries against the Server's database
   * @template T Type of the returned rows
@@ -216,56 +255,56 @@ var et = class extends Ge {
   * @param values Values to be inserted into the query
   * @returns Array of query results
   */
-  sql(n, ...o) {
+  sql(r, ...o) {
     let i = "";
     try {
-      return i = n.reduce((c, m, E) => c + m + (E < o.length ? "?" : ""), ""), [...this.ctx.storage.sql.exec(i, ...o)];
+      return i = r.reduce((c, d, g) => c + d + (g < o.length ? "?" : ""), ""), [...this.ctx.storage.sql.exec(i, ...o)];
     } catch (c) {
       throw console.error(`failed to execute sql query: ${i}`, c), this.onException(c);
     }
   }
-  constructor(n, o) {
-    super(n, o);
+  constructor(r, o) {
+    super(r, o);
   }
   /**
   * Handle incoming requests to the server.
   */
-  async fetch(n) {
+  async fetch(r) {
     try {
-      const o = n.headers.get("x-partykit-props");
+      const o = r.headers.get("x-partykit-props");
       if (o && (this.#s = JSON.parse(o)), this.#e || await this.#a(), !this.#e) {
-        const c = n.headers.get("x-partykit-room");
+        const c = r.headers.get("x-partykit-room");
         if (!c) throw new Error(`Missing namespace or room headers when connecting to ${this.#r.name}.
 Did you try connecting directly to this Durable Object? Try using getServerByName(namespace, id) instead.`);
         await this.setName(c);
       }
       await this.#n();
-      const i = new URL(n.url);
-      if (n.headers.get("Upgrade")?.toLowerCase() !== "websocket") return await this.onRequest(n);
+      const i = new URL(r.url);
+      if (r.headers.get("Upgrade")?.toLowerCase() !== "websocket") return await this.onRequest(r);
       {
-        const { 0: c, 1: m } = new WebSocketPair();
-        let E = i.searchParams.get("_pk");
-        E || (E = Ke());
-        let C = Object.assign(m, {
-          id: E,
-          uri: n.url,
+        const { 0: c, 1: d } = new WebSocketPair();
+        let g = i.searchParams.get("_pk");
+        g || (g = Ze());
+        let C = Object.assign(d, {
+          id: g,
+          uri: r.url,
           server: this.name,
           tags: [],
           state: null,
-          setState(L) {
-            let N;
-            return L instanceof Function ? N = L(this.state) : N = L, this.state = N, this.state;
+          setState(A) {
+            let O;
+            return A instanceof Function ? O = A(this.state) : O = A, this.state = O, this.state;
           }
         });
-        const j = { request: n }, H = await this.getConnectionTags(C, j);
-        return C = this.#o.accept(C, { tags: H }), this.#r.options.hibernate || this.#u(C), await this.onConnect(C, j), new Response(null, {
+        const R = { request: r }, j = await this.getConnectionTags(C, R);
+        return C = this.#o.accept(C, { tags: j }), this.#r.options.hibernate || this.#u(C), await this.onConnect(C, R), new Response(null, {
           status: 101,
           webSocket: c
         });
       }
     } catch (o) {
       if (console.error(`Error in ${this.#r.name}:${this.#e ?? "<unnamed>"} fetch:`, o), !(o instanceof Error)) throw o;
-      if (n.headers.get("Upgrade") === "websocket") {
+      if (r.headers.get("Upgrade") === "websocket") {
         const i = new WebSocketPair();
         return i[1].accept(), i[1].send(JSON.stringify({ error: o.stack })), i[1].close(1011, "Uncaught exception during session setup"), new Response(null, {
           status: 101,
@@ -274,28 +313,28 @@ Did you try connecting directly to this Durable Object? Try using getServerByNam
       } else return new Response(o.stack, { status: 500 });
     }
   }
-  async webSocketMessage(n, o) {
-    if (ue(n))
+  async webSocketMessage(r, o) {
+    if (ce(r))
       try {
-        const i = F(n);
+        const i = te(r);
         return await this.#n(), i.server = this.name, this.onMessage(i, o);
       } catch (i) {
         console.error(`Error in ${this.#r.name}:${this.#e ?? "<unnamed>"} webSocketMessage:`, i);
       }
   }
-  async webSocketClose(n, o, i, c) {
-    if (ue(n))
+  async webSocketClose(r, o, i, c) {
+    if (ce(r))
       try {
-        const m = F(n);
-        return await this.#n(), m.server = this.name, this.onClose(m, o, i, c);
-      } catch (m) {
-        console.error(`Error in ${this.#r.name}:${this.#e ?? "<unnamed>"} webSocketClose:`, m);
+        const d = te(r);
+        return await this.#n(), d.server = this.name, this.onClose(d, o, i, c);
+      } catch (d) {
+        console.error(`Error in ${this.#r.name}:${this.#e ?? "<unnamed>"} webSocketClose:`, d);
       }
   }
-  async webSocketError(n, o) {
-    if (ue(n))
+  async webSocketError(r, o) {
+    if (ce(r))
       try {
-        const i = F(n);
+        const i = te(r);
         return await this.#n(), i.server = this.name, this.onError(i, o);
       } catch (i) {
         console.error(`Error in ${this.#r.name}:${this.#e ?? "<unnamed>"} webSocketError:`, i);
@@ -303,8 +342,8 @@ Did you try connecting directly to this Durable Object? Try using getServerByNam
   }
   async #a() {
     if (this.#e) return;
-    const n = await this.ctx.storage.get(ve);
-    n && (this.#e = n);
+    const r = await this.ctx.storage.get(_e);
+    r && (this.#e = r);
   }
   /**
   * @internal — Do not use directly. This is an escape hatch for frameworks
@@ -319,31 +358,31 @@ Did you try connecting directly to this Durable Object? Try using getServerByNam
   async #n() {
     if (this.#t === "started") return;
     await this.#a();
-    let n;
+    let r;
     if (await this.ctx.blockConcurrencyWhile(async () => {
       this.#t = "starting";
       try {
         await this.onStart(this.#s), this.#t = "started";
       } catch (o) {
-        this.#t = "zero", n = o;
+        this.#t = "zero", r = o;
       }
-    }), n) throw n;
+    }), r) throw r;
   }
-  #u(n) {
-    const o = (m) => {
-      this.onMessage(n, m.data)?.catch((E) => {
-        console.error("onMessage error:", E);
+  #u(r) {
+    const o = (d) => {
+      this.onMessage(r, d.data)?.catch((g) => {
+        console.error("onMessage error:", g);
       });
-    }, i = (m) => {
-      n.removeEventListener("message", o), n.removeEventListener("close", i), this.onClose(n, m.code, m.reason, m.wasClean)?.catch((E) => {
-        console.error("onClose error:", E);
+    }, i = (d) => {
+      r.removeEventListener("message", o), r.removeEventListener("close", i), this.onClose(r, d.code, d.reason, d.wasClean)?.catch((g) => {
+        console.error("onClose error:", g);
       });
-    }, c = (m) => {
-      n.removeEventListener("message", o), n.removeEventListener("error", c), this.onError(n, m.error)?.catch((E) => {
-        console.error("onError error:", E);
+    }, c = (d) => {
+      r.removeEventListener("message", o), r.removeEventListener("error", c), this.onError(r, d.error)?.catch((g) => {
+        console.error("onError error:", g);
       });
     };
-    n.addEventListener("close", i), n.addEventListener("error", c), n.addEventListener("message", o);
+    r.addEventListener("close", i), r.addEventListener("error", c), r.addEventListener("message", o);
   }
   #e;
   /**
@@ -355,87 +394,87 @@ Did you try connecting directly to this Durable Object? Try using getServerByNam
     if (!this.#e) throw new Error(`Attempting to read .name on ${this.#r.name} before it was set. The name can be set by explicitly calling .setName(name) on the stub, or by using routePartyKitRequest(). This is a known issue and will be fixed soon. Follow https://github.com/cloudflare/workerd/issues/2240 for more updates.`);
     return this.#e;
   }
-  async setName(n, o) {
-    if (!n) throw new Error("A name is required.");
-    if (this.#e && this.#e !== n) throw new Error(`This server already has a name: ${this.#e}, attempting to set to: ${n}`);
-    o !== void 0 && (this.#s = o), this.#e !== n && (this.#e = n, await this.ctx.storage.put(ve, n), await this.#n());
+  async setName(r, o) {
+    if (!r) throw new Error("A name is required.");
+    if (this.#e && this.#e !== r) throw new Error(`This server already has a name: ${this.#e}, attempting to set to: ${r}`);
+    o !== void 0 && (this.#s = o), this.#e !== r && (this.#e = r, await this.ctx.storage.put(_e, r), await this.#n());
   }
   /**
   * @internal Sets name/props and handles a request in a single RPC call.
   * Used by routePartykitRequest to avoid an extra round trip.
   */
-  async _initAndFetch(n, o, i) {
-    if (o !== void 0 && (this.#s = o), this.#e && this.#e !== n) throw new Error(`This server already has a name: ${this.#e}, attempting to set to: ${n}`);
-    return this.#e || (this.#e = n, await this.ctx.storage.put(ve, n)), this.fetch(i);
+  async _initAndFetch(r, o, i) {
+    if (o !== void 0 && (this.#s = o), this.#e && this.#e !== r) throw new Error(`This server already has a name: ${this.#e}, attempting to set to: ${r}`);
+    return this.#e || (this.#e = r, await this.ctx.storage.put(_e, r)), this.fetch(i);
   }
-  #i(n, o) {
+  #i(r, o) {
     try {
-      n.send(o);
+      r.send(o);
     } catch {
-      n.close(1011, "Unexpected error");
+      r.close(1011, "Unexpected error");
     }
   }
   /** Send a message to all connected clients, except connection ids listed in `without` */
-  broadcast(n, o) {
-    for (const i of this.#o.getConnections()) (!o || !o.includes(i.id)) && this.#i(i, n);
+  broadcast(r, o) {
+    for (const i of this.#o.getConnections()) (!o || !o.includes(i.id)) && this.#i(i, r);
   }
   /** Get a connection by connection id */
-  getConnection(n) {
-    return this.#o.getConnection(n);
+  getConnection(r) {
+    return this.#o.getConnection(r);
   }
   /**
   * Get all connections. Optionally, you can provide a tag to filter returned connections.
   * Use `Server#getConnectionTags` to tag the connection on connect.
   */
-  getConnections(n) {
-    return this.#o.getConnections(n);
+  getConnections(r) {
+    return this.#o.getConnections(r);
   }
   /**
   * You can tag a connection to filter them in Server#getConnections.
   * Each connection supports up to 9 tags, each tag max length is 256 characters.
   */
-  getConnectionTags(n, o) {
+  getConnectionTags(r, o) {
     return [];
   }
   #s;
   /**
   * Called when the server is started for the first time.
   */
-  onStart(n) {
+  onStart(r) {
   }
   /**
   * Called when a new connection is made to the server.
   */
-  onConnect(n, o) {
+  onConnect(r, o) {
   }
   /**
   * Called when a message is received from a connection.
   */
-  onMessage(n, o) {
+  onMessage(r, o) {
   }
   /**
   * Called when a connection is closed.
   */
-  onClose(n, o, i, c) {
+  onClose(r, o, i, c) {
   }
   /**
   * Called when an error occurs on a connection.
   */
-  onError(n, o) {
-    console.error(`Error on connection ${n.id} in ${this.#r.name}:${this.name}:`, o), console.info(`Implement onError on ${this.#r.name} to handle this error.`);
+  onError(r, o) {
+    console.error(`Error on connection ${r.id} in ${this.#r.name}:${this.name}:`, o), console.info(`Implement onError on ${this.#r.name} to handle this error.`);
   }
   /**
   * Called when a request is made to the server.
   */
-  onRequest(n) {
-    return console.warn(`onRequest hasn't been implemented on ${this.#r.name}:${this.name} responding to ${n.url}`), new Response("Not implemented", { status: 404 });
+  onRequest(r) {
+    return console.warn(`onRequest hasn't been implemented on ${this.#r.name}:${this.name} responding to ${r.url}`), new Response("Not implemented", { status: 404 });
   }
   /**
   * Called when an exception occurs.
   * @param error - The error that occurred.
   */
-  onException(n) {
-    console.error(`Exception in ${this.#r.name}:${this.name}:`, n), console.info(`Implement onException on ${this.#r.name} to handle this error.`);
+  onException(r) {
+    console.error(`Exception in ${this.#r.name}:${this.name}:`, r), console.info(`Implement onException on ${this.#r.name} to handle this error.`);
   }
   onAlarm() {
     console.log(`Implement onAlarm on ${this.#r.name} to handle alarms.`);
@@ -444,15 +483,15 @@ Did you try connecting directly to this Durable Object? Try using getServerByNam
     await this.#n(), await this.onAlarm();
   }
 }, ge = { exports: {} }, p = {};
-var Le;
-function tt() {
-  if (Le) return p;
-  Le = 1;
-  var n = /* @__PURE__ */ Symbol.for("react.transitional.element"), o = /* @__PURE__ */ Symbol.for("react.portal"), i = /* @__PURE__ */ Symbol.for("react.fragment"), c = /* @__PURE__ */ Symbol.for("react.strict_mode"), m = /* @__PURE__ */ Symbol.for("react.profiler"), E = /* @__PURE__ */ Symbol.for("react.consumer"), C = /* @__PURE__ */ Symbol.for("react.context"), j = /* @__PURE__ */ Symbol.for("react.forward_ref"), H = /* @__PURE__ */ Symbol.for("react.suspense"), L = /* @__PURE__ */ Symbol.for("react.memo"), N = /* @__PURE__ */ Symbol.for("react.lazy"), q = /* @__PURE__ */ Symbol.for("react.activity"), X = Symbol.iterator;
-  function ie(t) {
-    return t === null || typeof t != "object" ? null : (t = X && t[X] || t["@@iterator"], typeof t == "function" ? t : null);
+var We;
+function ut() {
+  if (We) return p;
+  We = 1;
+  var r = /* @__PURE__ */ Symbol.for("react.transitional.element"), o = /* @__PURE__ */ Symbol.for("react.portal"), i = /* @__PURE__ */ Symbol.for("react.fragment"), c = /* @__PURE__ */ Symbol.for("react.strict_mode"), d = /* @__PURE__ */ Symbol.for("react.profiler"), g = /* @__PURE__ */ Symbol.for("react.consumer"), C = /* @__PURE__ */ Symbol.for("react.context"), R = /* @__PURE__ */ Symbol.for("react.forward_ref"), j = /* @__PURE__ */ Symbol.for("react.suspense"), A = /* @__PURE__ */ Symbol.for("react.memo"), O = /* @__PURE__ */ Symbol.for("react.lazy"), z = /* @__PURE__ */ Symbol.for("react.activity"), P = Symbol.iterator;
+  function Y(t) {
+    return t === null || typeof t != "object" ? null : (t = P && t[P] || t["@@iterator"], typeof t == "function" ? t : null);
   }
-  var Z = {
+  var H = {
     isMounted: function() {
       return !1;
     },
@@ -462,46 +501,46 @@ function tt() {
     },
     enqueueSetState: function() {
     }
-  }, J = Object.assign, ce = {};
-  function D(t, a, h) {
-    this.props = t, this.context = a, this.refs = ce, this.updater = h || Z;
+  }, U = Object.assign, B = {};
+  function I(t, a, h) {
+    this.props = t, this.context = a, this.refs = B, this.updater = h || H;
   }
-  D.prototype.isReactComponent = {}, D.prototype.setState = function(t, a) {
+  I.prototype.isReactComponent = {}, I.prototype.setState = function(t, a) {
     if (typeof t != "object" && typeof t != "function" && t != null)
       throw Error(
         "takes an object of state variables to update or a function which returns an object of state variables."
       );
     this.updater.enqueueSetState(this, t, a, "setState");
-  }, D.prototype.forceUpdate = function(t) {
+  }, I.prototype.forceUpdate = function(t) {
     this.updater.enqueueForceUpdate(this, t, "forceUpdate");
   };
-  function Q() {
+  function q() {
   }
-  Q.prototype = D.prototype;
-  function ee(t, a, h) {
-    this.props = t, this.context = a, this.refs = ce, this.updater = h || Z;
+  q.prototype = I.prototype;
+  function re(t, a, h) {
+    this.props = t, this.context = a, this.refs = B, this.updater = h || H;
   }
-  var x = ee.prototype = new Q();
-  x.constructor = ee, J(x, D.prototype), x.isPureReactComponent = !0;
-  var z = Array.isArray;
-  function te() {
+  var V = re.prototype = new q();
+  V.constructor = re, U(V, I.prototype), V.isPureReactComponent = !0;
+  var $ = Array.isArray;
+  function ne() {
   }
-  var b = { H: null, A: null, T: null, S: null }, fe = Object.prototype.hasOwnProperty;
-  function M(t, a, h) {
-    var l = h.ref;
+  var b = { H: null, A: null, T: null, S: null }, le = Object.prototype.hasOwnProperty;
+  function W(t, a, h) {
+    var f = h.ref;
     return {
-      $$typeof: n,
+      $$typeof: r,
       type: t,
       key: a,
-      ref: l !== void 0 ? l : null,
+      ref: f !== void 0 ? f : null,
       props: h
     };
   }
-  function G(t, a) {
-    return M(t.type, a, t.props);
+  function X(t, a) {
+    return W(t.type, a, t.props);
   }
-  function re(t) {
-    return typeof t == "object" && t !== null && t.$$typeof === n;
+  function oe(t) {
+    return typeof t == "object" && t !== null && t.$$typeof === r;
   }
   function k(t) {
     var a = { "=": "=0", ":": "=2" };
@@ -509,18 +548,18 @@ function tt() {
       return a[h];
     });
   }
-  var ne = /\/+/g;
-  function Y(t, a) {
+  var se = /\/+/g;
+  function Q(t, a) {
     return typeof t == "object" && t !== null && t.key != null ? k("" + t.key) : a.toString(36);
   }
-  function U(t) {
+  function K(t) {
     switch (t.status) {
       case "fulfilled":
         return t.value;
       case "rejected":
         throw t.reason;
       default:
-        switch (typeof t.status == "string" ? t.then(te, te) : (t.status = "pending", t.then(
+        switch (typeof t.status == "string" ? t.then(ne, ne) : (t.status = "pending", t.then(
           function(a) {
             t.status === "pending" && (t.status = "fulfilled", t.value = a);
           },
@@ -536,7 +575,7 @@ function tt() {
     }
     throw t;
   }
-  function P(t, a, h, l, v) {
+  function D(t, a, h, f, E) {
     var w = typeof t;
     (w === "undefined" || w === "boolean") && (t = null);
     var T = !1;
@@ -550,58 +589,58 @@ function tt() {
           break;
         case "object":
           switch (t.$$typeof) {
-            case n:
+            case r:
             case o:
               T = !0;
               break;
-            case N:
-              return T = t._init, P(
+            case O:
+              return T = t._init, D(
                 T(t._payload),
                 a,
                 h,
-                l,
-                v
+                f,
+                E
               );
           }
       }
     if (T)
-      return v = v(t), T = l === "" ? "." + Y(t, 0) : l, z(v) ? (h = "", T != null && (h = T.replace(ne, "$&/") + "/"), P(v, a, h, "", function($) {
-        return $;
-      })) : v != null && (re(v) && (v = G(
-        v,
-        h + (v.key == null || t && t.key === v.key ? "" : ("" + v.key).replace(
-          ne,
+      return E = E(t), T = f === "" ? "." + Q(t, 0) : f, $(E) ? (h = "", T != null && (h = T.replace(se, "$&/") + "/"), D(E, a, h, "", function(F) {
+        return F;
+      })) : E != null && (oe(E) && (E = X(
+        E,
+        h + (E.key == null || t && t.key === E.key ? "" : ("" + E.key).replace(
+          se,
           "$&/"
         ) + "/") + T
-      )), a.push(v)), 1;
+      )), a.push(E)), 1;
     T = 0;
-    var A = l === "" ? "." : l + ":";
-    if (z(t))
-      for (var R = 0; R < t.length; R++)
-        l = t[R], w = A + Y(l, R), T += P(
-          l,
+    var M = f === "" ? "." : f + ":";
+    if ($(t))
+      for (var N = 0; N < t.length; N++)
+        f = t[N], w = M + Q(f, N), T += D(
+          f,
           a,
           h,
           w,
-          v
+          E
         );
-    else if (R = ie(t), typeof R == "function")
-      for (t = R.call(t), R = 0; !(l = t.next()).done; )
-        l = l.value, w = A + Y(l, R++), T += P(
-          l,
+    else if (N = Y(t), typeof N == "function")
+      for (t = N.call(t), N = 0; !(f = t.next()).done; )
+        f = f.value, w = M + Q(f, N++), T += D(
+          f,
           a,
           h,
           w,
-          v
+          E
         );
     else if (w === "object") {
       if (typeof t.then == "function")
-        return P(
-          U(t),
+        return D(
+          K(t),
           a,
           h,
-          l,
-          v
+          f,
+          E
         );
       throw a = String(t), Error(
         "Objects are not valid as a React child (found: " + (a === "[object Object]" ? "object with keys {" + Object.keys(t).join(", ") + "}" : a) + "). If you meant to render a collection of children, use an array instead."
@@ -609,14 +648,14 @@ function tt() {
     }
     return T;
   }
-  function W(t, a, h) {
+  function x(t, a, h) {
     if (t == null) return t;
-    var l = [], v = 0;
-    return P(t, l, "", "", function(w) {
-      return a.call(h, w, v++);
-    }), l;
+    var f = [], E = 0;
+    return D(t, f, "", "", function(w) {
+      return a.call(h, w, E++);
+    }), f;
   }
-  function oe(t) {
+  function ae(t) {
     if (t._status === -1) {
       var a = t._result;
       a = a(), a.then(
@@ -631,7 +670,7 @@ function tt() {
     if (t._status === 1) return t._result.default;
     throw t._result;
   }
-  var B = typeof reportError == "function" ? reportError : function(t) {
+  var Z = typeof reportError == "function" ? reportError : function(t) {
     if (typeof window == "object" && typeof window.ErrorEvent == "function") {
       var a = new window.ErrorEvent("error", {
         bubbles: !0,
@@ -645,10 +684,10 @@ function tt() {
       return;
     }
     console.error(t);
-  }, le = {
-    map: W,
+  }, fe = {
+    map: x,
     forEach: function(t, a, h) {
-      W(
+      x(
         t,
         function() {
           a.apply(this, arguments);
@@ -658,24 +697,24 @@ function tt() {
     },
     count: function(t) {
       var a = 0;
-      return W(t, function() {
+      return x(t, function() {
         a++;
       }), a;
     },
     toArray: function(t) {
-      return W(t, function(a) {
+      return x(t, function(a) {
         return a;
       }) || [];
     },
     only: function(t) {
-      if (!re(t))
+      if (!oe(t))
         throw Error(
           "React.Children.only expected to receive a single React element child."
         );
       return t;
     }
   };
-  return p.Activity = q, p.Children = le, p.Component = D, p.Fragment = i, p.Profiler = m, p.PureComponent = ee, p.StrictMode = c, p.Suspense = H, p.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = b, p.__COMPILER_RUNTIME = {
+  return p.Activity = z, p.Children = fe, p.Component = I, p.Fragment = i, p.Profiler = d, p.PureComponent = re, p.StrictMode = c, p.Suspense = j, p.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = b, p.__COMPILER_RUNTIME = {
     __proto__: null,
     c: function(t) {
       return b.H.useMemoCache(t);
@@ -691,18 +730,18 @@ function tt() {
       throw Error(
         "The argument must be a React element, but you passed " + t + "."
       );
-    var l = J({}, t.props), v = t.key;
+    var f = U({}, t.props), E = t.key;
     if (a != null)
-      for (w in a.key !== void 0 && (v = "" + a.key), a)
-        !fe.call(a, w) || w === "key" || w === "__self" || w === "__source" || w === "ref" && a.ref === void 0 || (l[w] = a[w]);
+      for (w in a.key !== void 0 && (E = "" + a.key), a)
+        !le.call(a, w) || w === "key" || w === "__self" || w === "__source" || w === "ref" && a.ref === void 0 || (f[w] = a[w]);
     var w = arguments.length - 2;
-    if (w === 1) l.children = h;
+    if (w === 1) f.children = h;
     else if (1 < w) {
-      for (var T = Array(w), A = 0; A < w; A++)
-        T[A] = arguments[A + 2];
-      l.children = T;
+      for (var T = Array(w), M = 0; M < w; M++)
+        T[M] = arguments[M + 2];
+      f.children = T;
     }
-    return M(t.type, v, l);
+    return W(t.type, E, f);
   }, p.createContext = function(t) {
     return t = {
       $$typeof: C,
@@ -712,38 +751,38 @@ function tt() {
       Provider: null,
       Consumer: null
     }, t.Provider = t, t.Consumer = {
-      $$typeof: E,
+      $$typeof: g,
       _context: t
     }, t;
   }, p.createElement = function(t, a, h) {
-    var l, v = {}, w = null;
+    var f, E = {}, w = null;
     if (a != null)
-      for (l in a.key !== void 0 && (w = "" + a.key), a)
-        fe.call(a, l) && l !== "key" && l !== "__self" && l !== "__source" && (v[l] = a[l]);
+      for (f in a.key !== void 0 && (w = "" + a.key), a)
+        le.call(a, f) && f !== "key" && f !== "__self" && f !== "__source" && (E[f] = a[f]);
     var T = arguments.length - 2;
-    if (T === 1) v.children = h;
+    if (T === 1) E.children = h;
     else if (1 < T) {
-      for (var A = Array(T), R = 0; R < T; R++)
-        A[R] = arguments[R + 2];
-      v.children = A;
+      for (var M = Array(T), N = 0; N < T; N++)
+        M[N] = arguments[N + 2];
+      E.children = M;
     }
     if (t && t.defaultProps)
-      for (l in T = t.defaultProps, T)
-        v[l] === void 0 && (v[l] = T[l]);
-    return M(t, w, v);
+      for (f in T = t.defaultProps, T)
+        E[f] === void 0 && (E[f] = T[f]);
+    return W(t, w, E);
   }, p.createRef = function() {
     return { current: null };
   }, p.forwardRef = function(t) {
-    return { $$typeof: j, render: t };
-  }, p.isValidElement = re, p.lazy = function(t) {
+    return { $$typeof: R, render: t };
+  }, p.isValidElement = oe, p.lazy = function(t) {
     return {
-      $$typeof: N,
+      $$typeof: O,
       _payload: { _status: -1, _result: t },
-      _init: oe
+      _init: ae
     };
   }, p.memo = function(t, a) {
     return {
-      $$typeof: L,
+      $$typeof: A,
       type: t,
       compare: a === void 0 ? null : a
     };
@@ -751,10 +790,10 @@ function tt() {
     var a = b.T, h = {};
     b.T = h;
     try {
-      var l = t(), v = b.S;
-      v !== null && v(h, l), typeof l == "object" && l !== null && typeof l.then == "function" && l.then(te, B);
+      var f = t(), E = b.S;
+      E !== null && E(h, f), typeof f == "object" && f !== null && typeof f.then == "function" && f.then(ne, Z);
     } catch (w) {
-      B(w);
+      Z(w);
     } finally {
       a !== null && h.types !== null && (a.types = h.types), b.T = a;
     }
@@ -803,69 +842,69 @@ function tt() {
     return b.H.useTransition();
   }, p.version = "19.2.3", p;
 }
-var ae = { exports: {} };
-ae.exports;
-var De;
-function rt() {
-  return De || (De = 1, (function(n, o) {
+var ie = { exports: {} };
+ie.exports;
+var Ye;
+function it() {
+  return Ye || (Ye = 1, (function(r, o) {
     process.env.NODE_ENV !== "production" && (function() {
-      function i(e, r) {
-        Object.defineProperty(E.prototype, e, {
+      function i(e, n) {
+        Object.defineProperty(g.prototype, e, {
           get: function() {
             console.warn(
               "%s(...) is deprecated in plain JavaScript React classes. %s",
-              r[0],
-              r[1]
+              n[0],
+              n[1]
             );
           }
         });
       }
       function c(e) {
-        return e === null || typeof e != "object" ? null : (e = we && e[we] || e["@@iterator"], typeof e == "function" ? e : null);
+        return e === null || typeof e != "object" ? null : (e = be && e[be] || e["@@iterator"], typeof e == "function" ? e : null);
       }
-      function m(e, r) {
+      function d(e, n) {
         e = (e = e.constructor) && (e.displayName || e.name) || "ReactClass";
-        var s = e + "." + r;
-        be[s] || (console.error(
+        var s = e + "." + n;
+        Te[s] || (console.error(
           "Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.",
-          r,
+          n,
           e
-        ), be[s] = !0);
+        ), Te[s] = !0);
       }
-      function E(e, r, s) {
-        this.props = e, this.context = r, this.refs = ye, this.updater = s || Te;
+      function g(e, n, s) {
+        this.props = e, this.context = n, this.refs = ye, this.updater = s || Se;
       }
       function C() {
       }
-      function j(e, r, s) {
-        this.props = e, this.context = r, this.refs = ye, this.updater = s || Te;
+      function R(e, n, s) {
+        this.props = e, this.context = n, this.refs = ye, this.updater = s || Se;
       }
-      function H() {
+      function j() {
       }
-      function L(e) {
+      function A(e) {
         return "" + e;
       }
-      function N(e) {
+      function O(e) {
         try {
-          L(e);
-          var r = !1;
+          A(e);
+          var n = !1;
         } catch {
-          r = !0;
+          n = !0;
         }
-        if (r) {
-          r = console;
-          var s = r.error, u = typeof Symbol == "function" && Symbol.toStringTag && e[Symbol.toStringTag] || e.constructor.name || "Object";
+        if (n) {
+          n = console;
+          var s = n.error, u = typeof Symbol == "function" && Symbol.toStringTag && e[Symbol.toStringTag] || e.constructor.name || "Object";
           return s.call(
-            r,
+            n,
             "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
             u
-          ), L(e);
+          ), A(e);
         }
       }
-      function q(e) {
+      function z(e) {
         if (e == null) return null;
         if (typeof e == "function")
-          return e.$$typeof === Ue ? null : e.displayName || e.name || null;
+          return e.$$typeof === Qe ? null : e.displayName || e.name || null;
         if (typeof e == "string") return e;
         switch (e) {
           case t:
@@ -876,65 +915,65 @@ function rt() {
             return "StrictMode";
           case T:
             return "Suspense";
-          case A:
+          case M:
             return "SuspenseList";
-          case Ee:
+          case we:
             return "Activity";
         }
         if (typeof e == "object")
           switch (typeof e.tag == "number" && console.error(
             "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
           ), e.$$typeof) {
-            case le:
+            case fe:
               return "Portal";
-            case v:
+            case E:
               return e.displayName || "Context";
-            case l:
+            case f:
               return (e._context.displayName || "Context") + ".Consumer";
             case w:
-              var r = e.render;
-              return e = e.displayName, e || (e = r.displayName || r.name || "", e = e !== "" ? "ForwardRef(" + e + ")" : "ForwardRef"), e;
-            case R:
-              return r = e.displayName || null, r !== null ? r : q(e.type) || "Memo";
-            case $:
-              r = e._payload, e = e._init;
+              var n = e.render;
+              return e = e.displayName, e || (e = n.displayName || n.name || "", e = e !== "" ? "ForwardRef(" + e + ")" : "ForwardRef"), e;
+            case N:
+              return n = e.displayName || null, n !== null ? n : z(e.type) || "Memo";
+            case F:
+              n = e._payload, e = e._init;
               try {
-                return q(e(r));
+                return z(e(n));
               } catch {
               }
           }
         return null;
       }
-      function X(e) {
+      function P(e) {
         if (e === t) return "<>";
-        if (typeof e == "object" && e !== null && e.$$typeof === $)
+        if (typeof e == "object" && e !== null && e.$$typeof === F)
           return "<...>";
         try {
-          var r = q(e);
-          return r ? "<" + r + ">" : "<...>";
+          var n = z(e);
+          return n ? "<" + n + ">" : "<...>";
         } catch {
           return "<...>";
         }
       }
-      function ie() {
-        var e = g.A;
+      function Y() {
+        var e = y.A;
         return e === null ? null : e.getOwner();
       }
-      function Z() {
+      function H() {
         return Error("react-stack-top-frame");
       }
-      function J(e) {
+      function U(e) {
         if (he.call(e, "key")) {
-          var r = Object.getOwnPropertyDescriptor(e, "key").get;
-          if (r && r.isReactWarning) return !1;
+          var n = Object.getOwnPropertyDescriptor(e, "key").get;
+          if (n && n.isReactWarning) return !1;
         }
         return e.key !== void 0;
       }
-      function ce(e, r) {
+      function B(e, n) {
         function s() {
-          Ce || (Ce = !0, console.error(
+          Oe || (Oe = !0, console.error(
             "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-            r
+            n
           ));
         }
         s.isReactWarning = !0, Object.defineProperty(e, "key", {
@@ -942,23 +981,23 @@ function rt() {
           configurable: !0
         });
       }
-      function D() {
-        var e = q(this.type);
-        return Oe[e] || (Oe[e] = !0, console.error(
+      function I() {
+        var e = z(this.type);
+        return Ne[e] || (Ne[e] = !0, console.error(
           "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
         )), e = this.props.ref, e !== void 0 ? e : null;
       }
-      function Q(e, r, s, u, f, y) {
-        var d = s.ref;
+      function q(e, n, s, u, l, v) {
+        var m = s.ref;
         return e = {
-          $$typeof: B,
+          $$typeof: Z,
           type: e,
-          key: r,
+          key: n,
           props: s,
           _owner: u
-        }, (d !== void 0 ? d : null) !== null ? Object.defineProperty(e, "ref", {
+        }, (m !== void 0 ? m : null) !== null ? Object.defineProperty(e, "ref", {
           enumerable: !1,
-          get: D
+          get: I
         }) : Object.defineProperty(e, "ref", { enumerable: !1, value: null }), e._store = {}, Object.defineProperty(e._store, "validated", {
           configurable: !1,
           enumerable: !1,
@@ -973,52 +1012,52 @@ function rt() {
           configurable: !1,
           enumerable: !1,
           writable: !0,
-          value: f
+          value: l
         }), Object.defineProperty(e, "_debugTask", {
           configurable: !1,
           enumerable: !1,
           writable: !0,
-          value: y
+          value: v
         }), Object.freeze && (Object.freeze(e.props), Object.freeze(e)), e;
       }
-      function ee(e, r) {
-        return r = Q(
+      function re(e, n) {
+        return n = q(
           e.type,
-          r,
+          n,
           e.props,
           e._owner,
           e._debugStack,
           e._debugTask
-        ), e._store && (r._store.validated = e._store.validated), r;
+        ), e._store && (n._store.validated = e._store.validated), n;
       }
-      function x(e) {
-        z(e) ? e._store && (e._store.validated = 1) : typeof e == "object" && e !== null && e.$$typeof === $ && (e._payload.status === "fulfilled" ? z(e._payload.value) && e._payload.value._store && (e._payload.value._store.validated = 1) : e._store && (e._store.validated = 1));
+      function V(e) {
+        $(e) ? e._store && (e._store.validated = 1) : typeof e == "object" && e !== null && e.$$typeof === F && (e._payload.status === "fulfilled" ? $(e._payload.value) && e._payload.value._store && (e._payload.value._store.validated = 1) : e._store && (e._store.validated = 1));
       }
-      function z(e) {
-        return typeof e == "object" && e !== null && e.$$typeof === B;
+      function $(e) {
+        return typeof e == "object" && e !== null && e.$$typeof === Z;
       }
-      function te(e) {
-        var r = { "=": "=0", ":": "=2" };
+      function ne(e) {
+        var n = { "=": "=0", ":": "=2" };
         return "$" + e.replace(/[=:]/g, function(s) {
-          return r[s];
+          return n[s];
         });
       }
-      function b(e, r) {
-        return typeof e == "object" && e !== null && e.key != null ? (N(e.key), te("" + e.key)) : r.toString(36);
+      function b(e, n) {
+        return typeof e == "object" && e !== null && e.key != null ? (O(e.key), ne("" + e.key)) : n.toString(36);
       }
-      function fe(e) {
+      function le(e) {
         switch (e.status) {
           case "fulfilled":
             return e.value;
           case "rejected":
             throw e.reason;
           default:
-            switch (typeof e.status == "string" ? e.then(H, H) : (e.status = "pending", e.then(
-              function(r) {
-                e.status === "pending" && (e.status = "fulfilled", e.value = r);
+            switch (typeof e.status == "string" ? e.then(j, j) : (e.status = "pending", e.then(
+              function(n) {
+                e.status === "pending" && (e.status = "fulfilled", e.value = n);
               },
-              function(r) {
-                e.status === "pending" && (e.status = "rejected", e.reason = r);
+              function(n) {
+                e.status === "pending" && (e.status = "rejected", e.reason = n);
               }
             )), e.status) {
               case "fulfilled":
@@ -1029,136 +1068,136 @@ function rt() {
         }
         throw e;
       }
-      function M(e, r, s, u, f) {
-        var y = typeof e;
-        (y === "undefined" || y === "boolean") && (e = null);
-        var d = !1;
-        if (e === null) d = !0;
+      function W(e, n, s, u, l) {
+        var v = typeof e;
+        (v === "undefined" || v === "boolean") && (e = null);
+        var m = !1;
+        if (e === null) m = !0;
         else
-          switch (y) {
+          switch (v) {
             case "bigint":
             case "string":
             case "number":
-              d = !0;
+              m = !0;
               break;
             case "object":
               switch (e.$$typeof) {
-                case B:
-                case le:
-                  d = !0;
+                case Z:
+                case fe:
+                  m = !0;
                   break;
-                case $:
-                  return d = e._init, M(
-                    d(e._payload),
-                    r,
+                case F:
+                  return m = e._init, W(
+                    m(e._payload),
+                    n,
                     s,
                     u,
-                    f
+                    l
                   );
               }
           }
-        if (d) {
-          d = e, f = f(d);
-          var S = u === "" ? "." + b(d, 0) : u;
-          return ke(f) ? (s = "", S != null && (s = S.replace(Pe, "$&/") + "/"), M(f, r, s, "", function(I) {
-            return I;
-          })) : f != null && (z(f) && (f.key != null && (d && d.key === f.key || N(f.key)), s = ee(
-            f,
-            s + (f.key == null || d && d.key === f.key ? "" : ("" + f.key).replace(
-              Pe,
+        if (m) {
+          m = e, l = l(m);
+          var S = u === "" ? "." + b(m, 0) : u;
+          return Re(l) ? (s = "", S != null && (s = S.replace(je, "$&/") + "/"), W(l, n, s, "", function(G) {
+            return G;
+          })) : l != null && ($(l) && (l.key != null && (m && m.key === l.key || O(l.key)), s = re(
+            l,
+            s + (l.key == null || m && m.key === l.key ? "" : ("" + l.key).replace(
+              je,
               "$&/"
             ) + "/") + S
-          ), u !== "" && d != null && z(d) && d.key == null && d._store && !d._store.validated && (s._store.validated = 2), f = s), r.push(f)), 1;
+          ), u !== "" && m != null && $(m) && m.key == null && m._store && !m._store.validated && (s._store.validated = 2), l = s), n.push(l)), 1;
         }
-        if (d = 0, S = u === "" ? "." : u + ":", ke(e))
+        if (m = 0, S = u === "" ? "." : u + ":", Re(e))
           for (var _ = 0; _ < e.length; _++)
-            u = e[_], y = S + b(u, _), d += M(
+            u = e[_], v = S + b(u, _), m += W(
               u,
-              r,
+              n,
               s,
-              y,
-              f
+              v,
+              l
             );
         else if (_ = c(e), typeof _ == "function")
-          for (_ === e.entries && (Ne || console.warn(
+          for (_ === e.entries && (Pe || console.warn(
             "Using Maps as children is not supported. Use an array of keyed ReactElements instead."
-          ), Ne = !0), e = _.call(e), _ = 0; !(u = e.next()).done; )
-            u = u.value, y = S + b(u, _++), d += M(
+          ), Pe = !0), e = _.call(e), _ = 0; !(u = e.next()).done; )
+            u = u.value, v = S + b(u, _++), m += W(
               u,
-              r,
+              n,
               s,
-              y,
-              f
+              v,
+              l
             );
-        else if (y === "object") {
+        else if (v === "object") {
           if (typeof e.then == "function")
-            return M(
-              fe(e),
-              r,
+            return W(
+              le(e),
+              n,
               s,
               u,
-              f
+              l
             );
-          throw r = String(e), Error(
-            "Objects are not valid as a React child (found: " + (r === "[object Object]" ? "object with keys {" + Object.keys(e).join(", ") + "}" : r) + "). If you meant to render a collection of children, use an array instead."
+          throw n = String(e), Error(
+            "Objects are not valid as a React child (found: " + (n === "[object Object]" ? "object with keys {" + Object.keys(e).join(", ") + "}" : n) + "). If you meant to render a collection of children, use an array instead."
           );
         }
-        return d;
+        return m;
       }
-      function G(e, r, s) {
+      function X(e, n, s) {
         if (e == null) return e;
-        var u = [], f = 0;
-        return M(e, u, "", "", function(y) {
-          return r.call(s, y, f++);
+        var u = [], l = 0;
+        return W(e, u, "", "", function(v) {
+          return n.call(s, v, l++);
         }), u;
       }
-      function re(e) {
+      function oe(e) {
         if (e._status === -1) {
-          var r = e._ioInfo;
-          r != null && (r.start = r.end = performance.now()), r = e._result;
-          var s = r();
+          var n = e._ioInfo;
+          n != null && (n.start = n.end = performance.now()), n = e._result;
+          var s = n();
           if (s.then(
-            function(f) {
+            function(l) {
               if (e._status === 0 || e._status === -1) {
-                e._status = 1, e._result = f;
-                var y = e._ioInfo;
-                y != null && (y.end = performance.now()), s.status === void 0 && (s.status = "fulfilled", s.value = f);
+                e._status = 1, e._result = l;
+                var v = e._ioInfo;
+                v != null && (v.end = performance.now()), s.status === void 0 && (s.status = "fulfilled", s.value = l);
               }
             },
-            function(f) {
+            function(l) {
               if (e._status === 0 || e._status === -1) {
-                e._status = 2, e._result = f;
-                var y = e._ioInfo;
-                y != null && (y.end = performance.now()), s.status === void 0 && (s.status = "rejected", s.reason = f);
+                e._status = 2, e._result = l;
+                var v = e._ioInfo;
+                v != null && (v.end = performance.now()), s.status === void 0 && (s.status = "rejected", s.reason = l);
               }
             }
-          ), r = e._ioInfo, r != null) {
-            r.value = s;
+          ), n = e._ioInfo, n != null) {
+            n.value = s;
             var u = s.displayName;
-            typeof u == "string" && (r.name = u);
+            typeof u == "string" && (n.name = u);
           }
           e._status === -1 && (e._status = 0, e._result = s);
         }
         if (e._status === 1)
-          return r = e._result, r === void 0 && console.error(
+          return n = e._result, n === void 0 && console.error(
             `lazy: Expected the result of a dynamic import() call. Instead received: %s
 
 Your code should look like: 
   const MyComponent = lazy(() => import('./MyComponent'))
 
 Did you accidentally put curly braces around the import?`,
-            r
-          ), "default" in r || console.error(
+            n
+          ), "default" in n || console.error(
             `lazy: Expected the result of a dynamic import() call. Instead received: %s
 
 Your code should look like: 
   const MyComponent = lazy(() => import('./MyComponent'))`,
-            r
-          ), r.default;
+            n
+          ), n.default;
         throw e._result;
       }
       function k() {
-        var e = g.H;
+        var e = y.H;
         return e === null && console.error(
           `Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
 1. You might have mismatching versions of React and the renderer (such as React DOM)
@@ -1167,64 +1206,64 @@ Your code should look like:
 See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem.`
         ), e;
       }
-      function ne() {
-        g.asyncTransitions--;
+      function se() {
+        y.asyncTransitions--;
       }
-      function Y(e) {
+      function Q(e) {
         if (pe === null)
           try {
-            var r = ("require" + Math.random()).slice(0, 7);
-            pe = (n && n[r]).call(
-              n,
+            var n = ("require" + Math.random()).slice(0, 7);
+            pe = (r && r[n]).call(
+              r,
               "timers"
             ).setImmediate;
           } catch {
             pe = function(u) {
-              Me === !1 && (Me = !0, typeof MessageChannel > "u" && console.error(
+              Le === !1 && (Le = !0, typeof MessageChannel > "u" && console.error(
                 "This browser does not have a MessageChannel implementation, so enqueuing tasks via await act(async () => ...) will fail. Please file an issue at https://github.com/facebook/react/issues if you encounter this warning."
               ));
-              var f = new MessageChannel();
-              f.port1.onmessage = u, f.port2.postMessage(void 0);
+              var l = new MessageChannel();
+              l.port1.onmessage = u, l.port2.postMessage(void 0);
             };
           }
         return pe(e);
       }
-      function U(e) {
+      function K(e) {
         return 1 < e.length && typeof AggregateError == "function" ? new AggregateError(e) : e[0];
       }
-      function P(e, r) {
-        r !== de - 1 && console.error(
+      function D(e, n) {
+        n !== de - 1 && console.error(
           "You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one. "
-        ), de = r;
+        ), de = n;
       }
-      function W(e, r, s) {
-        var u = g.actQueue;
+      function x(e, n, s) {
+        var u = y.actQueue;
         if (u !== null)
           if (u.length !== 0)
             try {
-              oe(u), Y(function() {
-                return W(e, r, s);
+              ae(u), Q(function() {
+                return x(e, n, s);
               });
               return;
-            } catch (f) {
-              g.thrownErrors.push(f);
+            } catch (l) {
+              y.thrownErrors.push(l);
             }
-          else g.actQueue = null;
-        0 < g.thrownErrors.length ? (u = U(g.thrownErrors), g.thrownErrors.length = 0, s(u)) : r(e);
+          else y.actQueue = null;
+        0 < y.thrownErrors.length ? (u = K(y.thrownErrors), y.thrownErrors.length = 0, s(u)) : n(e);
       }
-      function oe(e) {
-        if (!_e) {
-          _e = !0;
-          var r = 0;
+      function ae(e) {
+        if (!ve) {
+          ve = !0;
+          var n = 0;
           try {
-            for (; r < e.length; r++) {
-              var s = e[r];
+            for (; n < e.length; n++) {
+              var s = e[n];
               do {
-                g.didUsePromise = !1;
+                y.didUsePromise = !1;
                 var u = s(!1);
                 if (u !== null) {
-                  if (g.didUsePromise) {
-                    e[r] = s, e.splice(0, r);
+                  if (y.didUsePromise) {
+                    e[n] = s, e.splice(0, n);
                     return;
                   }
                   s = u;
@@ -1232,38 +1271,38 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
               } while (!0);
             }
             e.length = 0;
-          } catch (f) {
-            e.splice(0, r + 1), g.thrownErrors.push(f);
+          } catch (l) {
+            e.splice(0, n + 1), y.thrownErrors.push(l);
           } finally {
-            _e = !1;
+            ve = !1;
           }
         }
       }
       typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ < "u" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart == "function" && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-      var B = /* @__PURE__ */ Symbol.for("react.transitional.element"), le = /* @__PURE__ */ Symbol.for("react.portal"), t = /* @__PURE__ */ Symbol.for("react.fragment"), a = /* @__PURE__ */ Symbol.for("react.strict_mode"), h = /* @__PURE__ */ Symbol.for("react.profiler"), l = /* @__PURE__ */ Symbol.for("react.consumer"), v = /* @__PURE__ */ Symbol.for("react.context"), w = /* @__PURE__ */ Symbol.for("react.forward_ref"), T = /* @__PURE__ */ Symbol.for("react.suspense"), A = /* @__PURE__ */ Symbol.for("react.suspense_list"), R = /* @__PURE__ */ Symbol.for("react.memo"), $ = /* @__PURE__ */ Symbol.for("react.lazy"), Ee = /* @__PURE__ */ Symbol.for("react.activity"), we = Symbol.iterator, be = {}, Te = {
+      var Z = /* @__PURE__ */ Symbol.for("react.transitional.element"), fe = /* @__PURE__ */ Symbol.for("react.portal"), t = /* @__PURE__ */ Symbol.for("react.fragment"), a = /* @__PURE__ */ Symbol.for("react.strict_mode"), h = /* @__PURE__ */ Symbol.for("react.profiler"), f = /* @__PURE__ */ Symbol.for("react.consumer"), E = /* @__PURE__ */ Symbol.for("react.context"), w = /* @__PURE__ */ Symbol.for("react.forward_ref"), T = /* @__PURE__ */ Symbol.for("react.suspense"), M = /* @__PURE__ */ Symbol.for("react.suspense_list"), N = /* @__PURE__ */ Symbol.for("react.memo"), F = /* @__PURE__ */ Symbol.for("react.lazy"), we = /* @__PURE__ */ Symbol.for("react.activity"), be = Symbol.iterator, Te = {}, Se = {
         isMounted: function() {
           return !1;
         },
         enqueueForceUpdate: function(e) {
-          m(e, "forceUpdate");
+          d(e, "forceUpdate");
         },
         enqueueReplaceState: function(e) {
-          m(e, "replaceState");
+          d(e, "replaceState");
         },
         enqueueSetState: function(e) {
-          m(e, "setState");
+          d(e, "setState");
         }
-      }, Se = Object.assign, ye = {};
-      Object.freeze(ye), E.prototype.isReactComponent = {}, E.prototype.setState = function(e, r) {
+      }, ke = Object.assign, ye = {};
+      Object.freeze(ye), g.prototype.isReactComponent = {}, g.prototype.setState = function(e, n) {
         if (typeof e != "object" && typeof e != "function" && e != null)
           throw Error(
             "takes an object of state variables to update or a function which returns an object of state variables."
           );
-        this.updater.enqueueSetState(this, e, r, "setState");
-      }, E.prototype.forceUpdate = function(e) {
+        this.updater.enqueueSetState(this, e, n, "setState");
+      }, g.prototype.forceUpdate = function(e) {
         this.updater.enqueueForceUpdate(this, e, "forceUpdate");
       };
-      var O = {
+      var L = {
         isMounted: [
           "isMounted",
           "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."
@@ -1273,10 +1312,10 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
           "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
         ]
       };
-      for (se in O)
-        O.hasOwnProperty(se) && i(se, O[se]);
-      C.prototype = E.prototype, O = j.prototype = new C(), O.constructor = j, Se(O, E.prototype), O.isPureReactComponent = !0;
-      var ke = Array.isArray, Ue = /* @__PURE__ */ Symbol.for("react.client.reference"), g = {
+      for (ue in L)
+        L.hasOwnProperty(ue) && i(ue, L[ue]);
+      C.prototype = g.prototype, L = R.prototype = new C(), L.constructor = R, ke(L, g.prototype), L.isPureReactComponent = !0;
+      var Re = Array.isArray, Qe = /* @__PURE__ */ Symbol.for("react.client.reference"), y = {
         H: null,
         A: null,
         T: null,
@@ -1289,136 +1328,136 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
         thrownErrors: [],
         getCurrentStack: null,
         recentlyCreatedOwnerStacks: 0
-      }, he = Object.prototype.hasOwnProperty, Re = console.createTask ? console.createTask : function() {
+      }, he = Object.prototype.hasOwnProperty, Ce = console.createTask ? console.createTask : function() {
         return null;
       };
-      O = {
+      L = {
         react_stack_bottom_frame: function(e) {
           return e();
         }
       };
-      var Ce, Ae, Oe = {}, $e = O.react_stack_bottom_frame.bind(
-        O,
-        Z
-      )(), qe = Re(X(Z)), Ne = !1, Pe = /\/+/g, je = typeof reportError == "function" ? reportError : function(e) {
+      var Oe, Ae, Ne = {}, xe = L.react_stack_bottom_frame.bind(
+        L,
+        H
+      )(), Ge = Ce(P(H)), Pe = !1, je = /\/+/g, Me = typeof reportError == "function" ? reportError : function(e) {
         if (typeof window == "object" && typeof window.ErrorEvent == "function") {
-          var r = new window.ErrorEvent("error", {
+          var n = new window.ErrorEvent("error", {
             bubbles: !0,
             cancelable: !0,
             message: typeof e == "object" && e !== null && typeof e.message == "string" ? String(e.message) : String(e),
             error: e
           });
-          if (!window.dispatchEvent(r)) return;
+          if (!window.dispatchEvent(n)) return;
         } else if (typeof process == "object" && typeof process.emit == "function") {
           process.emit("uncaughtException", e);
           return;
         }
         console.error(e);
-      }, Me = !1, pe = null, de = 0, me = !1, _e = !1, ze = typeof queueMicrotask == "function" ? function(e) {
+      }, Le = !1, pe = null, de = 0, me = !1, ve = !1, ze = typeof queueMicrotask == "function" ? function(e) {
         queueMicrotask(function() {
           return queueMicrotask(e);
         });
-      } : Y;
-      O = Object.freeze({
+      } : Q;
+      L = Object.freeze({
         __proto__: null,
         c: function(e) {
           return k().useMemoCache(e);
         }
       });
-      var se = {
-        map: G,
-        forEach: function(e, r, s) {
-          G(
+      var ue = {
+        map: X,
+        forEach: function(e, n, s) {
+          X(
             e,
             function() {
-              r.apply(this, arguments);
+              n.apply(this, arguments);
             },
             s
           );
         },
         count: function(e) {
-          var r = 0;
-          return G(e, function() {
-            r++;
-          }), r;
+          var n = 0;
+          return X(e, function() {
+            n++;
+          }), n;
         },
         toArray: function(e) {
-          return G(e, function(r) {
-            return r;
+          return X(e, function(n) {
+            return n;
           }) || [];
         },
         only: function(e) {
-          if (!z(e))
+          if (!$(e))
             throw Error(
               "React.Children.only expected to receive a single React element child."
             );
           return e;
         }
       };
-      o.Activity = Ee, o.Children = se, o.Component = E, o.Fragment = t, o.Profiler = h, o.PureComponent = j, o.StrictMode = a, o.Suspense = T, o.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = g, o.__COMPILER_RUNTIME = O, o.act = function(e) {
-        var r = g.actQueue, s = de;
+      o.Activity = we, o.Children = ue, o.Component = g, o.Fragment = t, o.Profiler = h, o.PureComponent = R, o.StrictMode = a, o.Suspense = T, o.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = y, o.__COMPILER_RUNTIME = L, o.act = function(e) {
+        var n = y.actQueue, s = de;
         de++;
-        var u = g.actQueue = r !== null ? r : [], f = !1;
+        var u = y.actQueue = n !== null ? n : [], l = !1;
         try {
-          var y = e();
+          var v = e();
         } catch (_) {
-          g.thrownErrors.push(_);
+          y.thrownErrors.push(_);
         }
-        if (0 < g.thrownErrors.length)
-          throw P(r, s), e = U(g.thrownErrors), g.thrownErrors.length = 0, e;
-        if (y !== null && typeof y == "object" && typeof y.then == "function") {
-          var d = y;
+        if (0 < y.thrownErrors.length)
+          throw D(n, s), e = K(y.thrownErrors), y.thrownErrors.length = 0, e;
+        if (v !== null && typeof v == "object" && typeof v.then == "function") {
+          var m = v;
           return ze(function() {
-            f || me || (me = !0, console.error(
+            l || me || (me = !0, console.error(
               "You called act(async () => ...) without await. This could lead to unexpected testing behaviour, interleaving multiple act calls and mixing their scopes. You should - await act(async () => ...);"
             ));
           }), {
-            then: function(_, I) {
-              f = !0, d.then(
-                function(K) {
-                  if (P(r, s), s === 0) {
+            then: function(_, G) {
+              l = !0, m.then(
+                function(J) {
+                  if (D(n, s), s === 0) {
                     try {
-                      oe(u), Y(function() {
-                        return W(
-                          K,
+                      ae(u), Q(function() {
+                        return x(
+                          J,
                           _,
-                          I
+                          G
                         );
                       });
-                    } catch (xe) {
-                      g.thrownErrors.push(xe);
+                    } catch (Ke) {
+                      y.thrownErrors.push(Ke);
                     }
-                    if (0 < g.thrownErrors.length) {
-                      var Qe = U(
-                        g.thrownErrors
+                    if (0 < y.thrownErrors.length) {
+                      var Be = K(
+                        y.thrownErrors
                       );
-                      g.thrownErrors.length = 0, I(Qe);
+                      y.thrownErrors.length = 0, G(Be);
                     }
-                  } else _(K);
+                  } else _(J);
                 },
-                function(K) {
-                  P(r, s), 0 < g.thrownErrors.length && (K = U(
-                    g.thrownErrors
-                  ), g.thrownErrors.length = 0), I(K);
+                function(J) {
+                  D(n, s), 0 < y.thrownErrors.length && (J = K(
+                    y.thrownErrors
+                  ), y.thrownErrors.length = 0), G(J);
                 }
               );
             }
           };
         }
-        var S = y;
-        if (P(r, s), s === 0 && (oe(u), u.length !== 0 && ze(function() {
-          f || me || (me = !0, console.error(
+        var S = v;
+        if (D(n, s), s === 0 && (ae(u), u.length !== 0 && ze(function() {
+          l || me || (me = !0, console.error(
             "A component suspended inside an `act` scope, but the `act` call was not awaited. When testing React components that depend on asynchronous data, you must await the result:\n\nawait act(() => ...)"
           ));
-        }), g.actQueue = null), 0 < g.thrownErrors.length)
-          throw e = U(g.thrownErrors), g.thrownErrors.length = 0, e;
+        }), y.actQueue = null), 0 < y.thrownErrors.length)
+          throw e = K(y.thrownErrors), y.thrownErrors.length = 0, e;
         return {
-          then: function(_, I) {
-            f = !0, s === 0 ? (g.actQueue = u, Y(function() {
-              return W(
+          then: function(_, G) {
+            l = !0, s === 0 ? (y.actQueue = u, Q(function() {
+              return x(
                 S,
                 _,
-                I
+                G
               );
             })) : _(S);
           }
@@ -1430,98 +1469,98 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
       }, o.cacheSignal = function() {
         return null;
       }, o.captureOwnerStack = function() {
-        var e = g.getCurrentStack;
+        var e = y.getCurrentStack;
         return e === null ? null : e();
-      }, o.cloneElement = function(e, r, s) {
+      }, o.cloneElement = function(e, n, s) {
         if (e == null)
           throw Error(
             "The argument must be a React element, but you passed " + e + "."
           );
-        var u = Se({}, e.props), f = e.key, y = e._owner;
-        if (r != null) {
-          var d;
+        var u = ke({}, e.props), l = e.key, v = e._owner;
+        if (n != null) {
+          var m;
           e: {
-            if (he.call(r, "ref") && (d = Object.getOwnPropertyDescriptor(
-              r,
+            if (he.call(n, "ref") && (m = Object.getOwnPropertyDescriptor(
+              n,
               "ref"
-            ).get) && d.isReactWarning) {
-              d = !1;
+            ).get) && m.isReactWarning) {
+              m = !1;
               break e;
             }
-            d = r.ref !== void 0;
+            m = n.ref !== void 0;
           }
-          d && (y = ie()), J(r) && (N(r.key), f = "" + r.key);
-          for (S in r)
-            !he.call(r, S) || S === "key" || S === "__self" || S === "__source" || S === "ref" && r.ref === void 0 || (u[S] = r[S]);
+          m && (v = Y()), U(n) && (O(n.key), l = "" + n.key);
+          for (S in n)
+            !he.call(n, S) || S === "key" || S === "__self" || S === "__source" || S === "ref" && n.ref === void 0 || (u[S] = n[S]);
         }
         var S = arguments.length - 2;
         if (S === 1) u.children = s;
         else if (1 < S) {
-          d = Array(S);
+          m = Array(S);
           for (var _ = 0; _ < S; _++)
-            d[_] = arguments[_ + 2];
-          u.children = d;
+            m[_] = arguments[_ + 2];
+          u.children = m;
         }
-        for (u = Q(
+        for (u = q(
           e.type,
-          f,
+          l,
           u,
-          y,
+          v,
           e._debugStack,
           e._debugTask
-        ), f = 2; f < arguments.length; f++)
-          x(arguments[f]);
+        ), l = 2; l < arguments.length; l++)
+          V(arguments[l]);
         return u;
       }, o.createContext = function(e) {
         return e = {
-          $$typeof: v,
+          $$typeof: E,
           _currentValue: e,
           _currentValue2: e,
           _threadCount: 0,
           Provider: null,
           Consumer: null
         }, e.Provider = e, e.Consumer = {
-          $$typeof: l,
+          $$typeof: f,
           _context: e
         }, e._currentRenderer = null, e._currentRenderer2 = null, e;
-      }, o.createElement = function(e, r, s) {
+      }, o.createElement = function(e, n, s) {
         for (var u = 2; u < arguments.length; u++)
-          x(arguments[u]);
+          V(arguments[u]);
         u = {};
-        var f = null;
-        if (r != null)
-          for (_ in Ae || !("__self" in r) || "key" in r || (Ae = !0, console.warn(
+        var l = null;
+        if (n != null)
+          for (_ in Ae || !("__self" in n) || "key" in n || (Ae = !0, console.warn(
             "Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform"
-          )), J(r) && (N(r.key), f = "" + r.key), r)
-            he.call(r, _) && _ !== "key" && _ !== "__self" && _ !== "__source" && (u[_] = r[_]);
-        var y = arguments.length - 2;
-        if (y === 1) u.children = s;
-        else if (1 < y) {
-          for (var d = Array(y), S = 0; S < y; S++)
-            d[S] = arguments[S + 2];
-          Object.freeze && Object.freeze(d), u.children = d;
+          )), U(n) && (O(n.key), l = "" + n.key), n)
+            he.call(n, _) && _ !== "key" && _ !== "__self" && _ !== "__source" && (u[_] = n[_]);
+        var v = arguments.length - 2;
+        if (v === 1) u.children = s;
+        else if (1 < v) {
+          for (var m = Array(v), S = 0; S < v; S++)
+            m[S] = arguments[S + 2];
+          Object.freeze && Object.freeze(m), u.children = m;
         }
         if (e && e.defaultProps)
-          for (_ in y = e.defaultProps, y)
-            u[_] === void 0 && (u[_] = y[_]);
-        f && ce(
+          for (_ in v = e.defaultProps, v)
+            u[_] === void 0 && (u[_] = v[_]);
+        l && B(
           u,
           typeof e == "function" ? e.displayName || e.name || "Unknown" : e
         );
-        var _ = 1e4 > g.recentlyCreatedOwnerStacks++;
-        return Q(
+        var _ = 1e4 > y.recentlyCreatedOwnerStacks++;
+        return q(
           e,
-          f,
+          l,
           u,
-          ie(),
-          _ ? Error("react-stack-top-frame") : $e,
-          _ ? Re(X(e)) : qe
+          Y(),
+          _ ? Error("react-stack-top-frame") : xe,
+          _ ? Ce(P(e)) : Ge
         );
       }, o.createRef = function() {
         var e = { current: null };
         return Object.seal(e), e;
       }, o.forwardRef = function(e) {
-        e != null && e.$$typeof === R ? console.error(
+        e != null && e.$$typeof === N ? console.error(
           "forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...))."
         ) : typeof e != "function" ? console.error(
           "forwardRef requires a render function but was given %s.",
@@ -1532,8 +1571,8 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
         ), e != null && e.defaultProps != null && console.error(
           "forwardRef render functions do not support defaultProps. Did you accidentally pass a React component?"
         );
-        var r = { $$typeof: w, render: e }, s;
-        return Object.defineProperty(r, "displayName", {
+        var n = { $$typeof: w, render: e }, s;
+        return Object.defineProperty(n, "displayName", {
           enumerable: !1,
           configurable: !0,
           get: function() {
@@ -1542,13 +1581,13 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
           set: function(u) {
             s = u, e.name || e.displayName || (Object.defineProperty(e, "name", { value: u }), e.displayName = u);
           }
-        }), r;
-      }, o.isValidElement = z, o.lazy = function(e) {
+        }), n;
+      }, o.isValidElement = $, o.lazy = function(e) {
         e = { _status: -1, _result: e };
-        var r = {
-          $$typeof: $,
+        var n = {
+          $$typeof: F,
           _payload: e,
-          _init: re
+          _init: oe
         }, s = {
           name: "lazy",
           start: -1,
@@ -1558,18 +1597,18 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
           debugStack: Error("react-stack-top-frame"),
           debugTask: console.createTask ? console.createTask("lazy()") : null
         };
-        return e._ioInfo = s, r._debugInfo = [{ awaited: s }], r;
-      }, o.memo = function(e, r) {
+        return e._ioInfo = s, n._debugInfo = [{ awaited: s }], n;
+      }, o.memo = function(e, n) {
         e == null && console.error(
           "memo: The first argument must be a component. Instead received: %s",
           e === null ? "null" : typeof e
-        ), r = {
-          $$typeof: R,
+        ), n = {
+          $$typeof: N,
           type: e,
-          compare: r === void 0 ? null : r
+          compare: n === void 0 ? null : n
         };
         var s;
-        return Object.defineProperty(r, "displayName", {
+        return Object.defineProperty(n, "displayName", {
           enumerable: !1,
           configurable: !0,
           get: function() {
@@ -1578,104 +1617,109 @@ See https://react.dev/link/invalid-hook-call for tips about how to debug and fix
           set: function(u) {
             s = u, e.name || e.displayName || (Object.defineProperty(e, "name", { value: u }), e.displayName = u);
           }
-        }), r;
+        }), n;
       }, o.startTransition = function(e) {
-        var r = g.T, s = {};
-        s._updatedFibers = /* @__PURE__ */ new Set(), g.T = s;
+        var n = y.T, s = {};
+        s._updatedFibers = /* @__PURE__ */ new Set(), y.T = s;
         try {
-          var u = e(), f = g.S;
-          f !== null && f(s, u), typeof u == "object" && u !== null && typeof u.then == "function" && (g.asyncTransitions++, u.then(ne, ne), u.then(H, je));
-        } catch (y) {
-          je(y);
+          var u = e(), l = y.S;
+          l !== null && l(s, u), typeof u == "object" && u !== null && typeof u.then == "function" && (y.asyncTransitions++, u.then(se, se), u.then(j, Me));
+        } catch (v) {
+          Me(v);
         } finally {
-          r === null && s._updatedFibers && (e = s._updatedFibers.size, s._updatedFibers.clear(), 10 < e && console.warn(
+          n === null && s._updatedFibers && (e = s._updatedFibers.size, s._updatedFibers.clear(), 10 < e && console.warn(
             "Detected a large number of updates inside startTransition. If this is due to a subscription please re-write it to use React provided hooks. Otherwise concurrent mode guarantees are off the table."
-          )), r !== null && s.types !== null && (r.types !== null && r.types !== s.types && console.error(
+          )), n !== null && s.types !== null && (n.types !== null && n.types !== s.types && console.error(
             "We expected inner Transitions to have transferred the outer types set and that you cannot add to the outer Transition while inside the inner.This is a bug in React."
-          ), r.types = s.types), g.T = r;
+          ), n.types = s.types), y.T = n;
         }
       }, o.unstable_useCacheRefresh = function() {
         return k().useCacheRefresh();
       }, o.use = function(e) {
         return k().use(e);
-      }, o.useActionState = function(e, r, s) {
+      }, o.useActionState = function(e, n, s) {
         return k().useActionState(
           e,
-          r,
+          n,
           s
         );
-      }, o.useCallback = function(e, r) {
-        return k().useCallback(e, r);
+      }, o.useCallback = function(e, n) {
+        return k().useCallback(e, n);
       }, o.useContext = function(e) {
-        var r = k();
-        return e.$$typeof === l && console.error(
+        var n = k();
+        return e.$$typeof === f && console.error(
           "Calling useContext(Context.Consumer) is not supported and will cause bugs. Did you mean to call useContext(Context) instead?"
-        ), r.useContext(e);
-      }, o.useDebugValue = function(e, r) {
-        return k().useDebugValue(e, r);
-      }, o.useDeferredValue = function(e, r) {
-        return k().useDeferredValue(e, r);
-      }, o.useEffect = function(e, r) {
+        ), n.useContext(e);
+      }, o.useDebugValue = function(e, n) {
+        return k().useDebugValue(e, n);
+      }, o.useDeferredValue = function(e, n) {
+        return k().useDeferredValue(e, n);
+      }, o.useEffect = function(e, n) {
         return e == null && console.warn(
           "React Hook useEffect requires an effect callback. Did you forget to pass a callback to the hook?"
-        ), k().useEffect(e, r);
+        ), k().useEffect(e, n);
       }, o.useEffectEvent = function(e) {
         return k().useEffectEvent(e);
       }, o.useId = function() {
         return k().useId();
-      }, o.useImperativeHandle = function(e, r, s) {
-        return k().useImperativeHandle(e, r, s);
-      }, o.useInsertionEffect = function(e, r) {
+      }, o.useImperativeHandle = function(e, n, s) {
+        return k().useImperativeHandle(e, n, s);
+      }, o.useInsertionEffect = function(e, n) {
         return e == null && console.warn(
           "React Hook useInsertionEffect requires an effect callback. Did you forget to pass a callback to the hook?"
-        ), k().useInsertionEffect(e, r);
-      }, o.useLayoutEffect = function(e, r) {
+        ), k().useInsertionEffect(e, n);
+      }, o.useLayoutEffect = function(e, n) {
         return e == null && console.warn(
           "React Hook useLayoutEffect requires an effect callback. Did you forget to pass a callback to the hook?"
-        ), k().useLayoutEffect(e, r);
-      }, o.useMemo = function(e, r) {
-        return k().useMemo(e, r);
-      }, o.useOptimistic = function(e, r) {
-        return k().useOptimistic(e, r);
-      }, o.useReducer = function(e, r, s) {
-        return k().useReducer(e, r, s);
+        ), k().useLayoutEffect(e, n);
+      }, o.useMemo = function(e, n) {
+        return k().useMemo(e, n);
+      }, o.useOptimistic = function(e, n) {
+        return k().useOptimistic(e, n);
+      }, o.useReducer = function(e, n, s) {
+        return k().useReducer(e, n, s);
       }, o.useRef = function(e) {
         return k().useRef(e);
       }, o.useState = function(e) {
         return k().useState(e);
-      }, o.useSyncExternalStore = function(e, r, s) {
+      }, o.useSyncExternalStore = function(e, n, s) {
         return k().useSyncExternalStore(
           e,
-          r,
+          n,
           s
         );
       }, o.useTransition = function() {
         return k().useTransition();
       }, o.version = "19.2.3", typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ < "u" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop == "function" && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
     })();
-  })(ae, ae.exports)), ae.exports;
+  })(ie, ie.exports)), ie.exports;
 }
-var Ye;
-function nt() {
-  return Ye || (Ye = 1, process.env.NODE_ENV === "production" ? ge.exports = tt() : ge.exports = rt()), ge.exports;
+var He;
+function ct() {
+  return He || (He = 1, process.env.NODE_ENV === "production" ? ge.exports = ut() : ge.exports = it()), ge.exports;
 }
-nt();
-class st extends et {
+ct();
+class ft extends at {
   state = {
     teams: [],
     buzzQueue: [],
     activeQuestionValue: null,
     buzzerLocked: !1
   };
-  // ── Helpers ──────────────────────────────────────────────────────────────
-  broadcast(o) {
-    super.broadcast(JSON.stringify(o));
+  async onStart() {
+    this.sql`CREATE TABLE IF NOT EXISTS state (key TEXT PRIMARY KEY, value TEXT)`;
+    const o = this.sql`SELECT value FROM state WHERE key = 'game'`;
+    o.length > 0 && (this.state = JSON.parse(o[0].value));
   }
+  saveState() {
+    this.sql`INSERT OR REPLACE INTO state (key, value) VALUES ('game', ${JSON.stringify(this.state)})`;
+  }
+  // ── Helpers ──────────────────────────────────────────────────────────────
   broadcastMessage(o) {
     this.broadcast(JSON.stringify(o));
   }
   sendState() {
-    this.broadcastMessage({ type: "state", state: this.state });
+    this.saveState(), this.broadcastMessage({ type: "state", state: this.state });
   }
   getTeam(o) {
     return this.state.teams.find((i) => i.name === o);
@@ -1685,9 +1729,10 @@ class st extends et {
   }
   // ── Lifecycle ────────────────────────────────────────────────────────────
   onConnect(o, i) {
-    o.send(JSON.stringify({ type: "state", state: this.state }));
+    console.debug("[Server] onConnect", { connectionId: o.id, server: this.name }), o.send(JSON.stringify({ type: "state", state: this.state }));
   }
   onMessage(o, i) {
+    console.debug("[Server] onMessage", i);
     let c;
     try {
       c = JSON.parse(i);
@@ -1702,35 +1747,35 @@ class st extends et {
       }
       // A team captain hits the buzzer
       case "buzz": {
-        if (this.state.buzzQueue.some((j) => j.teamName === c.teamName)) break;
-        const E = {
+        if (this.state.buzzQueue.some((R) => R.teamName === c.teamName)) break;
+        const g = {
           teamName: c.teamName,
           timestamp: Date.now()
         };
-        this.state.buzzQueue.push(E), this.state.buzzerLocked = !0, this.sendState();
+        this.state.buzzQueue.push(g), this.state.buzzerLocked = !0, this.sendState();
         const C = this.state.buzzQueue.length;
         this.broadcastMessage({ type: "buzz-received", teamName: c.teamName, position: C });
         break;
       }
       // Host opens a question — unlocks buzzers for this value
       case "set-question": {
-        this.state.activeQuestionValue = c.value, this.state.buzzQueue = [], this.state.buzzerLocked = !1, this.sendState();
+        console.debug("[Server] set-question", { value: c.value }), this.state.activeQuestionValue = c.value, this.state.buzzQueue = [], this.state.buzzerLocked = !1, this.sendState();
         break;
       }
       // Host accepts the current answering team's answer → award points
       case "accept": {
-        const m = this.state.activeQuestionValue ?? c.questionValue;
+        const d = this.state.activeQuestionValue ?? c.questionValue;
         this.ensureTeam(c.teamName);
-        const E = this.getTeam(c.teamName);
-        E.score += m, this.state.activeQuestionValue = null, this.state.buzzQueue = [], this.state.buzzerLocked = !1, this.sendState();
+        const g = this.getTeam(c.teamName);
+        g.score += d, this.state.activeQuestionValue = null, this.state.buzzQueue = [], this.state.buzzerLocked = !1, this.sendState();
         break;
       }
       // Host rejects the current answering team → deduct, open for steal
       case "reject": {
-        const m = this.state.activeQuestionValue ?? c.questionValue;
+        const d = this.state.activeQuestionValue ?? c.questionValue;
         this.ensureTeam(c.teamName);
-        const E = this.getTeam(c.teamName);
-        E.score = Math.max(0, E.score - m), this.state.buzzQueue = this.state.buzzQueue.filter((C) => C.teamName !== c.teamName), this.state.buzzerLocked = this.state.buzzQueue.length > 0, this.sendState();
+        const g = this.getTeam(c.teamName);
+        g.score = Math.max(0, g.score - d), this.state.buzzQueue = this.state.buzzQueue.filter((C) => C.teamName !== c.teamName), this.state.buzzerLocked = this.state.buzzQueue.length > 0, this.sendState();
         break;
       }
       // Host closes the question without awarding anyone
@@ -1741,7 +1786,7 @@ class st extends et {
       // Full reset for a new game
       case "reset": {
         this.state = {
-          teams: this.state.teams.map((m) => ({ ...m, score: 0 })),
+          teams: this.state.teams.map((d) => ({ ...d, score: 0 })),
           // keep teams, zero scores
           buzzQueue: [],
           activeQuestionValue: null,
@@ -1752,8 +1797,12 @@ class st extends et {
     }
   }
 }
-const at = {};
+const ht = {
+  async fetch(r, o) {
+    return await st(r, o) || new Response("Not Found", { status: 404 });
+  }
+};
 export {
-  st as BridalJeopardyServer,
-  at as default
+  ft as BridalJeopardyServer,
+  ht as default
 };
