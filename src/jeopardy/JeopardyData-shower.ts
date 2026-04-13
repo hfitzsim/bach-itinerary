@@ -207,36 +207,38 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'childhood-200',
 		category: 'Back In The Day',
 		value: 200,
-		question: `What was Lauren's favorite subject in school?`,
-		answer: 'What is History or English?',
+		question: `Lauren's first word.`,
+		answer: 'What is "Mama"?',
 	},
 	{
 		id: 'childhood-400',
 		category: 'Back In The Day',
 		value: 400,
-		question: `This is Lauren's childhood nickname.`,
-		answer: 'Smedley',
+		question: `True or false: Lauren was always well-behaved as a kid.`,
+		answer:
+			"What is false? She wasn't afraid to learn things the hard way — like touching the hot coffee pot after being told not to!",
 	},
 	{
 		id: 'childhood-600',
 		category: 'Back In The Day',
 		value: 600,
-		question: `She was obsessed with collecting these as a kid.`,
-		answer: 'What are seashells?',
+		question: `Lauren's first celebrity crush.`,
+		answer: 'Who is Harry Styles... or maybe Taylor Swift?',
 	},
 	{
 		id: 'childhood-800',
 		category: 'Back In The Day',
 		value: 800,
-		question: `This is what Lauren wanted to be when she grew up.`,
-		answer: '[CONFIRM]',
+		question: `The name Lauren gave to her beloved childhood comfort blanket.`,
+		answer: 'What is "Moochie"?',
 	},
 	{
 		id: 'childhood-1000',
 		category: 'Back In The Day',
 		value: 1000,
-		question: `Growing up, Lauren and her mom had a special, invisible snack they would make together. This is what it was called.`,
-		answer: 'What are arm sandwiches?',
+		question: `Growing up, Lauren and her mom had a special invisible snack they would make together. This is what it was called — and when it usually happened.`,
+		answer:
+			'What are arm sandwiches? They happened at bedtime or lazy mornings in bed — just something to make the kids laugh!',
 	},
 
 	// Love Birds
