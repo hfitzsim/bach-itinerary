@@ -170,7 +170,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'medical-200',
 		category: 'Medical Mysteries',
 		value: 200,
-		question: `What trip did Lauren have to postpone last year because of an injury that required immediate surgery.`,
+		question: `What trip did Lauren and Neal have to postpone last year because of an injury that required immediate surgery.`,
 		answer: `What is Italy?`,
 	},
 	{
@@ -178,14 +178,14 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: 'Medical Mysteries',
 		value: 400,
 		question: `In what country did Lauren get blood poisoning?`,
-		answer: `What is Mexico?`,
+		answer: `Where is Mexico?`,
 	},
 	{
 		id: 'medical-600',
 		category: 'Medical Mysteries',
 		value: 600,
 		question: `Lauren injured this part of her body when she was on Disney on Ice but the show must go on.`,
-		answer: 'What is her shoulder?',
+		answer: 'What is dislocating her shoulder?',
 	},
 	{
 		id: 'medical-800',
@@ -261,7 +261,7 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		category: 'Love Birds',
 		value: 600,
 		question: `The name of the app that they met on and the name of the person who made the first move.`,
-		answer: 'Hinge, Megan',
+		answer: 'What is Hinge? and who is Megan?',
 	},
 	{
 		id: 'birds-800',
@@ -274,17 +274,17 @@ export const jeopardyQuestions: JeopardyQuestion[] = [
 		id: 'birds-1000',
 		category: 'Love Birds',
 		value: 1000,
-		question: `This is the word Lauren used to describe Neal when we asked her without warning — she had no time to think!`,
-		answer: 'What is "my bebe"?',
+		question: `This is the phrase Lauren used to describe Neal when asked without warning — she had no time to think!`,
+		answer: 'What is "my bestfriend"?',
 	},
 
-	// Final Jeopardy: Meant to Be
-	{
-		id: 'final-000',
-		category: 'Meant to Be',
-		value: 0,
-		question: `In his own words, this is what Neal said when asked what he is most looking forward to about spending the rest of his life with Lauren."`,
-		answer: '[CONFIRM: Ask Neal]',
-		final: true,
-	},
+	// // Final Jeopardy: Meant to Be
+	// {
+	// 	id: 'final-000',
+	// 	category: 'Meant to Be',
+	// 	value: 0,
+	// 	question: `In his own words, this is what Neal said when asked what he is most looking forward to about spending the rest of his life with Lauren."`,
+	// 	answer: '[CONFIRM: Ask Neal]',
+	// 	final: true,
+	// },
 ];
